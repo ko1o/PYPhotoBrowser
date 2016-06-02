@@ -26,8 +26,11 @@ typedef enum{
 
 /** 图片间距（默认为5） */
 @property (nonatomic, assign) CGFloat photoMargin;
-/** 图片的宽高（正方形）默认为70 */
-@property (nonatomic, assign) CGFloat photoWH;
+/** 图片的宽 (默认为70) */
+@property (nonatomic, assign) CGFloat photoWidth;
+/** 图片的高 (默认为70) */
+@property (nonatomic, assign) CGFloat photoHeight;
+
 /** 每行最多个数（默认为3） */
 @property (nonatomic, assign) NSInteger photosMaxCol;
 
@@ -35,7 +38,6 @@ typedef enum{
 + (instancetype)photosView;
 /** photos: 保存图片链接的数组 */
 + (instancetype)photosView:(NSArray *)photos;
-
 
 /** 根据图片个数和图片状态自动计算出PYPhontosView的size */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;

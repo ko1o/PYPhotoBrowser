@@ -45,7 +45,8 @@
     if (self = [super init]) {
         // 初始化
         self.photoMargin = 5;
-        self.photoWH = 70;
+        self.photoWidth = 70;
+        self.photoHeight = 70;
         self.photosMaxCol = 3;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
@@ -110,8 +111,8 @@
     cols = (count >= maxCount) ? maxCount : count;
     rows = (count + maxCount - 1) / maxCount;
     
-    photosViewW = cols * self.photoWH + (cols - 1) * self.photoMargin;
-    photosViewH = rows * self.photoWH + (rows - 1) * self.photoMargin;
+    photosViewW = cols * self.photoWidth + (cols - 1) * self.photoMargin;
+    photosViewH = rows * self.photoHeight + (rows - 1) * self.photoMargin;
     
     return CGSizeMake(photosViewW, photosViewH);
 }
@@ -222,17 +223,17 @@
         NSInteger col = i % maxCol;
         NSInteger row = i / maxCol;
         
-        photoView.y = row * (self.photoWH + self.photoMargin);
-        photoView.x = col * (self.photoWH + self.photoMargin);
-        photoView.width = self.photoWH;
-        photoView.height = self.photoWH;
+        photoView.y = row * (self.photoHeight + self.photoMargin);
+        photoView.x = col * (self.photoWidth + self.photoMargin);
+        photoView.width = self.photoWidth;
+        photoView.height = self.photoHeight;
     }
     if (self.images.count < 9 && self.photosState == PYPhotosViewStateWillCompose) {
         [self addSubview:self.addImageButton];
-        self.addImageButton.y = (self.images.count / 4) * (self.photoWH + self.photoMargin);
-        self.addImageButton.x = (self.images.count % 4) * (self.photoWH + self.photoMargin);
-        self.addImageButton.width = self.photoWH;
-        self.addImageButton.height = self.photoWH;
+        self.addImageButton.y = (self.images.count / 4) * (self.photoHeight + self.photoMargin);
+        self.addImageButton.x = (self.images.count % 4) * (self.photoWidth + self.photoMargin);
+        self.addImageButton.width = self.photoWidth;
+        self.addImageButton.height = self.photoHeight;
     }
 }
 

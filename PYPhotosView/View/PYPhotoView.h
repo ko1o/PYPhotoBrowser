@@ -15,12 +15,13 @@
 
 @property (nonatomic, strong) NSString *photo;
 
-/** 微博图片相册*/
+/** 网络图片*/
 @property (nonatomic, strong) NSArray *photos;
 
+/** 本地相册图片 */
 @property (nonatomic, strong) NSArray *images;
 
-/** 是否放大*/
+/** 是否放大状态 */
 @property (nonatomic, assign) BOOL isBig;
 
 /** 原来的frame*/
@@ -29,7 +30,8 @@
 /** 在window呈现的view*/
 @property (nonatomic, strong) PYPhotoView *windowView;
 
-@property (nonatomic, strong) PYPhotosView *photosView;
+/** 父控件photosView */
+@property (nonatomic, weak) PYPhotosView *photosView;
 
 /** 每个photoView的photoCell */
 @property (nonatomic, weak) PYPhotoCell *photoCell;

@@ -15,7 +15,7 @@
 #define PYScreenH [UIScreen mainScreen].bounds.size.height
 
 // 占位图
-#define PYPlaceholderImage [UIImage imageNamed:@"placeholderimage"] ? [UIImage imageNamed:@"placeholderimage"] : [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"]
+#define PYPlaceholderImage [UIImage imageNamed:@"py_placeholderimage"] ? [UIImage imageNamed:@"py_placeholderimage"] : [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"]
 
 // 获取当前控制器
 #define PYCurrentController [[UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers lastObject]
