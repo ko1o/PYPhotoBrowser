@@ -11,3 +11,5 @@ NSString *const PYPreviewImagesDidChangedNotification = @"PYPreviewImagesDidChan
 NSString *const PYChangeNavgationBarStateNotification = @"PYChangeNavgationBarStateNotification";
 
 NSString *const PYAddImageDidClickedNotification = @"PYAddImageDidClickedNotification";
+
+NSString *const PYCollectionViewDidScrollNotification = @"NSString *const PYCollectionViewDidScrollNotification";

@@ -19,7 +19,6 @@
 
 @implementation PYPhotosPreviewController
 
-
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -30,7 +29,6 @@
 
 + (instancetype)previewController
 {
-    
     // 创建流水布局
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     // 设置间距
@@ -44,9 +42,7 @@
     readerVc.isFirst = YES;
     
     return readerVc;
-    
 }
-
 
 - (void)viewDidLayoutSubviews
 {
@@ -56,7 +52,6 @@
          self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, 0);
         self.isFirst = NO;
     }
-    
 }
 
 - (void)viewDidLoad {
@@ -74,10 +69,6 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(changeNavBarState) name:PYChangeNavgationBarStateNotification object:nil];
 }
-
-
-
-
 
 - (void)changeNavBarState
 {
@@ -132,7 +123,6 @@
             // 往前移一张
             self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x - self.collectionView.width, 0);
             
-            
             // 刷新cell
             [self.collectionView reloadData];
             
@@ -148,17 +138,13 @@
             };
 
         });
-        
-       
     }
 }
 
 #pragma mark <UICollectionViewDataSource>
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.selectedPhotoView.images.count;
@@ -167,36 +153,27 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PYPhotoCell *cell  = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
-    
     cell.image = self.selectedPhotoView.images[indexPath.item];
-    
     cell.photoView.isPreview = YES;
-    
-    
     return cell;
 }
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x < 0) return;
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.width + 0.5;
-
-    
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
-    
     self.selectedPhotoView = photosView.subviews[page];
-    
     // 判断即将显示哪一张
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
     PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
     
     self.selectedPhotoView.windowView = currentCell.photoView;
-    
     self.title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1,self.selectedPhotoView.photosView.images.count];
 }
-
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {

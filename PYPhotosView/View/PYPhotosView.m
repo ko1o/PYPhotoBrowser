@@ -67,7 +67,6 @@
     return photosView;
 }
 
-
 /** 点击添加图片调用此方法 */
 - (void)addImageDidClicked
 {
@@ -100,7 +99,6 @@
     CGFloat photosViewH = 0;
     // 根据图片个数设置图片
     if (state == PYPhotosViewStateDidCompose) { // 已经发布
-        
         maxCount = count == 4 ? 2 : self.photosMaxCol;
         // 设置图片
     }else if (state == PYPhotosViewStateWillCompose){ // 未发布
@@ -126,7 +124,6 @@
     [self.addImageButton removeFromSuperview];
     // 设置图片状态
     self.photosState = PYPhotosViewStateWillCompose;
-    
     
     NSInteger imageCount = images.count;
     
@@ -191,7 +188,7 @@
     }
     
     // 设置contentSize和 self.size
-    //    取出size
+    // 取出size
     CGSize size = [self sizeWithPhotoCount:photos.count photosState:self.photosState];
     self.contentSize = size;
     
@@ -210,7 +207,6 @@
     CGFloat width = CGRectGetMaxX(self.frame) > PYScreenW ? PYScreenW - self.originalX : self.frame.size.width;
     self.size = CGSizeMake(width, self.size.height);
 }
-
 
 - (void)layoutSubviews
 {

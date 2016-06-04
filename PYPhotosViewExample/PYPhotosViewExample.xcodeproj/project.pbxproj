@@ -440,6 +440,7 @@
 				TargetAttributes = {
 					6BA2826A1D004F20007FE7E8 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = QQ6879B72L;
 					};
 					6BA282831D004F20007FE7E8 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -678,10 +679,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PYPhotosViewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NextStep.PYPhotosViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -689,10 +694,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PYPhotosViewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NextStep.PYPhotosViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -761,6 +770,7 @@
 				6BA2829A1D004F20007FE7E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6BA2829B1D004F20007FE7E8 /* Build configuration list for PBXNativeTarget "PYPhotosViewExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -769,6 +779,7 @@
 				6BA2829D1D004F20007FE7E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6BA2829E1D004F20007FE7E8 /* Build configuration list for PBXNativeTarget "PYPhotosViewExampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -777,6 +788,7 @@
 				6BA282A01D004F20007FE7E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

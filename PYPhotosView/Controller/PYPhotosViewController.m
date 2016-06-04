@@ -37,6 +37,7 @@
     [super viewDidLoad];
 }
 
+// 初始化
 - (void)setUp
 {
     // 添加通知
@@ -52,6 +53,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+// 图片单击
 - (void)imagePageDidChanged:(NSNotification *)notification
 {
     // 取出选中图片
@@ -60,6 +62,7 @@
     self.photosReader.selectedPhotoView = photoView;
 }
 
+// 图片放大
 - (void)bigImageDidClicked:(NSNotification *)notification
 {
     // 取出选中图片
@@ -75,7 +78,7 @@
     // 打开一个新的窗口
     UIWindow *lastWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     // 设置窗口级别(最高级)
-    lastWindow.windowLevel = UIWindowLevelStatusBar;
+    lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上
     [self.photosReader showPhotosToWindow:lastWindow];
 }

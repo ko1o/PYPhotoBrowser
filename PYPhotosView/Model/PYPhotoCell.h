@@ -24,6 +24,9 @@
 /** 存储cell的collectionView */
 @property (nonatomic, weak) UICollectionView *collectionView;
 
+/** 放在最底下的contentScrollView(所有子控件都添加在这里) */
+@property (nonatomic, weak) UIScrollView *contentScrollView;
+
 /** 快速创建PYPhotoCell的方法 */
 + (instancetype)cellWithCollectionView:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath;
 

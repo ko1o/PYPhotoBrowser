@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     // 设置背景色
-    self.view.backgroundColor = PYRandomColor;
+    self.view.backgroundColor = PYColor(102, 153, 255);
     
     // 1. 创建图片链接数组
     NSMutableArray *imageUrls = [NSMutableArray array];

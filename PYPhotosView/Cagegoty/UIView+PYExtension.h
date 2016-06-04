@@ -17,4 +17,10 @@
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) CGPoint origin;
+
+/* 判断当前view是否和window有交集（传入nil就代表最上面的窗口）*/
+- (BOOL)isInWindow:(UIWindow *)window;
+
+/** 判断当前view是否在屏幕上 */
+- (BOOL)isDisplayedInScreen;
 @end
