@@ -25,10 +25,11 @@
     // 1. 创建图片链接数组
     NSMutableArray *imageUrls = [NSMutableArray array];
     
+    // 添加图片链接
     for (int i = 0; i < 6; i++) {
-        // 1.1 图片链接
-        NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_02%02d.PNG", 25+i];
-        // 1.2 添加图片链接
+        // 图片链接
+        NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg", i + 1];
+        // 添加图片链接到数组中
         [imageUrls addObject:imageUrl];
     }
     

@@ -107,7 +107,7 @@
         // 放大图片
         copyView.width = self.collectionView.width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
         copyView.height = copyView.width * imageSize.height / imageSize.width;
-        copyView.center = CGPointMake(copyView.width * 0.5, copyView.height * 0.5);
+        copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
         window.backgroundColor = [UIColor clearColor];
@@ -129,6 +129,9 @@
     // 隐藏pageControll
     self.pageControl.hidden = YES;
     self.beginView.hidden = NO;
+    
+    // 先转移坐标系
+    self.selectedPhotoView.windowView.frame = [self.selectedPhotoView.windowView convertRect:self.selectedPhotoView.windowView.bounds toView:self.window];
     
     // 移除前一个view
     if (self.selectedPhotoView.windowView) { // 如果有windowView,证明图片滚动了，需要移除刚开始的beginView
@@ -218,7 +221,6 @@ static NSString * const reuseIdentifier = @"Cell";
     // 判断即将显示哪一张
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
     PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
-    
     self.selectedPhotoView.windowView = currentCell.photoView;
 }
 

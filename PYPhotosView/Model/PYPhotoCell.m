@@ -62,7 +62,10 @@
     // 放大图片
     self.photoView.width = self.width;
     self.photoView.height = self.width * imageSize.height / imageSize.width;
-    self.photoView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
+    self.photoView.center = CGPointMake(self.photoView.width * 0.5, self.photoView.height * 0.5);
+    // 设置scrollView的大小
+    self.contentScrollView.size = self.photoView.size;
+    self.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
 }
 
 // 设置图片（图片来源自本地相册）
@@ -77,7 +80,10 @@
     // 放大图片
     self.photoView.width = self.width;
     self.photoView.height = self.width * imageSize.height / imageSize.width;
-    self.photoView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
+    self.photoView.center = CGPointMake(self.photoView.width * 0.5, self.photoView.height * 0.5);
+    // 设置scrollView的大小
+    self.contentScrollView.size = self.photoView.size;
+    self.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
 }
 
 static NSString * const reuseIdentifier = @"Cell";

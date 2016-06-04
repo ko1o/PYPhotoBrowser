@@ -102,10 +102,13 @@
 {
     [super setTransform:transform];
     if (self.width > PYScreenW) {
+
         // 修改contentScrollView的属性
+        self.photoCell.contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
+        self.photoCell.contentScrollView.width = PYScreenW;
         self.photoCell.contentScrollView.contentSize = self.size;
+        self.photoCell.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.photoCell.contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, (self.size.width - self.photoCell.contentScrollView.width) * 0.5, self.y, -(self.size.width - self.photoCell.contentScrollView.width) * 0.5);
-        self.photoCell.contentScrollView.contentOffset = CGPointMake(-self.x * 0.5, -self.y * 0.5);
     }
 }
 
@@ -136,7 +139,6 @@
     if (buttonIndex == 0) {
         NSLog(@"保存到相册");
         UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-        
     }else if(buttonIndex == 1){
         NSLog(@"分享给朋友");
     }else if (buttonIndex == 2){
@@ -156,7 +158,6 @@
 // 双击手势
 - (void)imageDidDoubleClicked:(UITapGestureRecognizer *)sender
 {
-    NSLog(@"imageDidDoubleClicked--%@", NSStringFromCGAffineTransform(self.transform));
     // 判断图片是否是放大状态(如果不是放大状态，手势无效)
     if (!self.isBig) return;
     
@@ -171,6 +172,7 @@
       [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
         // 恢复
           self.transform = CGAffineTransformIdentity;
+         
         } completion:nil];
     }
 }
@@ -253,11 +255,12 @@
     NSDictionary *info = noti.userInfo;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
     
-    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.transform.a > 1.0) { // 不在屏幕上
+    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.transform.a > 1.0 ) { // 不在屏幕上
         // 初始化
         self.transform = CGAffineTransformIdentity;
         self.frame = [UIScreen mainScreen].bounds;
         self.photoCell.contentScrollView.contentSize = self.size;
+        self.photoCell.contentScrollView.size = self.size;
         self.photoCell.contentScrollView.contentOffset = CGPointZero;
         self.photoCell.contentScrollView.contentInset = UIEdgeInsetsZero;
     }
