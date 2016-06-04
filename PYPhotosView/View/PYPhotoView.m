@@ -102,13 +102,14 @@
 {
     [super setTransform:transform];
     if (self.width > PYScreenW) {
-
         // 修改contentScrollView的属性
-        self.photoCell.contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
-        self.photoCell.contentScrollView.width = PYScreenW;
-        self.photoCell.contentScrollView.contentSize = self.size;
-        self.photoCell.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
-        self.photoCell.contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, (self.size.width - self.photoCell.contentScrollView.width) * 0.5, self.y, -(self.size.width - self.photoCell.contentScrollView.width) * 0.5);
+        UIScrollView *contentScrollView = self.photoCell.contentScrollView;
+        contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
+        contentScrollView.width = PYScreenW;
+        contentScrollView.contentSize = self.size;
+        contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
+        contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
+        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * 0.5 - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * 0.5 - contentScrollView.contentInset.top);
     }
 }
 
