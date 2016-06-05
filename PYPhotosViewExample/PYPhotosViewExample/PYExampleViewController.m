@@ -26,12 +26,14 @@
     NSMutableArray *imageUrls = [NSMutableArray array];
     
     // 添加图片链接
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 8; i++) {
         // 图片链接
         NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg", i + 1];
         // 添加图片链接到数组中
         [imageUrls addObject:imageUrl];
     }
+    // 添加动态图
+    [imageUrls addObject:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image10.gif"];
     
     // 2.1 创建一个photosView
     PYPhotosView *photosView = [PYPhotosView photosView:imageUrls];
@@ -40,7 +42,6 @@
     
     // 3. 添加photosView
     [self.view addSubview:photosView];
-    
 }
 
 @end

@@ -60,6 +60,7 @@
     self.photoView.photosView.photosState = PYPhotosViewStateDidCompose;
     NSString *imageUrl = photo;
     [self.photoView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:PYPlaceholderImage];
+    
     // 取出图片大小
     CGSize imageSize = self.photoView.image.size;
     // 放大图片

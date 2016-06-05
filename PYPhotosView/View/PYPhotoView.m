@@ -53,7 +53,8 @@
 //        [tapRecognizer requireGestureRecognizerToFail:self.doubleTap];
         
         // 监听通知
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(collectionViewDidScroll:) name:PYCollectionViewDidScrollNotification object:nil];
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center addObserver:self selector:@selector(collectionViewDidScroll:) name:PYCollectionViewDidScrollNotification object:nil];
     }
     return self;
 }
@@ -149,28 +150,6 @@
     }
 }
 
-#pragma mark - PYAcitonSheetDeleagate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        NSLog(@"保存到相册");
-        UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-    }else if(buttonIndex == 1){
-        NSLog(@"分享给朋友");
-    }else if (buttonIndex == 2){
-        NSLog(@"取消");
-    }
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if (error) {
-        [MBProgressHUD showError:@"保存失败"];
-    }else{
-        [MBProgressHUD showSuccess:@"保存成功"];
-    }
-}
-
 // 双击手势
 - (void)imageDidDoubleClicked:(UITapGestureRecognizer *)sender
 {
@@ -200,7 +179,7 @@
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
-        if (!self.isBig){ // 放大
+        if (!self.isBig) { // 放大
             // 遍历所有photoFrame记录原始frame
             for (PYPhotoView *photoView in self.photosView.subviews) {
                 photoView.orignalFrame = photoView.frame;
@@ -209,17 +188,17 @@
             userInfo[PYBigImageDidClikedNotification] = self;
             NSNotification *notification = [[NSNotification alloc] initWithName:PYBigImageDidClikedNotification object:sender userInfo:userInfo];
             [center postNotification:notification];
-        }else{ // 缩小
+        } else { // 缩小
             // 不可以双击
             userInfo[PYSmallgImageDidClikedNotification] = self;
             NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:sender userInfo:userInfo];
             [center postNotification:notification];
         }
-    }else if (self.photosView.photosState == PYPhotosViewStateWillCompose){ // 未发布
+    } else if (self.photosView.photosState == PYPhotosViewStateWillCompose) { // 未发布
         if (self.isPreview){ // 正在预览
                 NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:sender userInfo:userInfo];
                 [center postNotification:notifaction];
-        }else { // 将要预览
+        } else { // 将要预览
             // 进入预览界面
             userInfo[PYPreviewImagesDidChangedNotification] = self;
             NSNotification *notifaction = [[NSNotification alloc] initWithName:PYPreviewImagesDidChangedNotification object:sender userInfo:userInfo];
@@ -231,11 +210,37 @@
 - (UIImageView *)gifImageView
 {
     if (!_gifImageView) {
-        UIImageView *gifView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"timeline_image_gif"]];
+        UIImageView *gifView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PYPhotosView.bundle/common-gif"]];
         _gifImageView = gifView;
         [self addSubview:gifView];
     }
     return _gifImageView;
+}
+
+- (void)setImage:(UIImage *)image
+{    
+    CGFloat height = PYScreenW * image.size.height / image.size.width;
+    self.contentMode = UIViewContentModeScaleAspectFill;
+    self.clipsToBounds = YES;
+    if (height > PYScreenH) { // 长图
+        if (self.isBig) { // 放大状态
+            self.size = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
+        } else {
+            self.size = CGSizeMake(PYScreenW, PYScreenH);
+            // 显示最上面的
+            UIGraphicsBeginImageContextWithOptions(self.size,YES, 0.0);
+            // 绘图
+            CGFloat width = self.width;
+            CGFloat height = width * image.size.height / image.size.width;
+            [image drawInRect:CGRectMake(0, 0, width, height)];
+            // 保存图片
+            image = UIGraphicsGetImageFromCurrentImageContext();
+            // 关闭上下文
+            UIGraphicsEndImageContext();
+        }
+    }
+    
+    [super setImage:image];
 }
 
 // 设置图片
@@ -244,17 +249,12 @@
     _photo = photo;
     // 设置图片
     NSURL *imgUrl = [NSURL URLWithString:photo];
-    
     [self sd_setImageWithURL:imgUrl placeholderImage:PYPlaceholderImage];
-    
     if([photo.lowercaseString hasSuffix:@"gif"]){ // 以gif或者GIF结尾的图片
         self.gifImageView.hidden = NO;
     }else{
         self.gifImageView.hidden = YES;
     }
-    
-    self.contentMode = UIViewContentModeScaleAspectFill;
-    self.clipsToBounds = YES;
 }
 
 - (void)layoutSubviews
@@ -262,6 +262,19 @@
     [super layoutSubviews];
     self.gifImageView.x = self.width - self.gifImageView.width;
     self.gifImageView.y = self.height - self.gifImageView.height;
+    
+    CGFloat width = PYScreenW;
+    CGFloat height =  width * self.image.size.height / self.image.size.width;
+    if (self.isBig) { // 放大状态
+        if (height > PYScreenH) { // 长图
+            UIScrollView *contentScreollView = self.photoCell.contentScrollView;
+            contentScreollView.contentSize = CGSizeMake(width, height);
+            contentScreollView.frame = [UIScreen mainScreen].bounds;
+        } else {
+            self.photoCell.contentScrollView.contentSize = self.size;
+        }
+    }
+    
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell
@@ -280,6 +293,28 @@
         self.photoCell.contentScrollView.size = self.size;
         self.photoCell.contentScrollView.contentOffset = CGPointZero;
         self.photoCell.contentScrollView.contentInset = UIEdgeInsetsZero;
+    }
+}
+
+#pragma mark - PYAcitonSheetDeleagate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        NSLog(@"保存到相册");
+        UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+    }else if(buttonIndex == 1){
+        NSLog(@"分享给朋友");
+    }else if (buttonIndex == 2){
+        NSLog(@"取消");
+    }
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (error) {
+        [MBProgressHUD showError:@"保存失败"];
+    }else{
+        [MBProgressHUD showSuccess:@"保存成功"];
     }
 }
 

@@ -15,8 +15,6 @@
 		6BA282891D004F20007FE7E8 /* PYPhotosViewExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282881D004F20007FE7E8 /* PYPhotosViewExampleTests.m */; };
 		6BA282941D004F20007FE7E8 /* PYPhotosViewExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282931D004F20007FE7E8 /* PYPhotosViewExampleUITests.m */; };
 		6BA282A31D004F86007FE7E8 /* PYExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282A21D004F86007FE7E8 /* PYExampleViewController.m */; };
-		6BA282ED1D004FB3007FE7E8 /* UIImage+PYTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282A71D004FB3007FE7E8 /* UIImage+PYTool.m */; };
-		6BA282EE1D004FB3007FE7E8 /* UIImageView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282A91D004FB3007FE7E8 /* UIImageView+PYExtension.m */; };
 		6BA282EF1D004FB3007FE7E8 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282AB1D004FB3007FE7E8 /* UIView+PYExtension.m */; };
 		6BA282F01D004FB3007FE7E8 /* PYPhotosPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282AE1D004FB3007FE7E8 /* PYPhotosPreviewController.m */; };
 		6BA282F11D004FB3007FE7E8 /* PYPhotosReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282B01D004FB3007FE7E8 /* PYPhotosReaderController.m */; };
@@ -83,10 +81,6 @@
 		6BA282951D004F20007FE7E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BA282A11D004F86007FE7E8 /* PYExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYExampleViewController.h; sourceTree = "<group>"; };
 		6BA282A21D004F86007FE7E8 /* PYExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYExampleViewController.m; sourceTree = "<group>"; };
-		6BA282A61D004FB3007FE7E8 /* UIImage+PYTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PYTool.h"; sourceTree = "<group>"; };
-		6BA282A71D004FB3007FE7E8 /* UIImage+PYTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PYTool.m"; sourceTree = "<group>"; };
-		6BA282A81D004FB3007FE7E8 /* UIImageView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+PYExtension.h"; sourceTree = "<group>"; };
-		6BA282A91D004FB3007FE7E8 /* UIImageView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+PYExtension.m"; sourceTree = "<group>"; };
 		6BA282AA1D004FB3007FE7E8 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
 		6BA282AB1D004FB3007FE7E8 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
 		6BA282AD1D004FB3007FE7E8 /* PYPhotosPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosPreviewController.h; sourceTree = "<group>"; };
@@ -255,10 +249,6 @@
 		6BA282A51D004FB3007FE7E8 /* Cagegoty */ = {
 			isa = PBXGroup;
 			children = (
-				6BA282A61D004FB3007FE7E8 /* UIImage+PYTool.h */,
-				6BA282A71D004FB3007FE7E8 /* UIImage+PYTool.m */,
-				6BA282A81D004FB3007FE7E8 /* UIImageView+PYExtension.h */,
-				6BA282A91D004FB3007FE7E8 /* UIImageView+PYExtension.m */,
 				6BA282AA1D004FB3007FE7E8 /* UIView+PYExtension.h */,
 				6BA282AB1D004FB3007FE7E8 /* UIView+PYExtension.m */,
 			);
@@ -532,12 +522,10 @@
 				6BA283021D004FB3007FE7E8 /* UIImage+MultiFormat.m in Sources */,
 				6BA282F31D004FB3007FE7E8 /* MBProgressHUD+MJ.m in Sources */,
 				6BA282FF1D004FB3007FE7E8 /* SDWebImagePrefetcher.m in Sources */,
-				6BA282EE1D004FB3007FE7E8 /* UIImageView+PYExtension.m in Sources */,
 				6BA282F71D004FB3007FE7E8 /* MKAnnotationView+WebCache.m in Sources */,
 				6BA283051D004FB3007FE7E8 /* UIImageView+WebCache.m in Sources */,
 				6BA283061D004FB3007FE7E8 /* UIView+WebCacheOperation.m in Sources */,
 				6BA282FE1D004FB3007FE7E8 /* SDWebImageManager.m in Sources */,
-				6BA282ED1D004FB3007FE7E8 /* UIImage+PYTool.m in Sources */,
 				6BA282A31D004F86007FE7E8 /* PYExampleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
