@@ -24,7 +24,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         // 创建contentScrollView
-        UIScrollView *contentScrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        UIScrollView *contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
         // 水平不允许有弹簧效果
         contentScrollView.alwaysBounceHorizontal = NO;
         // 取消滑动指示器
@@ -96,6 +96,7 @@ static NSString * const reuseIdentifier = @"Cell";
 + (instancetype)cellWithCollectionView:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath
 {
     PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.size = CGSizeMake(PYScreenW, PYScreenH);
     cell.collectionView = collectionView;
     return cell;
 }

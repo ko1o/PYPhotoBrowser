@@ -55,12 +55,17 @@
     [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
     // 支持分页
     self.collectionView.pagingEnabled = YES;
+    self.collectionView.size = CGSizeMake(PYScreenW, PYScreenH);
     // 设置collectionView的width
     // 获取行间距
     CGFloat lineSpacing = ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
     self.collectionView.width += lineSpacing;
     // 设置collectionView的contenInset,增加范围
-    self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, lineSpacing);
+    if (PYIOS8) { // iOS8 会有预留20状态栏
+        self.collectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, lineSpacing);
+    } else if (PYIOS9) { // iOS 不需要预留状态栏
+        self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, lineSpacing);
+    }
     // 设置当前页面
     self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, self.collectionView.height);
     // 取消水平滚动条
@@ -72,7 +77,7 @@
 {
     // 创建流水布局
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = 40;
+    layout.minimumLineSpacing = PYPreviewPhotoSpacing;
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     PYPhotosReaderController *readerVc = [[PYPhotosReaderController alloc] initWithCollectionViewLayout:layout];
@@ -106,7 +111,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         // 放大图片
         copyView.width = self.collectionView.width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
-        copyView.height = copyView.width * imageSize.height / imageSize.width;
+        copyView.height = PYScreenW * imageSize.height / imageSize.width;
         copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {

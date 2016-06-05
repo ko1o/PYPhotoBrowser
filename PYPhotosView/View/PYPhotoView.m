@@ -239,7 +239,6 @@
             UIGraphicsEndImageContext();
         }
     }
-    
     [super setImage:image];
 }
 

@@ -78,7 +78,7 @@
     self.photosReader = photosReader;
     
     // 打开一个新的窗口
-    UIWindow *lastWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    UIWindow *lastWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
     // 设置窗口级别(最高级)
     lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上
