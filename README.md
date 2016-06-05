@@ -20,12 +20,12 @@
 - 主要用于社交app,用于呈现一组图片
 - 以下是各个流行社交app的部分截图
 
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0225.PNG)
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0226.PNG)
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0227.PNG)
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0228.PNG)
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0229.PNG)
-![(img1)](https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_0230.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0225.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0226.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0227.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0228.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0229.PNG)
+![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0230.PNG)
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotosView框架的主要类
 
