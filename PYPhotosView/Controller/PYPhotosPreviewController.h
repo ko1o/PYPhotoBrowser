@@ -16,7 +16,6 @@
 
 @end
 
-
 @interface PYPhotosPreviewController : PYPhotosReaderController
 
 /** 预览的图片*/

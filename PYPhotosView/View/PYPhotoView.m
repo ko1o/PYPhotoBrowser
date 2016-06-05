@@ -68,13 +68,22 @@
 // 捏合手势
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch
 {
+    // 当手势开始
+    if (pinch.state == UIGestureRecognizerStateBegan) {
+        // 设置新的锚点
+        [self setAnchorPointBaseOnGestureRecognizer:pinch];
+    } else if ( pinch.state == UIGestureRecognizerStateFailed || pinch.state == UIGestureRecognizerStateCancelled) {
+        // 恢复锚点
+        self.layer.anchorPoint = CGPointMake(0.5, 0.5);
+    }
+    
     if (self.isBig) {  // 放大状态
         self.transform = CGAffineTransformScale(self.transform, pinch.scale, pinch.scale);
         // 复位
         pinch.scale = 1;
     };
     
-    if (pinch.state == UIGestureRecognizerStateEnded) { // 手势结束
+    if (pinch.state == UIGestureRecognizerStateEnded) { // 手势改变
         if (!self.isBig) { // 放大状态
             [self imageDidClicked:nil];
             return;
@@ -86,14 +95,17 @@
             // 放大
             scale = lastWindow.width / self.width;
         } else { // 放大了
-            if (self.width > lastWindow.width * 2) { // 最大放大2倍
-                scale = lastWindow.width * 2 / self.width;
+            if (self.width > lastWindow.width * PYPhotoMaxScale) { // 最大放大3倍
+                scale = lastWindow.width * PYPhotoMaxScale / self.width;
             }
         }
         // 复位
         [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.transform = CGAffineTransformScale(self.transform,scale,scale);
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            // 恢复锚点
+            [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+        }];
     }
 }
 
@@ -109,7 +121,7 @@
         contentScrollView.contentSize = self.size;
         contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
-        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * 0.5 - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * 0.5 - contentScrollView.contentInset.top);
+        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
     }
 }
 

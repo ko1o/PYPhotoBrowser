@@ -109,55 +109,33 @@
     return self.frame.origin;
 }
 
-// 判断是否在控制器内
-- (BOOL)isInWindow:(UIWindow *)window
+/** 设置锚点 */
+- (void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
 {
-    if (!window) {
-        // 如果为nil，获取最上面的窗口
-        window = [[UIApplication sharedApplication].windows lastObject];
-    }
-    // 转换坐标器
-    CGRect newFrame = [self convertRect:self.bounds toView:window];
-    // 判断两个是否有交集
-    return CGRectIntersectsRect(newFrame, window.bounds);
+    CGPoint oldOrigin = view.frame.origin;
+    view.layer.anchorPoint = anchorPoint;
+    CGPoint newOrigin = view.frame.origin;
+    
+    CGPoint transition;
+    transition.x = newOrigin.x - oldOrigin.x;
+    transition.y = newOrigin.y - oldOrigin.y;
+    
+    view.center = CGPointMake (view.center.x - transition.x, view.center.y - transition.y);
 }
 
-// 判断View是否显示在屏幕上
-- (BOOL)isDisplayedInScreen
+/** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
+- (void)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
 {
-    if (self == nil) {
-        return FALSE;
-    }
+    // 当触摸开始时，获取两个触摸点
     
-    CGRect screenRect = [UIScreen mainScreen].bounds;
+    CGPoint point1 = [gr locationOfTouch:0 inView:gr.view];
+    CGPoint point2 = [gr locationOfTouch:1 inView:gr.view];
     
-    // 转换view对应window的Rect
-    CGRect rect = [self convertRect:self.frame fromView:nil];
-    if (CGRectIsEmpty(rect) || CGRectIsNull(rect)) {
-        return FALSE;
-    }
+    CGPoint anchorPoint;
+    anchorPoint.x = (point1.x + point2.x) / 2 / gr.view.bounds.size.width;
+    anchorPoint.y = (point1.y + point2.y) / 2 / gr.view.bounds.size.height;
     
-    // 若view 隐藏
-    if (self.hidden) {
-        return FALSE;
-    }
-    
-    // 若没有superview
-    if (self.superview == nil) {
-        return FALSE;
-    }
-    
-    // 若size为CGrectZero
-    if (CGSizeEqualToSize(rect.size, CGSizeZero)) {
-        return  FALSE;
-    }
-    
-    // 获取 该view与window 交叉的 Rect
-    CGRect intersectionRect = CGRectIntersection(rect, screenRect);
-    if (CGRectIsEmpty(intersectionRect) || CGRectIsNull(intersectionRect)) {
-        return FALSE;
-    }
-    
-    return TRUE;
+    [self setAnchorPoint:anchorPoint forView:gr.view];
 }
+
 @end

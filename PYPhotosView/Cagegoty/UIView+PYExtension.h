@@ -18,9 +18,10 @@
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) CGPoint origin;
 
-/* 判断当前view是否和window有交集（传入nil就代表最上面的窗口）*/
-- (BOOL)isInWindow:(UIWindow *)window;
 
-/** 判断当前view是否在屏幕上 */
-- (BOOL)isDisplayedInScreen;
+/** 设置锚点 */
+- (void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view;
+
+/** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
+- (void)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr;
 @end

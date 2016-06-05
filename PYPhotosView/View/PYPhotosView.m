@@ -44,10 +44,10 @@
 {
     if (self = [super init]) {
         // 初始化
-        self.photoMargin = 5;
-        self.photoWidth = 70;
-        self.photoHeight = 70;
-        self.photosMaxCol = 3;
+        self.photoMargin = PYPhotoMargin;
+        self.photoWidth = PYPhotoWidth;
+        self.photoHeight = PYPhotoHeight;
+        self.photosMaxCol = PYPhotosMaxCol;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.x = 0;
