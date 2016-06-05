@@ -37,8 +37,6 @@
         imageView.isBig = YES;
         [self.contentScrollView addSubview:imageView];
         self.photoView = imageView;
-        
-        // 添加捏合手势
         // 添加捏合手势
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self.photoView action:@selector(imageDidPinch:)];
         [self addGestureRecognizer:pinch];

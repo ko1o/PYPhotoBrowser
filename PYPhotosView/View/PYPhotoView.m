@@ -116,12 +116,15 @@
     if (self.width > PYScreenW) {
         // 修改contentScrollView的属性
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
+        contentScrollView.scrollEnabled = YES;
         contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
         contentScrollView.width = PYScreenW;
         contentScrollView.contentSize = self.size;
         contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
         contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
+    } else {
+        self.photoCell.contentScrollView.scrollEnabled = NO;
     }
 }
 
@@ -268,10 +271,11 @@
     NSDictionary *info = noti.userInfo;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
     
-    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.transform.a > 1.0 ) { // 不在屏幕上
+    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.width > PYScreenW) { // 不在屏幕上
         // 初始化
         self.transform = CGAffineTransformIdentity;
-        self.frame = [UIScreen mainScreen].bounds;
+        self.height = self.height * self.width / PYScreenW;
+        self.width = PYScreenW;
         self.photoCell.contentScrollView.contentSize = self.size;
         self.photoCell.contentScrollView.size = self.size;
         self.photoCell.contentScrollView.contentOffset = CGPointZero;
