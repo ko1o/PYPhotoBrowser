@@ -134,8 +134,8 @@
     self.selectedPhotoView.windowView.frame = [self.selectedPhotoView.windowView convertRect:self.selectedPhotoView.windowView.bounds toView:self.window];
     
     // 移除前一个view
+    [self.beginView removeFromSuperview];
     if (self.selectedPhotoView.windowView) { // 如果有windowView,证明图片滚动了，需要移除刚开始的beginView
-        [self.beginView removeFromSuperview];
         // 添加当前windowView
         self.beginView = self.selectedPhotoView.windowView;
     }
@@ -188,16 +188,8 @@ static NSString * const reuseIdentifier = @"Cell";
 // 监听collectionViewCell的点击事件
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    // 获取选中的photoView
-    self.selectedPhotoView = [self.selectedPhotoView superview].subviews[indexPath.item];
-    // 取出选中的cell
-    PYPhotoCell *selectedCell = (PYPhotoCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    self.selectedPhotoView.windowView = selectedCell.photoView;
-    userInfo[PYSmallgImageDidClikedNotification] = self.selectedPhotoView;
-    NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:userInfo];
-    [center postNotification:notification];
+    // 发出缩小图片通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:PYSmallgImageDidClikedNotification object:nil];
 }
 
 // 监听scrollView的滚动事件， 判断当前页数

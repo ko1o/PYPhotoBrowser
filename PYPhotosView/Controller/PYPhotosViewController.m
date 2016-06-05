@@ -9,6 +9,8 @@
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYConst.h"
+#import "PYPhotoView.h"
+#import "PYPhotoCell.h"
 
 @interface PYPhotosViewController ()
 
@@ -86,6 +88,13 @@
 // 还原
 - (void)smallImageDidClieked:(NSNotification *)notification
 {
+    // 获取当前屏幕显示的cell的indexPath
+    NSIndexPath *indexPath = [[self.photosReader.collectionView indexPathsForVisibleItems] firstObject];
+    // 取出选中的cell
+    PYPhotoCell *selectedCell = (PYPhotoCell *)[self.photosReader.collectionView cellForItemAtIndexPath:indexPath];
+    // 设置选中的photoView
+    self.photosReader.selectedPhotoView.windowView = selectedCell.photoView;
+    
     [self.photosReader hiddenPhoto];
 }
 
