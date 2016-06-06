@@ -16,11 +16,11 @@
 
 @interface PYPhotoView ()<UIActionSheetDelegate, UIGestureRecognizerDelegate>
 
-/** gif图片*/
+/** gif图片 */
 @property (nonatomic, weak) UIImageView *gifImageView;
 
 /** 双击手势 */
-@property (nonatomic, weak) UIGestureRecognizer *doubleTap;
+@property (nonatomic, weak) UIGestureRecognizer *tapRecognizer;
 
 @end
 
@@ -35,12 +35,8 @@
         // 添加单击手势
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidClicked:)];
         [self addGestureRecognizer:tapRecognizer];
-        
-        // 添加双击手势
-//        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
-//        [doubleTap setNumberOfTapsRequired:2];
-//        [self addGestureRecognizer:doubleTap];
-//        self.doubleTap = doubleTap;
+        self.tapRecognizer = tapRecognizer;
+
         // 添加长按手势
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidLongPress:)];
         [self addGestureRecognizer:longPress];
@@ -49,16 +45,12 @@
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidPinch:)];
         [self addGestureRecognizer:pinch];
         
-        // 单击双击共存时，避免双击失效
-//        [tapRecognizer requireGestureRecognizerToFail:self.doubleTap];
-        
         // 监听通知
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center addObserver:self selector:@selector(collectionViewDidScroll:) name:PYCollectionViewDidScrollNotification object:nil];
     }
     return self;
 }
-
 
 - (void)dealloc
 {
@@ -73,7 +65,7 @@
     if (pinch.state == UIGestureRecognizerStateBegan) {
         // 设置新的锚点
         [self setAnchorPointBaseOnGestureRecognizer:pinch];
-    } else if ( pinch.state == UIGestureRecognizerStateFailed || pinch.state == UIGestureRecognizerStateCancelled) {
+    } else if (pinch.state == UIGestureRecognizerStateFailed || pinch.state == UIGestureRecognizerStateCancelled) {
         // 恢复锚点
         self.layer.anchorPoint = CGPointMake(0.5, 0.5);
     }
@@ -84,7 +76,7 @@
         pinch.scale = 1;
     };
     
-    if (pinch.state == UIGestureRecognizerStateEnded) { // 手势改变
+    if (pinch.state == UIGestureRecognizerStateEnded) { // 手势结束
         if (!self.isBig) { // 放大状态
             [self imageDidClicked:nil];
             return;
@@ -96,8 +88,8 @@
             // 放大
             scale = lastWindow.width / self.width;
         } else { // 放大了
-            if (self.width > lastWindow.width * PYPhotoMaxScale) { // 最大放大3倍
-                scale = lastWindow.width * PYPhotoMaxScale / self.width;
+            if (self.width > lastWindow.width * PYPreviewPhotoMaxScale) { // 最大放大3倍
+                scale = lastWindow.width * PYPreviewPhotoMaxScale / self.width;
             }
         }
         // 复位
@@ -114,7 +106,7 @@
 - (void)setTransform:(CGAffineTransform)transform
 {
     [super setTransform:transform];
-    if (self.width > PYScreenW) {
+    if (self.width >= PYScreenW) {
         // 修改contentScrollView的属性
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
         contentScrollView.scrollEnabled = YES;
@@ -144,31 +136,52 @@
             // 跳出提示
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存到相册", @"发送给朋友", nil];
             sheet.delegate = self;
-            
             [sheet showInView:self.window];
         }
     }
 }
 
-// 双击手势
+// 拦截当前状态
+- (void)setIsBig:(BOOL)isBig
+{
+    _isBig = isBig;
+    if (isBig) { // 大图状态，支持双击手势
+        // 添加双击手势
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
+        [doubleTap setNumberOfTapsRequired:2];
+        [self addGestureRecognizer:doubleTap];
+        [self.photoCell addGestureRecognizer:doubleTap];
+        UIGestureRecognizer *tap = self.photoCell.gestureRecognizers[0];
+        [tap requireGestureRecognizerToFail:doubleTap];
+        // 单击双击共存时，避免双击失效
+        [self.tapRecognizer requireGestureRecognizerToFail:doubleTap];
+    }
+}
+
+// 双击手势（只有图片在预览状态时才支持）
 - (void)imageDidDoubleClicked:(UITapGestureRecognizer *)sender
 {
-    // 判断图片是否是放大状态(如果不是放大状态，手势无效)
-    if (!self.isBig) return;
-    
+    // 获取触摸点
+    // 修改锚点
+    [self setAnchorPointBaseOnGestureRecognizer:sender];
+
     if (self.size.width <= PYScreenW) { // 放大了
         [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
-        CGFloat scale = 2.0;
+        CGFloat scale = PYPreviewPhotoMaxScale;
         // 恢复siz
         self.transform = CGAffineTransformScale(self.transform,scale,scale);
-    } completion:nil];
-        
+    } completion:^(BOOL finished) {
+        // 恢复锚点
+        [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+    }];
     } else {
       [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
         // 恢复
           self.transform = CGAffineTransformIdentity;
-         
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            // 恢复锚点
+            [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+        }];
     }
 }
 
@@ -195,7 +208,7 @@
             [center postNotification:notification];
         }
     } else if (self.photosView.photosState == PYPhotosViewStateWillCompose) { // 未发布
-        if (self.isPreview){ // 正在预览
+        if (self.isPreview) { // 正在预览
                 NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:sender userInfo:userInfo];
                 [center postNotification:notifaction];
         } else { // 将要预览
@@ -240,6 +253,8 @@
         }
     }
     [super setImage:image];
+    
+    self.size = self.image.size;
 }
 
 // 设置图片
@@ -249,9 +264,9 @@
     // 设置图片
     NSURL *imgUrl = [NSURL URLWithString:photo];
     [self sd_setImageWithURL:imgUrl placeholderImage:PYPlaceholderImage];
-    if([photo.lowercaseString hasSuffix:@"gif"]){ // 以gif或者GIF结尾的图片
+    if ([photo.lowercaseString hasSuffix:@"gif"]) { // 以gif或者GIF结尾的图片
         self.gifImageView.hidden = NO;
-    }else{
+    } else {
         self.gifImageView.hidden = YES;
     }
 }
@@ -273,7 +288,6 @@
             self.photoCell.contentScrollView.contentSize = self.size;
         }
     }
-    
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell
@@ -283,10 +297,10 @@
     NSDictionary *info = noti.userInfo;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
     
-    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.width > PYScreenW) { // 不在屏幕上
+    if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && self.width >= PYScreenW) { // 不在屏幕上
         // 初始化
         self.transform = CGAffineTransformIdentity;
-        self.height = self.height * self.width / PYScreenW;
+        self.height = PYScreenW * self.height / self.width;
         self.width = PYScreenW;
         self.photoCell.contentScrollView.contentSize = self.size;
         self.photoCell.contentScrollView.size = self.size;
@@ -301,20 +315,16 @@
     if (buttonIndex == 0) {
         NSLog(@"保存到相册");
         UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-    }else if(buttonIndex == 1){
+    } else if(buttonIndex == 1) {
         NSLog(@"分享给朋友");
-    }else if (buttonIndex == 2){
+    } else if (buttonIndex == 2) {
         NSLog(@"取消");
     }
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-    if (error) {
-        [MBProgressHUD showError:@"保存失败"];
-    }else{
-        [MBProgressHUD showSuccess:@"保存成功"];
-    }
+    error ? [MBProgressHUD showError:@"保存失败"] : [MBProgressHUD showSuccess:@"保存成功"];
 }
 
 @end

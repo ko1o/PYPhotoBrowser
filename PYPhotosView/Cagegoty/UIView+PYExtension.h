@@ -24,4 +24,5 @@
 
 /** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
 - (void)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr;
+
 @end

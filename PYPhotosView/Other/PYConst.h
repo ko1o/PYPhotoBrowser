@@ -5,12 +5,12 @@
 
 
 /** --------------可修改的宏定义------------- */
-#define PYPhotoMaxScale 3   // 图片最大放大倍数
 #define PYPhotoMargin 5     // 图片之间的默认间距
 #define PYPhotoWidth 70     // 图片的默认宽度
 #define PYPhotoHeight 70    // 图片的默认高度
 #define PYPhotosMaxCol 3    // 图片每行默认最多个数
 #define PYPreviewPhotoSpacing 30 // 预览图片时，图片的间距
+#define PYPreviewPhotoMaxScale 2   // 预览图片时，图片最大放大倍数
 
 #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
 
