@@ -4,6 +4,7 @@
 
 ## Contents
 * Getting Started
+  * [Gestures【支持哪些手势】](#支持哪些手势)
   * [What place will use this framework【什么地方用到这个框架】](#什么地方用到这个框架啊啊)
   * [Classes【PYPhotosView框架的主要类】](#PYPhotosView框架的主要类)
   
@@ -14,6 +15,8 @@
   
 * [期待](#期待什么)
 
+## <a id="支持哪些手势"></a>支持哪些手势
+- `单击` 、`双击` 、`捏合` 
 
 ## <a id="什么地方用到这个框架啊啊"></a>什么地方用到这个框架
 
