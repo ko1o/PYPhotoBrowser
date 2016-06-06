@@ -12,6 +12,8 @@
 #import "PYPhoto.h"
 #import "PYPhotoCell.h"
 #import "PYConst.h"
+#import "DALabeledCircularProgressView.h"
+#import "UIImageView+WebCache.h"
 @interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
 /** photoView */
 @property (nonatomic, strong) PYPhotoView *photoView;
@@ -93,6 +95,7 @@
     
     // 转移到窗口上
     PYPhotoView *copyView = [[PYPhotoView alloc] initWithImage:self.selectedPhotoView.image];
+    
     // 转移坐标系
     copyView.frame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:window];
     [window addSubview:copyView];
@@ -163,6 +166,8 @@
         // 移除窗口
         self.window.hidden = YES;
     }];
+    
+    
 }
 
 static NSString * const reuseIdentifier = @"Cell";

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIImageView+WebCache.h"
-@class PYPhotosView;
-@class PYPhoto, PYPhotoCell;
+@class PYPhoto, PYPhotoCell, PYPhotosView, DALabeledCircularProgressView;
 
 @interface PYPhotoView : UIImageView
 
@@ -35,6 +33,9 @@
 
 /** 每个photoView的photoCell */
 @property (nonatomic, weak) PYPhotoCell *photoCell;
+
+/** 加载进度 */
+@property (weak, nonatomic) DALabeledCircularProgressView *progressView;
 
 /** 是否正在预览*/
 @property (nonatomic, assign) BOOL isPreview;

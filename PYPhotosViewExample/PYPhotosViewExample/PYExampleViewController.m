@@ -37,6 +37,7 @@
     
     // 2.1 创建一个photosView
     PYPhotosView *photosView = [PYPhotosView photosView:imageUrls];
+    
     // 2.2 设置居中
     photosView.center = self.view.center;
     

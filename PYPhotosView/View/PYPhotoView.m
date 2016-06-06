@@ -13,7 +13,7 @@
 #import "PYConst.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotoCell.h"
-
+#import "DALabeledCircularProgressView.h"
 @interface PYPhotoView ()<UIActionSheetDelegate, UIGestureRecognizerDelegate>
 
 /** gif图片 */
@@ -48,6 +48,12 @@
         // 监听通知
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center addObserver:self selector:@selector(collectionViewDidScroll:) name:PYCollectionViewDidScrollNotification object:nil];
+        
+        // 添加加载进度指示器
+        DALabeledCircularProgressView *progressView = [[DALabeledCircularProgressView alloc] init];
+        progressView.size = CGSizeMake(100, 100);
+        [self addSubview:progressView];
+        self.progressView = progressView;
     }
     return self;
 }
@@ -145,7 +151,7 @@
 - (void)setIsBig:(BOOL)isBig
 {
     _isBig = isBig;
-    if (isBig) { // 大图状态，支持双击手势
+    if (isBig) { // 大图状态，支持双击手势，支持加载进度指示器
         // 添加双击手势
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
         [doubleTap setNumberOfTapsRequired:2];
@@ -235,6 +241,8 @@
     CGFloat height = PYScreenW * image.size.height / image.size.width;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
+    // 设置进度条
+    self.progressView.hidden = !self.isBig;
     if (height > PYScreenH) { // 长图
         if (self.isBig) { // 放大状态
             self.size = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
@@ -254,16 +262,19 @@
     }
     [super setImage:image];
     
-    self.size = self.image.size;
+    self.progressView.center = CGPointMake(PYPlaceholderImage.size.width * 0.5, PYPlaceholderImage.size.height * 0.5);
+    
+    self.size = self.isBig ? CGSizeMake(PYScreenW, height) : self.image.size;
 }
 
-// 设置图片
+// 设置图片（图片来自网络）
 - (void)setPhoto:(NSString *)photo
 {
     _photo = photo;
     // 设置图片
     NSURL *imgUrl = [NSURL URLWithString:photo];
     [self sd_setImageWithURL:imgUrl placeholderImage:PYPlaceholderImage];
+
     if ([photo.lowercaseString hasSuffix:@"gif"]) { // 以gif或者GIF结尾的图片
         self.gifImageView.hidden = NO;
     } else {
