@@ -110,7 +110,7 @@
 }
 
 /** 设置锚点 */
-- (void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
+- (CGPoint)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
 {
     CGPoint oldOrigin = view.frame.origin;
     view.layer.anchorPoint = anchorPoint;
@@ -121,17 +121,17 @@
     transition.y = newOrigin.y - oldOrigin.y;
     
     view.center = CGPointMake (view.center.x - transition.x, view.center.y - transition.y);
+    return anchorPoint;
 }
 
 /** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
-- (void)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
+- (CGPoint)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
 {
     // 手势为空 直接返回
-    if (!gr) return;
+    if (!gr) return CGPointZero;
     
     // 创建锚点
     CGPoint anchorPoint;
-    
     if ([gr isKindOfClass:[UIPinchGestureRecognizer class]]) { // 捏合手势
         // 当触摸开始时，获取两个触摸点
         CGPoint point1 = [gr locationOfTouch:0 inView:gr.view];
@@ -144,8 +144,7 @@
         anchorPoint.x = point.x / gr.view.width;
         anchorPoint.y = point.y / gr.view.height;
     };
-    
-    [self setAnchorPoint:anchorPoint forView:gr.view];
+    return [self setAnchorPoint:anchorPoint forView:self];
 }
 
 @end

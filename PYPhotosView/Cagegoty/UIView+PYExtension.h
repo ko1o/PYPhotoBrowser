@@ -20,9 +20,9 @@
 
 
 /** 设置锚点 */
-- (void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view;
+- (CGPoint)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view;
 
-/** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
-- (void)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr;
+/** 根据手势触摸点修改相应的锚点，就是沿着触摸点对self做相应的手势操作 */
+- (CGPoint)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr;
 
 @end

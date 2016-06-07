@@ -107,6 +107,7 @@ static NSString * const reuseIdentifier = @"Cell";
     PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.size = CGSizeMake(PYScreenW, PYScreenH);
     cell.collectionView = collectionView;
+    
     return cell;
 }
 

@@ -117,7 +117,6 @@
 
 - (void)setImages:(NSMutableArray *)images
 {
-    
     _images = images;
     
     // 移除添加图片按钮

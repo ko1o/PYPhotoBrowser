@@ -19,8 +19,11 @@
 /** gif图片 */
 @property (nonatomic, weak) UIImageView *gifImageView;
 
-/** 双击手势 */
-@property (nonatomic, weak) UIGestureRecognizer *tapRecognizer;
+/** 单击手势 */
+@property (nonatomic, weak) UIGestureRecognizer *singleTap;
+
+/** 原始锚点 */
+@property (nonatomic, assign) CGPoint originAnchorPoint;
 
 @end
 
@@ -32,18 +35,10 @@
         // 运行与用户交互
         self.userInteractionEnabled = YES;
         
-        // 添加单击手势
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidClicked:)];
-        [self addGestureRecognizer:tapRecognizer];
-        self.tapRecognizer = tapRecognizer;
-
-        // 添加长按手势
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidLongPress:)];
-        [self addGestureRecognizer:longPress];
-        
-        // 添加捏合手势
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidPinch:)];
-        [self addGestureRecognizer:pinch];
+        // photoView添加单击手势
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidClicked:)];
+        [self addGestureRecognizer:singleTap];
+        self.singleTap = singleTap;
         
         // 监听通知
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -54,6 +49,9 @@
         progressView.size = CGSizeMake(100, 100);
         [self addSubview:progressView];
         self.progressView = progressView;
+        
+        // 设置原始锚点
+        self.originAnchorPoint = self.layer.anchorPoint;
     }
     return self;
 }
@@ -62,6 +60,105 @@
 {
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+// 拦截当前状态(是否是在预览)
+- (void)setIsBig:(BOOL)isBig
+{
+    _isBig = isBig;
+    if (isBig) { // 预览状态，支持双击手势，支持加载进度指示器
+        // 添加双击手势
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
+        [doubleTap setNumberOfTapsRequired:2];
+        [self addGestureRecognizer:doubleTap];
+        // 单击双击共存时，避免双击失效
+        [self.singleTap requireGestureRecognizerToFail:doubleTap];
+    }
+}
+
+// 监听transform
+- (void)setTransform:(CGAffineTransform)transform
+{
+    [super setTransform:transform];
+    if (self.width >= PYScreenW) {
+        // 修改contentScrollView的属性
+        UIScrollView *contentScrollView = self.photoCell.contentScrollView;
+        contentScrollView.scrollEnabled = YES;
+        contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
+        contentScrollView.width = PYScreenW;
+        contentScrollView.contentSize = self.size;
+        contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
+        contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
+        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
+    } else {
+        self.photoCell.contentScrollView.scrollEnabled = NO;
+    }
+}
+
+- (void)setPhotoCell:(PYPhotoCell *)photoCell
+{
+    _photoCell = photoCell;
+    if (self.isBig) {
+        // photoCell添加单击手势
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidClicked:)];
+        [photoCell addGestureRecognizer:singleTap];
+        
+        // photoCell添加双击手势
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
+        [doubleTap setNumberOfTapsRequired:2];
+        [photoCell addGestureRecognizer:doubleTap];
+        
+        // photoCell单击双击共存时，单击失效
+        [singleTap requireGestureRecognizerToFail:doubleTap];
+        
+        // photoCell添加长按手势
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidLongPress:)];
+        [photoCell addGestureRecognizer:longPress];
+        
+        // photoCell添加捏合手势
+        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidPinch:)];
+        [photoCell addGestureRecognizer:pinch];
+        
+        // photoCell添加旋转手势
+        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidRotation:)];
+        [photoCell addGestureRecognizer:rotation];
+    }
+}
+
+- (void)setImage:(UIImage *)image
+{
+    CGFloat height = PYScreenW * image.size.height / image.size.width;
+    self.contentMode = UIViewContentModeScaleAspectFill;
+    self.clipsToBounds = YES;
+    // 设置进度条
+    self.progressView.hidden = !self.isBig;
+    if (height > PYScreenH) { // 长图
+        if (self.isBig) { // 预览状态
+            self.size = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
+        } else {
+            self.size = CGSizeMake(PYScreenW, PYScreenH);
+            // 显示最上面的
+            UIGraphicsBeginImageContextWithOptions(self.size,YES, 0.0);
+            // 绘图
+            CGFloat width = self.width;
+            CGFloat height = width * image.size.height / image.size.width;
+            [image drawInRect:CGRectMake(0, 0, width, height)];
+            // 保存图片
+            image = UIGraphicsGetImageFromCurrentImageContext();
+            // 关闭上下文
+            UIGraphicsEndImageContext();
+        }
+    }
+    [super setImage:image];
+    
+    self.progressView.center = CGPointMake(PYPlaceholderImage.size.width * 0.5, PYPlaceholderImage.size.height * 0.5);
+    self.size = self.isBig ? CGSizeMake(PYScreenW, height) : self.image.size;
+}
+
+// 旋转手势
+- (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation
+{
+
 }
 
 // 捏合手势
@@ -76,14 +173,14 @@
         self.layer.anchorPoint = CGPointMake(0.5, 0.5);
     }
     
-    if (self.isBig) {  // 放大状态
+    if (self.isBig) {  // 预览状态
         self.transform = CGAffineTransformScale(self.transform, pinch.scale, pinch.scale);
         // 复位
         pinch.scale = 1;
     };
     
     if (pinch.state == UIGestureRecognizerStateEnded) { // 手势结束
-        if (!self.isBig) { // 放大状态
+        if (!self.isBig) { // 预览状态
             [self imageDidClicked:nil];
             return;
         }
@@ -108,37 +205,18 @@
     }
 }
 
-// 监听transform
-- (void)setTransform:(CGAffineTransform)transform
-{
-    [super setTransform:transform];
-    if (self.width >= PYScreenW) {
-        // 修改contentScrollView的属性
-        UIScrollView *contentScrollView = self.photoCell.contentScrollView;
-        contentScrollView.scrollEnabled = YES;
-        contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
-        contentScrollView.width = PYScreenW;
-        contentScrollView.contentSize = self.size;
-        contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
-        contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
-        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
-    } else {
-        self.photoCell.contentScrollView.scrollEnabled = NO;
-    }
-}
-
 // 长按手势
 - (void)imageDidLongPress:(UITapGestureRecognizer *)longPress
 {
     if (longPress.state == UIGestureRecognizerStateEnded) {
-        // 判断图片是否是放大状态(如果不是放大状态，手势无效)
+        // 判断图片是否是预览状态(如果不是预览状态，手势无效)
         if (!self.isBig) { // 长按转为单击
             [self imageDidClicked:nil];
             return;
         };
     }
     if (longPress.state == UIGestureRecognizerStateBegan) {  // 长按结束
-        if (self.isBig) { // 大图状态
+        if (self.isBig) { // 预览状态
             // 跳出提示
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存到相册", @"发送给朋友", nil];
             sheet.delegate = self;
@@ -147,42 +225,23 @@
     }
 }
 
-// 拦截当前状态
-- (void)setIsBig:(BOOL)isBig
-{
-    _isBig = isBig;
-    if (isBig) { // 大图状态，支持双击手势，支持加载进度指示器
-        // 添加双击手势
-        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
-        [doubleTap setNumberOfTapsRequired:2];
-        [self addGestureRecognizer:doubleTap];
-        [self.photoCell addGestureRecognizer:doubleTap];
-        UIGestureRecognizer *tap = self.photoCell.gestureRecognizers[0];
-        [tap requireGestureRecognizerToFail:doubleTap];
-        // 单击双击共存时，避免双击失效
-        [self.tapRecognizer requireGestureRecognizerToFail:doubleTap];
-    }
-}
-
 // 双击手势（只有图片在预览状态时才支持）
-- (void)imageDidDoubleClicked:(UITapGestureRecognizer *)sender
+- (void)imageDidDoubleClicked:(UITapGestureRecognizer *)singleTap
 {
-    // 获取触摸点
     // 修改锚点
-    [self setAnchorPointBaseOnGestureRecognizer:sender];
-
-    if (self.size.width <= PYScreenW) { // 放大了
+    [self setAnchorPointBaseOnGestureRecognizer:singleTap];
+    if (self.size.width <= PYScreenW) { // 没放大
         [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
-        CGFloat scale = PYPreviewPhotoMaxScale;
-        // 恢复siz
-        self.transform = CGAffineTransformScale(self.transform,scale,scale);
-    } completion:^(BOOL finished) {
-        // 恢复锚点
-        [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
-    }];
+            CGFloat scale = PYPreviewPhotoMaxScale;
+            // 恢复siz
+            self.transform = CGAffineTransformScale(self.transform,scale,scale);
+        } completion:^(BOOL finished) {
+            // 恢复锚点
+            [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+        }];
     } else {
-      [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
-        // 恢复
+      [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击恢复
+          // 放大
           self.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             // 恢复锚点
@@ -236,37 +295,6 @@
     return _gifImageView;
 }
 
-- (void)setImage:(UIImage *)image
-{    
-    CGFloat height = PYScreenW * image.size.height / image.size.width;
-    self.contentMode = UIViewContentModeScaleAspectFill;
-    self.clipsToBounds = YES;
-    // 设置进度条
-    self.progressView.hidden = !self.isBig;
-    if (height > PYScreenH) { // 长图
-        if (self.isBig) { // 放大状态
-            self.size = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
-        } else {
-            self.size = CGSizeMake(PYScreenW, PYScreenH);
-            // 显示最上面的
-            UIGraphicsBeginImageContextWithOptions(self.size,YES, 0.0);
-            // 绘图
-            CGFloat width = self.width;
-            CGFloat height = width * image.size.height / image.size.width;
-            [image drawInRect:CGRectMake(0, 0, width, height)];
-            // 保存图片
-            image = UIGraphicsGetImageFromCurrentImageContext();
-            // 关闭上下文
-            UIGraphicsEndImageContext();
-        }
-    }
-    [super setImage:image];
-    
-    self.progressView.center = CGPointMake(PYPlaceholderImage.size.width * 0.5, PYPlaceholderImage.size.height * 0.5);
-    
-    self.size = self.isBig ? CGSizeMake(PYScreenW, height) : self.image.size;
-}
-
 // 设置图片（图片来自网络）
 - (void)setPhoto:(NSString *)photo
 {
@@ -290,7 +318,7 @@
     
     CGFloat width = PYScreenW;
     CGFloat height =  width * self.image.size.height / self.image.size.width;
-    if (self.isBig) { // 放大状态
+    if (self.isBig) { // 预览状态
         if (height > PYScreenH) { // 长图
             UIScrollView *contentScreollView = self.photoCell.contentScrollView;
             contentScreollView.contentSize = CGSizeMake(width, height);

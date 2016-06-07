@@ -195,13 +195,6 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 #pragma mark <UICollectionViewDelegate>
-// 监听collectionViewCell的点击事件
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    // 发出缩小图片通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:PYSmallgImageDidClikedNotification object:nil];
-}
-
 // 监听scrollView的滚动事件， 判断当前页数
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
