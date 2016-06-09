@@ -12,7 +12,7 @@
 #import "PYPhoto.h"
 #import "PYPhotoCell.h"
 #import "PYConst.h"
-#import "DALabeledCircularProgressView.h"
+#import "PYDALabeledCircularProgressView.h"
 #import "UIImageView+WebCache.h"
 @interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
 /** photoView */
@@ -185,7 +185,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // 创建cell
     PYPhotoCell *cell  = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
     // 取出模型
-    NSString  *photo = self.selectedPhotoView.photos[indexPath.item];
+    PYPhoto  *photo = self.selectedPhotoView.photos[indexPath.item];
     // 设置数据
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;

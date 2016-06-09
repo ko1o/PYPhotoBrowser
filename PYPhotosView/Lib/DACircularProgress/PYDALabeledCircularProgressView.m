@@ -1,14 +1,14 @@
 //
-//  DALabeledCircularProgressView.m
+//  PYDALabeledCircularProgressView.m
 //  DACircularProgressExample
 //
 //  Created by Josh Sklar on 4/8/14.
 //  Copyright (c) 2014 Shout Messenger. All rights reserved.
 //
 
-#import "DALabeledCircularProgressView.h"
+#import "PYDALabeledCircularProgressView.h"
 
-@implementation DALabeledCircularProgressView
+@implementation PYDALabeledCircularProgressView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -49,7 +49,7 @@
 
 /**
  Creates and initializes
- -[DALabeledCircularProgressView progressLabel].
+ -[PYDALabeledCircularProgressView progressLabel].
  */
 - (void)initializeLabel
 {

@@ -62,8 +62,14 @@
 
 + (instancetype)photosView:(NSArray *)photos
 {
+    // 封装photos为模型
+    NSMutableArray *photosM = [NSMutableArray array];
+    for (NSString *url in photos) {
+        PYPhoto *photo = [PYPhoto photoWithUrl:url];
+        [photosM addObject:photo];
+    }
     PYPhotosView *photosView = [self photosView];
-    photosView.photos = photos;
+    photosView.photos = photosM;
     return photosView;
 }
 
@@ -161,12 +167,12 @@
     // 设置图片状态
     self.photosState = PYPhotosViewStateDidCompose;
     
-    NSInteger photoCount = photos.count;
+    NSInteger photoCount = self.photos.count;
     // 添加相应的图片
     while (self.subviews.count < photoCount) { // UIImageView不够，需要创建
         PYPhotoView *photoView = [[PYPhotoView alloc] init];
         photoView.photosView = self;
-        photoView.photos = photos;
+        photoView.photos = self.photos;
         [self addSubview:photoView];
     }
     
@@ -176,11 +182,11 @@
         PYPhotoView *photoView = self.subviews[i];
         // 设置标记
         photoView.tag = i;
-        photoView.photos = photos;
+        photoView.photos = self.photos;
         if (i < photoCount) {
             photoView.hidden = NO;
             // 设置图片
-            photoView.photo = photos[i];
+            photoView.photo = self.photos[i];
         }else{
             photoView.hidden = YES;
         }
@@ -188,7 +194,7 @@
     
     // 设置contentSize和 self.size
     // 取出size
-    CGSize size = [self sizeWithPhotoCount:photos.count photosState:self.photosState];
+    CGSize size = [self sizeWithPhotoCount:self.photos.count photosState:self.photosState];
     self.contentSize = size;
     
     CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;

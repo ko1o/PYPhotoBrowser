@@ -12,9 +12,8 @@
 
 @interface PYPhotoCell : UICollectionViewCell
 
-/** 图片地址 */
-@property (nonatomic, strong) NSString *photo;
-
+/** 图片模型 */
+@property (nonatomic, strong) PYPhoto *photo;
 /** 本地相册图片 */
 @property (nonatomic, strong) UIImage *image;
 

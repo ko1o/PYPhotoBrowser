@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B4904B01D05DA1F00A0A88C /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AD1D05DA1F00A0A88C /* DACircularProgressView.m */; };
-		6B4904B11D05DA1F00A0A88C /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AF1D05DA1F00A0A88C /* DALabeledCircularProgressView.m */; };
+		6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */; };
+		6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */; };
 		6BA282701D004F20007FE7E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2826F1D004F20007FE7E8 /* main.m */; };
 		6BA282731D004F20007FE7E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282721D004F20007FE7E8 /* AppDelegate.m */; };
 		6BA282791D004F20007FE7E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BA282771D004F20007FE7E8 /* Main.storyboard */; };
@@ -67,10 +67,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6B4904AC1D05DA1F00A0A88C /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
-		6B4904AD1D05DA1F00A0A88C /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
-		6B4904AE1D05DA1F00A0A88C /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
-		6B4904AF1D05DA1F00A0A88C /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		6B4904AC1D05DA1F00A0A88C /* PYDACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDACircularProgressView.h; sourceTree = "<group>"; };
+		6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDACircularProgressView.m; sourceTree = "<group>"; };
+		6B4904AE1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDALabeledCircularProgressView.m; sourceTree = "<group>"; };
 		6BA2826B1D004F20007FE7E8 /* PYPhotosViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PYPhotosViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA2826F1D004F20007FE7E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6BA282711D004F20007FE7E8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -138,8 +138,8 @@
 		6BA282DE1D004FB3007FE7E8 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		6BA282E01D004FB3007FE7E8 /* PYPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhoto.h; sourceTree = "<group>"; };
 		6BA282E11D004FB3007FE7E8 /* PYPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhoto.m; sourceTree = "<group>"; };
-		6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoCell.h; sourceTree = "<group>"; };
-		6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoCell.m; sourceTree = "<group>"; };
+		6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PYPhotoCell.h; path = ../Model/PYPhotoCell.h; sourceTree = "<group>"; };
+		6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PYPhotoCell.m; path = ../Model/PYPhotoCell.m; sourceTree = "<group>"; };
 		6BA282E51D004FB3007FE7E8 /* PYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYConst.h; sourceTree = "<group>"; };
 		6BA282E61D004FB3007FE7E8 /* PYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYConst.m; sourceTree = "<group>"; };
 		6BA282E71D004FB3007FE7E8 /* PYPhotosView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PYPhotosView.bundle; sourceTree = "<group>"; };
@@ -177,10 +177,10 @@
 		6B4904AB1D05DA1F00A0A88C /* DACircularProgress */ = {
 			isa = PBXGroup;
 			children = (
-				6B4904AC1D05DA1F00A0A88C /* DACircularProgressView.h */,
-				6B4904AD1D05DA1F00A0A88C /* DACircularProgressView.m */,
-				6B4904AE1D05DA1F00A0A88C /* DALabeledCircularProgressView.h */,
-				6B4904AF1D05DA1F00A0A88C /* DALabeledCircularProgressView.m */,
+				6B4904AC1D05DA1F00A0A88C /* PYDACircularProgressView.h */,
+				6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */,
+				6B4904AE1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.h */,
+				6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */,
 			);
 			path = DACircularProgress;
 			sourceTree = "<group>";
@@ -251,9 +251,9 @@
 		6BA282A41D004FB3007FE7E8 /* PYPhotosView */ = {
 			isa = PBXGroup;
 			children = (
+				6BA282B31D004FB3007FE7E8 /* Lib */,
 				6BA282A51D004FB3007FE7E8 /* Cagegoty */,
 				6BA282AC1D004FB3007FE7E8 /* Controller */,
-				6BA282B31D004FB3007FE7E8 /* Lib */,
 				6BA282DF1D004FB3007FE7E8 /* Model */,
 				6BA282E41D004FB3007FE7E8 /* Other */,
 				6BA282E71D004FB3007FE7E8 /* PYPhotosView.bundle */,
@@ -355,8 +355,6 @@
 			children = (
 				6BA282E01D004FB3007FE7E8 /* PYPhoto.h */,
 				6BA282E11D004FB3007FE7E8 /* PYPhoto.m */,
-				6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */,
-				6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -373,6 +371,8 @@
 		6BA282E81D004FB3007FE7E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */,
+				6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */,
 				6BA282E91D004FB3007FE7E8 /* PYPhotosView.h */,
 				6BA282EA1D004FB3007FE7E8 /* PYPhotosView.m */,
 				6BA282EB1D004FB3007FE7E8 /* PYPhotoView.h */,
@@ -530,7 +530,7 @@
 				6BA282FB1D004FB3007FE7E8 /* SDWebImageDecoder.m in Sources */,
 				6BA282F01D004FB3007FE7E8 /* PYPhotosPreviewController.m in Sources */,
 				6BA283081D004FB3007FE7E8 /* PYPhotoCell.m in Sources */,
-				6B4904B11D05DA1F00A0A88C /* DALabeledCircularProgressView.m in Sources */,
+				6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */,
 				6BA283041D004FB3007FE7E8 /* UIImageView+HighlightedWebCache.m in Sources */,
 				6BA282F61D004FB3007FE7E8 /* NSString+XLStringExpand.m in Sources */,
 				6BA282FC1D004FB3007FE7E8 /* SDWebImageDownloader.m in Sources */,
@@ -544,7 +544,7 @@
 				6BA282F71D004FB3007FE7E8 /* MKAnnotationView+WebCache.m in Sources */,
 				6BA283051D004FB3007FE7E8 /* UIImageView+WebCache.m in Sources */,
 				6BA283061D004FB3007FE7E8 /* UIView+WebCacheOperation.m in Sources */,
-				6B4904B01D05DA1F00A0A88C /* DACircularProgressView.m in Sources */,
+				6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */,
 				6BA282FE1D004FB3007FE7E8 /* SDWebImageManager.m in Sources */,
 				6BA282A31D004F86007FE7E8 /* PYExampleViewController.m in Sources */,
 			);

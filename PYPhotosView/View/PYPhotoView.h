@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PYPhoto, PYPhotoCell, PYPhotosView, DALabeledCircularProgressView;
+@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView;
 
 @interface PYPhotoView : UIImageView
 
-@property (nonatomic, strong) NSString *photo;
+/** 图片模型 */
+@property (nonatomic, strong) PYPhoto *photo;
 
 /** 网络图片*/
 @property (nonatomic, strong) NSArray *photos;
@@ -35,7 +36,7 @@
 @property (nonatomic, weak) PYPhotoCell *photoCell;
 
 /** 加载进度 */
-@property (weak, nonatomic) DALabeledCircularProgressView *progressView;
+@property (weak, nonatomic) PYDALabeledCircularProgressView *progressView;
 
 /** 是否正在预览*/
 @property (nonatomic, assign) BOOL isPreview;

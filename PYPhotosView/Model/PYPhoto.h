@@ -6,11 +6,19 @@
 //  Copyright © 2015年 iphone5solo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+@class PYPhotoView;
 
 @interface PYPhoto : NSObject
 
-/** thumbnail_pic 图片地址*/
+
++ (instancetype)photoWithUrl:(NSString *)url;
+
+/** thumbnail_pic 图片缩略图地址*/
 @property (nonatomic, copy) NSString *thumbnail_pic;
+
+/** 图片加载进度 */
+@property (nonatomic, assign) CGFloat progress;
 
 @end

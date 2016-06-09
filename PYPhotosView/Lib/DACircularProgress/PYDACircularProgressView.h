@@ -1,5 +1,5 @@
 //
-//  DACircularProgressView.h
+//  PYDACircularProgressView.h
 //  DACircularProgress
 //
 //  Created by Daniel Amitay on 2/6/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DACircularProgressView : UIView
+@interface PYDACircularProgressView : UIView
 
 @property(nonatomic, strong) UIColor *trackTintColor UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) UIColor *progressTintColor UI_APPEARANCE_SELECTOR;

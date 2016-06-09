@@ -12,7 +12,7 @@
 #import "PYPhotosView.h"
 #import "PYConst.h"
 #import "UIImageView+WebCache.h"
-#import "DALabeledCircularProgressView.h"
+#import "PYDALabeledCircularProgressView.h"
 
 @interface PYPhotoCell ()
 
@@ -39,9 +39,6 @@
         imageView.isBig = YES;
         [self.contentScrollView addSubview:imageView];
         self.photoView = imageView;
-        // 添加捏合手势
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self.photoView action:@selector(imageDidPinch:)];
-        [self addGestureRecognizer:pinch];
     }
     return self;
 }
@@ -55,21 +52,14 @@
 }
 
 // 设置图片（图片来源自网络）
-- (void)setPhoto:(NSString *)photo
+- (void)setPhoto:(PYPhoto *)photo
 {
     _photo = photo;
     // 设置图片状态
     self.photoView.photosView.photosState = PYPhotosViewStateDidCompose;
-    NSURL *imageUrl = [NSURL URLWithString:photo];
-    // 添加加载进度指示器
-    __weak typeof(self) _weakSelf = self;
-    [self.photoView sd_setImageWithURL:imageUrl placeholderImage:PYPlaceholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        CGFloat progress = 1.0 * receivedSize / expectedSize;
-        [_weakSelf.photoView.progressView setProgress:progress animated:YES];
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        _weakSelf.photoView.progressView.hidden = YES;
-    }];
 
+    [self.photoView setPhoto:photo];
+    
     // 取出图片大小
     CGSize imageSize = self.photoView.image.size;
     // 放大图片
