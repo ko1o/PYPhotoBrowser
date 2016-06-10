@@ -65,35 +65,37 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-// 拦截当前状态(是否是在预览)
-- (void)setIsBig:(BOOL)isBig
-{
-    _isBig = isBig;
-}
 
 // 监听transform
 - (void)setTransform:(CGAffineTransform)transform
 {
     [super setTransform:transform];
     
-    if (self.photoCell.contentScrollView.transform.b) {
-        NSLog(@"旋转");
-        return;
-    }
-    
-    if (self.width >= PYScreenW) {
+    if (self.width >= PYScreenW || self.height >= PYScreenH) { // 放大
         // 修改contentScrollView的属性
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
+        
+        // 设置内边距
+        if (ABS(self.photoCell.contentScrollView.transform.b) == 1) { // 宽高对调（旋转90°或者270°）
+            contentScrollView.height = self.width < PYScreenH ? self.width : PYScreenH;
+            contentScrollView.width = self.height < PYScreenW ? self.height : PYScreenW;
+            contentScrollView.contentSize = self.size;
+            contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
+            NSLog(@"%@", NSStringFromCGSize(self.size));
+//            contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.height) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.width) * self.layer.anchorPoint.y - contentScrollView.contentInset.right);
+        } else { // 宽高方向不变（旋转180°或者360°或者0°）
+            contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
+            contentScrollView.width = PYScreenW;
+            contentScrollView.contentSize = self.size;
+            contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
+            contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
+        }
         contentScrollView.scrollEnabled = YES;
-        contentScrollView.height = self.height < PYScreenH ? self.height : PYScreenH;
-        contentScrollView.width = PYScreenW;
-        contentScrollView.contentSize = self.size;
         contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
-        contentScrollView.contentInset = UIEdgeInsetsMake(-self.y, -self.x, self.y, self.x);
-        contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width  - contentScrollView.width) * self.layer.anchorPoint.x - contentScrollView.contentInset.left, (contentScrollView.contentSize.height  - contentScrollView.height) * self.layer.anchorPoint.y - contentScrollView.contentInset.top);
     } else {
         self.photoCell.contentScrollView.scrollEnabled = NO;
     }
+    
 }
 
 - (void)addGestureRecognizers
@@ -118,7 +120,6 @@
     UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidRotation:)];
     [self.photoCell addGestureRecognizer:rotation];
     
-    
     if (self.isBig) { // 预览状态，支持双击手势，支持加载进度指示器
         // 添加双击手势
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDidDoubleClicked:)];
@@ -127,7 +128,6 @@
         // 单击双击共存时，避免双击失效
         [self.singleTap requireGestureRecognizerToFail:doubleTap];
     }
-
 }
 
 - (void)setPhotoCell:(PYPhotoCell *)photoCell
@@ -170,74 +170,67 @@
     // 设置scrollView的大小
     self.photoCell.contentScrollView.size = self.size;
     self.photoCell.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
-    
     self.progressView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
-    
-    // 记录原始大小
-    originalSize = self.size;
 }
 
+// 记录预览时的最原始大小（未伸缩\旋转）
 static CGSize originalSize;
 
 // 旋转手势
 - (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation
 {
-    return;
-    /******************************** 旋转还没处理好，暂不支持 ********************************* */
-    
+//    return;
+//    /******************************** 旋转还没处理好，暂不支持 ********************************* */
     UIScrollView *contentScrollView = self.photoCell.contentScrollView;
     // 计算旋转角度
     contentScrollView.transform = CGAffineTransformRotate(contentScrollView.transform, rotation.rotation);
     if (rotation.state == UIGestureRecognizerStateEnded
         || rotation.state == UIGestureRecognizerStateFailed
-        || rotation.state == UIGestureRecognizerStateCancelled) { // 手势结束
+        || rotation.state == UIGestureRecognizerStateCancelled) { // 手势结束\失败\取消
+        originalSize = self.photo.originalSize;
         // 获取角度
         CGFloat angle = acos(contentScrollView.transform.a);
         // 获取旋转因子
         CGFloat factor = ((int)(contentScrollView.transform.b + 0.5)) == 1 ? 1 : -1;
         // 旋转后的宽高
-        CGFloat width = 0;
-        CGFloat height = 0;
-        if (originalSize.width > originalSize.height) { // （原始图片）宽大于高
+        __block CGFloat width = 0;
+        __block CGFloat height = 0;
+        if (originalSize.width > originalSize.height * 2) { // （原始图片）宽大于高的两倍
             height = PYScreenH;
-            width = PYScreenH * originalSize.height / originalSize.width;
+            width = height * originalSize.height / originalSize.width;
         } else { // （原始图片）高大于宽
-            height = PYScreenW * originalSize.width / originalSize.height;
+            height = PYScreenW * originalSize.width / originalSize.height > PYScreenH ? PYScreenH : PYScreenW * originalSize.width / originalSize.height;
             width = PYScreenW;
         }
-        CGSize selfSize = CGSizeMake(height, width);
+        __block CGSize selfSize = CGSizeMake(height, width);
         
         // 判断旋转角度
         if (angle < M_PI_4 || angle > M_PI * 7 / 4) { // 旋转角度在0°~45°/315°~360°之间
             angle = 0;
-            height = originalSize.height;
-            width = originalSize.width;
-            selfSize = originalSize;
         } else if (angle < M_PI * 3 / 4) { // 旋转角度在45°~135°之间
             angle = M_PI_2;
         } else if (angle < M_PI * 5 / 4) { // 旋转角度在135°~225°之间
             angle = M_PI;
-            height = originalSize.height;
-            width = originalSize.width;
-            selfSize = originalSize;
         } else if (angle < M_PI * 7 / 4) { // 旋转角度在225°~315°之间
             angle = M_PI_2 * 3 ;
         }
         
         [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            if (contentScrollView.transform.b) {
-                
-            }
+            
             contentScrollView.transform = CGAffineTransformMakeRotation(angle * factor);
+            CGFloat lastAngle = acos(contentScrollView.transform.a);
+            // 判断最终旋转角度
+            if (lastAngle == 0 || lastAngle == M_PI || lastAngle == M_PI * 2) { // 旋转角为PI的倍数
+                height = originalSize.height > PYScreenH ? PYScreenH : originalSize.height;
+                width = originalSize.width;
+                selfSize = originalSize;
+            }
             contentScrollView.backgroundColor = [UIColor greenColor];
             contentScrollView.size = CGSizeMake(width, height);
             self.size = selfSize;
+            contentScrollView.contentSize = self.size;
             contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
-            NSLog(@"%@ --- %f--%f", NSStringFromCGRect(self.frame), contentScrollView.width, contentScrollView.transform.b);
-            
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:nil];
     }
     // 复位（如果不复位，会导致乱转）
     rotation.rotation = 0;
@@ -269,7 +262,19 @@ static CGSize originalSize;
         // 判断是否缩小
         UIWindow *lastWindow = [[UIApplication sharedApplication].windows lastObject];
         CGFloat scale = 1;
-        if (self.width < lastWindow.width) { // 缩小了
+        // 获取旋转角
+        CGFloat lastAngle = acos(self.photoCell.contentScrollView.transform.a);
+        
+        if (self.height < PYScreenW && self.width < PYScreenH && (lastAngle == M_PI_2 || lastAngle == M_PI_2)) { // 缩小了(旋转90°或者270°时)
+            // 恢复
+            [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                self.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                // 恢复锚点
+                [self setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+                return ;
+            }];
+        } else if (self.width < lastWindow.width) { // 缩小了(旋转0°、180°、360°)
             // 放大
             scale = lastWindow.width / self.width;
         } else { // 放大了
@@ -311,8 +316,30 @@ static CGSize originalSize;
 - (void)imageDidDoubleClicked:(UITapGestureRecognizer *)singleTap
 {
     // 修改锚点
-    [self setAnchorPointBaseOnGestureRecognizer:singleTap];
-    if (self.size.width <= PYScreenW) { // 没放大
+    CGPoint anchorPoint = [self setAnchorPointBaseOnGestureRecognizer:singleTap];
+    
+    // 获取旋转角
+    CGFloat b = self.photoCell.contentScrollView.transform.b;
+    CGFloat a = self.photoCell.contentScrollView.transform.a;
+    // 点击的view为PYPhotoCell且scrollView旋转就要修改锚点
+    if ([singleTap.view isKindOfClass:[PYPhotoCell class]]) {
+        // 修改锚点
+        if (b == 1) { // 旋转角为90°
+            anchorPoint = CGPointMake(anchorPoint.y * b, 1 - anchorPoint.x * b);
+        } else if (b == -1) { // 旋转角为270°
+            anchorPoint = CGPointMake(1 - anchorPoint.y * -b,  anchorPoint.x * -b);
+        } else if (a == -1) { // 旋转角为180°
+            anchorPoint = CGPointMake(1 - anchorPoint.x, 1 - anchorPoint.y);
+        }
+        // 重新设置锚点
+        [self setAnchorPoint:anchorPoint forView:self];
+    }
+   
+    
+    NSLog(@"%@", NSStringFromCGPoint(anchorPoint));
+    
+
+    if ((self.height <= PYScreenW && self.width <= PYScreenH && ABS(b)) || self.size.width <= PYScreenW) { // 没放大
         [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{ // 双击放大两倍
             CGFloat scale = PYPreviewPhotoMaxScale;
             // 恢复siz
@@ -391,6 +418,8 @@ static CGSize originalSize;
         self.progressView.hidden = YES;
         // 允许手势
         [self addGestureRecognizers];
+        // 记录原始大小
+        self.photo.originalSize = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
     }];
 }
 
@@ -398,14 +427,17 @@ static CGSize originalSize;
 {
     [super layoutSubviews];
     
+    UIScrollView *contentScrollView = self.photoCell.contentScrollView;
+
+    // 判断最终旋转角度如果为270、90
+    if (ABS(contentScrollView.transform.b) == 1) return;
+    
     CGFloat width = PYScreenW;
     CGFloat height =  width * self.image.size.height / self.image.size.width;
-    
     if (self.isBig) { // 预览状态
         if (height > PYScreenH) { // 长图
-            UIScrollView *contentScreollView = self.photoCell.contentScrollView;
-            contentScreollView.contentSize = CGSizeMake(width, height);
-            contentScreollView.frame = [UIScreen mainScreen].bounds;
+            contentScrollView.contentSize = CGSizeMake(width, height);
+            contentScrollView.frame = [UIScreen mainScreen].bounds;
         } else {
             self.photoCell.contentScrollView.contentSize = self.size;
         }
@@ -422,6 +454,7 @@ static CGSize originalSize;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
     
     if (((self.photoCell.x >= scrollView.contentOffset.x + scrollView.width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.width >= PYScreenW || self.photoCell.contentScrollView.transform.a)) { // 不在屏幕上并且有缩放或者旋转，就要初始化
+        self.photo.progress = 0.0;
         self.transform = CGAffineTransformIdentity;
         self.height = PYScreenW * self.height / self.width;
         self.width = PYScreenW;

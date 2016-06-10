@@ -21,4 +21,7 @@
 /** 图片加载进度 */
 @property (nonatomic, assign) CGFloat progress;
 
+/** 记录旋转前的大小（只记录最开始的大小） */
+@property (nonatomic, assign) CGSize originalSize;
+
 @end
