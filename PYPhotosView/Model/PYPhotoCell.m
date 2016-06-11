@@ -26,7 +26,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         // 创建contentScrollView
-        UIScrollView *contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
+        PYPhotoCellContentScrollView *contentScrollView = [[PYPhotoCellContentScrollView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
         // 水平不允许有弹簧效果
 //        contentScrollView.alwaysBounceHorizontal = NO;
         // 取消滑动指示器
