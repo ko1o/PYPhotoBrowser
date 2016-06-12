@@ -24,6 +24,7 @@
 // 屏幕宽高
 #define PYScreenW [UIScreen mainScreen].bounds.size.width
 #define PYScreenH [UIScreen mainScreen].bounds.size.height
+#define PYScreenSize [UIScreen mainScreen].bounds.size
 
 // 获取当前控制器
 #define PYCurrentController [[UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers lastObject]

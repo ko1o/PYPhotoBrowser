@@ -132,7 +132,7 @@
     
     // 创建锚点
     CGPoint anchorPoint;
-    if ([gr isKindOfClass:[UIPinchGestureRecognizer class]]) { // 捏合手势
+    if ([gr isKindOfClass:[UIPinchGestureRecognizer class]] || [gr isKindOfClass:[UIRotationGestureRecognizer class]]) { // 捏合手势
         // 当触摸开始时，获取两个触摸点
         CGPoint point1 = [gr locationOfTouch:0 inView:gr.view];
         CGPoint point2 = [gr locationOfTouch:1 inView:gr.view];

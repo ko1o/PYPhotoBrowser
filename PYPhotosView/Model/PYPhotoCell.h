@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PYPhotoCellContentScrollView.h"
 @class PYPhoto,PYPhotoView,PYPhotosView;
 
 @interface PYPhotoCell : UICollectionViewCell
@@ -24,7 +23,7 @@
 @property (nonatomic, weak) UICollectionView *collectionView;
 
 /** 放在最底下的contentScrollView(所有子控件都添加在这里) */
-@property (nonatomic, weak) PYPhotoCellContentScrollView *contentScrollView;
+@property (nonatomic, weak) UIScrollView *contentScrollView;
 
 /** 快速创建PYPhotoCell的方法 */
 + (instancetype)cellWithCollectionView:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath;
