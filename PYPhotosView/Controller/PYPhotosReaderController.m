@@ -157,6 +157,8 @@
     
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
+        // 恢复矩阵变换
+        self.beginView.transform = CGAffineTransformIdentity;
         // 还原图片
         self.collectionView.alpha = 0.0;
         self.beginView.frame = beginFrame;

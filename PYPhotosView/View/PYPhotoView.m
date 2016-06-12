@@ -237,7 +237,6 @@ static CGSize originalSize;
     contentScrollView.contentOffset = CGPointZero;
     contentScrollView.contentInset = UIEdgeInsetsZero;
     contentScrollView.frame = [UIScreen mainScreen].bounds;
-    contentScrollView.backgroundColor = [UIColor greenColor];
     self.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
     
     // 计算旋转角度
