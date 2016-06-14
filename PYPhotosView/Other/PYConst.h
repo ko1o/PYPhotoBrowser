@@ -13,6 +13,7 @@
 #define PYPreviewPhotoMaxScale 2   // 预览图片时，图片最大放大倍数
 
 #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
+#define PYLoadFailureImage [UIImage imageNamed:@"PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
 
 
 /** ---------------建议不修改的宏定义------------- */

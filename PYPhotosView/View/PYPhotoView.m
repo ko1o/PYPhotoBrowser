@@ -45,6 +45,10 @@
 
 /** 判断是否是旋转手势 */
 @property (nonatomic, assign, getter=isRotationGesture) BOOL rotationGesture;
+
+/** 加载失败显示图片 */
+@property (nonatomic, weak) UIImageView *loadFailureView;
+
 @end
 
 @implementation PYPhotoView
@@ -70,6 +74,13 @@
         progressView.hidden = YES;
         [self addSubview:progressView];
         self.progressView = progressView;
+        
+        // 添加加载失败
+        UIImageView *loadFailureView = [[UIImageView alloc] initWithFrame:progressView.frame];
+        loadFailureView.image = PYLoadFailureImage;
+        loadFailureView.hidden = YES;
+        [self addSubview:loadFailureView];
+        self.loadFailureView = loadFailureView;
         
         // 设置原始锚点
         self.originAnchorPoint = self.layer.anchorPoint;
@@ -112,6 +123,7 @@
     
 }
 
+// 添加指定的手势
 - (void)addGestureRecognizers
 {
     // photoCell添加双击手势
@@ -141,6 +153,23 @@
         [self addGestureRecognizer:doubleTap];
         // 单击双击共存时，避免双击失效
         [self.singleTap requireGestureRecognizerToFail:doubleTap];
+    }
+}
+
+// 移除指定的手势
+- (void)removeGestureRecognizers
+{
+    // 删除photoCell的除单击以外的手势
+    for (UIGestureRecognizer *gr in self.photoCell.gestureRecognizers) {
+        if (!([gr isKindOfClass:[UITapGestureRecognizer class]] && ((UITapGestureRecognizer *)gr).numberOfTapsRequired == 1)) { // 只要不是单击手势，都移除
+            [self.photoCell removeGestureRecognizer:gr];
+        }
+    }
+    // 移除photoView的双击手势
+    for (UIGestureRecognizer *gr in self.gestureRecognizers) {
+        if ([gr isKindOfClass:[UITapGestureRecognizer class]] && ((UITapGestureRecognizer *)gr).numberOfTapsRequired == 2) { // 双击手势移除
+            [self removeGestureRecognizer:gr];
+        }
     }
 }
 
@@ -185,6 +214,7 @@
     self.photoCell.contentScrollView.size = self.size;
     self.photoCell.contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
     self.progressView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
+    self.loadFailureView.center = self.progressView.center;
     
 }
 
@@ -426,27 +456,43 @@ static CGSize originalSize;
 - (void)setPhoto:(PYPhoto *)photo
 {
     _photo = photo;
+    
     // 判断是否隐藏加载进度
     self.progressView.hidden = !self.isBig;
     
+    // 移除手势
+    [self removeGestureRecognizers];
+    
     // 设置已经加载的进度
-    [self.progressView setProgress:photo.progress animated:NO];
+    [self.progressView setProgress:self.photo.progress animated:NO];
+    
      NSURL *url = [NSURL URLWithString:photo.thumbnail_pic];
     [self sd_setImageWithURL:url placeholderImage:PYPlaceholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        // 获取图片链接
+        NSString *imageUrl = [[self sd_imageURL] absoluteString];
         for (PYPhoto *photo in self.photos) {
-            if ([photo.thumbnail_pic isEqualToString:[[self sd_imageURL] absoluteString]]) { // 找到模型
+            if ([photo.thumbnail_pic isEqualToString:imageUrl]) { // 找到模型,设置下载进度
                 photo.progress = 1.0 * receivedSize / expectedSize;
             }
         }
-        [self.progressView setProgress:self.photo.progress animated:YES];
+        if ([imageUrl isEqualToString:self.photo.thumbnail_pic]) { // 图片为当前PYPhotoView的图片
+            [self.progressView setProgress:self.photo.progress animated:YES];
+        }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         self.progressView.hidden = YES;
-        // 允许手势
-        [self addGestureRecognizers];
-        // 记录原始大小
-        self.photo.originalSize = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
         
-        self.photo.verticalWidth = self.photo.originalSize.width;
+        if (image && [[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic]) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
+            
+            // 允许手势
+            [self addGestureRecognizers];
+            
+            // 记录原始大小
+            self.photo.originalSize = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
+            // 记录未旋转的宽度或者旋转完成时的宽度
+            self.photo.verticalWidth = self.photo.originalSize.width;
+        }
+        // 图片加载失败
+        if (!image) self.loadFailureView.hidden = NO;
     }];
 }
 
