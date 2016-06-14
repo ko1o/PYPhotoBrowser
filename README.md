@@ -4,6 +4,8 @@
 
 ## Contents
 * Getting Started
+  * [Renderings【效果图】](#效果图)
+  * [Layouts【支持哪些布局】](#支持哪些布局)
   * [Gestures【支持哪些手势】](#支持哪些手势)
   * [What place will use this framework【什么地方用到这个框架】](#什么地方用到这个框架啊啊)
   * [Classes【PYPhotosView框架的主要类】](#PYPhotosView框架的主要类)
@@ -14,6 +16,14 @@
   * [Custom【自定义photosView】](#自定义photosView)
   
 * [期待](#期待什么)
+
+## <a id="效果图"></a>效果图(流水布局)
+
+![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.gif)
+
+
+## <a id="支持哪些布局"></a>支持哪些布局
+- `流水布局` 、 `线性布局`
 
 ## <a id="支持哪些手势"></a>支持哪些手势
 - `单击` 、`双击` 、`捏合` 、`旋转`、`拖拽`、`侧滑`
