@@ -228,12 +228,9 @@
         // 修改锚点
         if (ABS(angle - M_PI_2) <= 0.01) { // 旋转角为90°
             anchorPoint = CGPointMake(anchorPoint.y , 1 - anchorPoint.x);
-            NSLog(@"旋转角为 90°");
         } else if (ABS(angle - M_PI_2 * 3) <= 0.01) { // 旋转角为270°
-            NSLog(@"旋转270°");
             anchorPoint = CGPointMake(1 - anchorPoint.y,  anchorPoint.x);
         } else if (ABS(angle - M_PI) <= 0.01) { // 旋转角为180°
-            NSLog(@"旋转角为180°");
             anchorPoint = CGPointMake(1 - anchorPoint.x, 1 - anchorPoint.y);
         }
         // 重新设置锚点
@@ -420,7 +417,6 @@ static CGSize originalSize;
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
         if (!self.isBig) { // 放大
             // 遍历所有photoFrame记录原始frame
@@ -429,24 +425,24 @@ static CGSize originalSize;
             }
             // 发出通知
             userInfo[PYBigImageDidClikedNotification] = self;
-            NSNotification *notification = [[NSNotification alloc] initWithName:PYBigImageDidClikedNotification object:sender userInfo:userInfo];
+            NSNotification *notification = [[NSNotification alloc] initWithName:PYBigImageDidClikedNotification object:self.photosView userInfo:userInfo];
             [center postNotification:notification];
         } else { // 缩小
             // 移除进度条
             [self.progressView removeFromSuperview];
             // 不可以双击
             userInfo[PYSmallgImageDidClikedNotification] = self;
-            NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:sender userInfo:userInfo];
+            NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:self.photosView userInfo:userInfo];
             [center postNotification:notification];
         }
     } else if (self.photosView.photosState == PYPhotosViewStateWillCompose) { // 未发布
         if (self.isPreview) { // 正在预览
-                NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:sender userInfo:userInfo];
+                NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:self.photosView userInfo:userInfo];
                 [center postNotification:notifaction];
         } else { // 将要预览
             // 进入预览界面
             userInfo[PYPreviewImagesDidChangedNotification] = self;
-            NSNotification *notifaction = [[NSNotification alloc] initWithName:PYPreviewImagesDidChangedNotification object:sender userInfo:userInfo];
+            NSNotification *notifaction = [[NSNotification alloc] initWithName:PYPreviewImagesDidChangedNotification object:self.photosView userInfo:userInfo];
             [center postNotification:notifaction];
         }
     }
@@ -480,19 +476,16 @@ static CGSize originalSize;
         }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         self.progressView.hidden = YES;
-        
         if (image && [[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic]) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
-            
             // 允许手势
             [self addGestureRecognizers];
-            
             // 记录原始大小
             self.photo.originalSize = CGSizeMake(PYScreenW, PYScreenW * image.size.height / image.size.width);
             // 记录未旋转的宽度或者旋转完成时的宽度
             self.photo.verticalWidth = self.photo.originalSize.width;
         }
-        // 图片加载失败
-        if (!image) self.loadFailureView.hidden = NO;
+        // 图片加载失败(是否隐藏)
+        self.loadFailureView.hidden = image;
     }];
 }
 

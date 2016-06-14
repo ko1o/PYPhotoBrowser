@@ -143,6 +143,7 @@
     
     // 移除前一个view
     [self.beginView removeFromSuperview];
+    
     if (self.selectedPhotoView.windowView) { // 如果有windowView,证明图片滚动了，需要移除刚开始的beginView
         // 添加当前windowView
         self.beginView = self.selectedPhotoView.windowView;

@@ -83,6 +83,7 @@
     lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上
     [self.photosReader showPhotosToWindow:lastWindow];
+    
 }
 
 // 还原

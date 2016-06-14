@@ -26,7 +26,7 @@
     NSMutableArray *imageUrls = [NSMutableArray array];
 
     // 添加图片链接
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 8; i++) {
         // 图片链接
         NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg", i + 1];
         // 添加图片链接到数组中
@@ -35,14 +35,20 @@
     // 添加动态图
     [imageUrls addObject:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image10.gif"];
     
-    // 2.1 创建一个photosView
-    PYPhotosView *photosView = [PYPhotosView photosView:imageUrls];
+    // 2.1 创建一个流水布局photosView
+    PYPhotosView *flowPhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeFlow];
+    flowPhotosView.centerX = self.view.centerX;
+    flowPhotosView.y = 50;
     
-    // 2.2 设置居中
-    photosView.center = self.view.center;
+    // 2.2 创建一个线性布局photosView
+    PYPhotosView *linePhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeLine];
+    linePhotosView.x = PYMargin;
+    linePhotosView.width = self.view.width - 2 * PYMargin;
+    linePhotosView.y = CGRectGetMaxY(flowPhotosView.frame) + 4 * PYMargin;
     
     // 3. 添加photosView
-    [self.view addSubview:photosView];
+    [self.view addSubview:flowPhotosView];
+    [self.view addSubview:linePhotosView];
 }
 
 @end

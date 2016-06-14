@@ -7,7 +7,10 @@
 //  处理photosView事件的控制器
 
 #import <UIKit/UIKit.h>
+@class PYPhotosView;
 
 @interface PYPhotosViewController : UIViewController
+
+@property (nonatomic, weak) PYPhotosView *photosView;
 
 @end
