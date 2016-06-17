@@ -147,7 +147,7 @@ static PYPhotosViewController *_handleController;
     self.contentSize = size;
     
     CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
-    self.size = CGSizeMake(width, size.height);
+    self.py_size = CGSizeMake(width, size.height);
 }
 
 - (void)setImages:(NSMutableArray *)images
@@ -197,7 +197,7 @@ static PYPhotosViewController *_handleController;
     // 记录x值
     self.originalX = x;
     CGFloat width = CGRectGetMaxX(self.frame) > PYScreenW ? PYScreenW - self.originalX : self.frame.size.width;
-    self.size = CGSizeMake(width, self.size.height);
+    self.py_size = CGSizeMake(width, self.py_height);
 }
 
 /** 点击添加图片调用此方法 */
@@ -260,17 +260,17 @@ static PYPhotosViewController *_handleController;
         NSInteger col = i % maxCol;
         NSInteger row = i / maxCol;
         
-        photoView.y = row * (self.photoHeight + self.photoMargin);
-        photoView.x = col * (self.photoWidth + self.photoMargin);
-        photoView.width = self.photoWidth;
-        photoView.height = self.photoHeight;
+        photoView.py_y = row * (self.photoHeight + self.photoMargin);
+        photoView.py_x = col * (self.photoWidth + self.photoMargin);
+        photoView.py_width = self.photoWidth;
+        photoView.py_height = self.photoHeight;
     }
     if (self.images.count < PYImageCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
         [self addSubview:self.addImageButton];
-        self.addImageButton.y = (self.images.count / 4) * (self.photoHeight + self.photoMargin);
-        self.addImageButton.x = (self.images.count % 4) * (self.photoWidth + self.photoMargin);
-        self.addImageButton.width = self.photoWidth;
-        self.addImageButton.height = self.photoHeight;
+        self.addImageButton.py_y = (self.images.count / 4) * (self.photoHeight + self.photoMargin);
+        self.addImageButton.py_x = (self.images.count % 4) * (self.photoWidth + self.photoMargin);
+        self.addImageButton.py_width = self.photoWidth;
+        self.addImageButton.py_height = self.photoHeight;
     }
 }
 

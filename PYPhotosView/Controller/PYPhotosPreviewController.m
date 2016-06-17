@@ -49,7 +49,7 @@
     [super viewDidLayoutSubviews];
     
     if (self.isFirst) {
-         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, 0);
+         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
         self.isFirst = NO;
     }
 }
@@ -72,15 +72,15 @@
 
 - (void)changeNavBarState
 {
-    if(self.navigationController.navigationBar.y < 0){ // 隐藏
+    if(self.navigationController.navigationBar.py_y < 0){ // 隐藏
         [UIView animateWithDuration:0.5 animations:^{
 //            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.py_y = [UIApplication sharedApplication].statusBarFrame.size.height;
         }];
     }else{
         [UIView animateWithDuration:0.5 animations:^{
 //            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.y = - self.navigationController.navigationBar.height;
+            self.navigationController.navigationBar.py_y = - self.navigationController.navigationBar.py_height;
         }];
     }
 }
@@ -107,7 +107,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            NSInteger page = self.collectionView.contentOffset.x / self.collectionView.width + 0.5;
+            NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
             NSLog(@"-----page--%zd",page);
             // 取出可见cell
             // 判断即将显示哪一张
@@ -121,7 +121,7 @@
             [currentCell removeFromSuperview];
             
             // 往前移一张
-            self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x - self.collectionView.width, 0);
+            self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x - self.collectionView.py_width, 0);
             
             // 刷新cell
             [self.collectionView reloadData];
@@ -163,7 +163,7 @@
     
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x < 0) return;
     // 计算页数
-    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.width + 0.5;
+    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
     self.selectedPhotoView = photosView.subviews[page];
@@ -177,15 +177,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(self.navigationController.navigationBar.y < 0){ // 隐藏
+    if(self.navigationController.navigationBar.py_y < 0){ // 隐藏
         [UIView animateWithDuration:0.5 animations:^{
             //            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.py_y = [UIApplication sharedApplication].statusBarFrame.size.height;
         }];
     }else{
         [UIView animateWithDuration:0.5 animations:^{
             //            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.y = - self.navigationController.navigationBar.height;
+            self.navigationController.navigationBar.py_y = - self.navigationController.navigationBar.py_height;
         }];
     }
 }

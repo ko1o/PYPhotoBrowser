@@ -69,19 +69,19 @@
         height = PYScreenW * self.photo.originalSize.width / self.photo.originalSize.height > PYScreenH ? PYScreenH : PYScreenW * self.photo.originalSize.width / self.photo.originalSize.height;
         width = PYScreenW;
     }
-    self.photoView.size = CGSizeMake(self.width, self.width * imageSize.height / imageSize.width);
-    if (self.width > self.height) { // 横屏
-        self.photoView.size = CGSizeMake(height, width);
+    self.photoView.py_size = CGSizeMake(self.py_width, self.py_width * imageSize.height / imageSize.width);
+    if (self.py_width > self.py_height) { // 横屏
+        self.photoView.py_size = CGSizeMake(height, width);
     }
     
-    self.photo.originalSize = self.photoView.size;
+    self.photo.originalSize = self.photoView.py_size;
     self.photo.verticalWidth = self.photo.originalSize.width;
     
     // 放大图片
     // 设置scrollView的大小
-    self.contentScrollView.size = self.photoView.size;
-    self.contentScrollView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
-    self.photoView.center = CGPointMake(self.contentScrollView.width * 0.5, self.contentScrollView.height * 0.5);
+    self.contentScrollView.py_size = self.photoView.py_size;
+    self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+    self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
 //    self.contentScrollView.backgroundColor = [UIColor greenColor];
 //    self.backgroundColor = [UIColor yellowColor];
 }
@@ -96,12 +96,12 @@
     // 取出图片大小
     CGSize imageSize = self.photoView.image.size;
     // 放大图片
-    self.photoView.width = self.width;
-    self.photoView.height = self.width * imageSize.height / imageSize.width;
-    self.photoView.center = CGPointMake(self.photoView.width * 0.5, self.photoView.height * 0.5);
+    self.photoView.py_width = self.py_width;
+    self.photoView.py_height = self.py_width * imageSize.height / imageSize.width;
+    self.photoView.center = CGPointMake(self.photoView.py_width * 0.5, self.photoView.py_height * 0.5);
     // 设置scrollView的大小
-    self.contentScrollView.size = self.photoView.size;
-    self.contentScrollView.center = CGPointMake(self.width * 0.5, self.height * 0.5);
+    self.contentScrollView.py_size = self.photoView.py_size;
+    self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
 static NSString * const reuseIdentifier = @"Cell";
@@ -110,7 +110,7 @@ static NSString * const reuseIdentifier = @"Cell";
 + (instancetype)cellWithCollectionView:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath
 {
     PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.size = CGSizeMake(collectionView.width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.height);
+    cell.py_size = CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.py_height);
     
     cell.collectionView = collectionView;
     return cell;

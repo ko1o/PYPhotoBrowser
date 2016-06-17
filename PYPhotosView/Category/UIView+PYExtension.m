@@ -10,107 +10,105 @@
 
 @implementation UIView (PYExtension)
 
-- (void)setX:(CGFloat)x
+- (void)setPy_x:(CGFloat)py_x
 {
     CGRect frame = self.frame;
-    frame.origin.x = x;
+    frame.origin.x = py_x;
     self.frame = frame;
 }
 
-- (CGFloat)x
+- (CGFloat)py_x
 {
-    return self.origin.x;
+    return self.py_origin.x;
 }
 
-- (void)setCenterX:(CGFloat)centerX
+- (void)setPy_centerX:(CGFloat)py_centerX
 {
     CGPoint center = self.center;
-    center.x = centerX;
+    center.x = py_centerX;
     self.center = center;
 }
 
-- (CGFloat)centerX
+- (CGFloat)py_centerX
 {
     return self.center.x;
 }
 
-- (void)setCenterY:(CGFloat)centerY
+-(void)setPy_centerY:(CGFloat)py_centerY
 {
     CGPoint center = self.center;
-    center.y = centerY;
+    center.y = py_centerY;
     self.center = center;
 }
 
-- (CGFloat)centerY
+- (CGFloat)py_centerY
 {
     return self.center.y;
 }
 
-- (void)setY:(CGFloat)y
+- (void)setPy_y:(CGFloat)py_y
 {
     CGRect frame = self.frame;
-    frame.origin.y = y;
+    frame.origin.y = py_y;
     self.frame = frame;
 }
 
-- (CGFloat)y
+- (CGFloat)py_y
 {
     return self.frame.origin.y;
 }
 
-- (void)setSize:(CGSize)size
+- (void)setPy_size:(CGSize)py_size
 {
     CGRect frame = self.frame;
-    frame.size = size;
+    frame.size = py_size;
     self.frame = frame;
 
 }
 
-- (CGSize)size
+- (CGSize)py_size
 {
     return self.frame.size;
 }
 
-- (void)setHeight:(CGFloat)height
+- (void)setPy_height:(CGFloat)py_height
 {
     CGRect frame = self.frame;
-    frame.size.height = height;
+    frame.size.height = py_height;
     self.frame = frame;
 }
 
-- (CGFloat)height
+- (CGFloat)py_height
 {
     return self.frame.size.height;
-
 }
 
-
-- (void)setWidth:(CGFloat)width
+- (void)setPy_width:(CGFloat)py_width
 {
     CGRect frame = self.frame;
-    frame.size.width = width;
+    frame.size.width = py_width;
     self.frame = frame;
 
 }
-- (CGFloat)width
+- (CGFloat)py_width
 {
     return self.frame.size.width;
 }
 
-- (void)setOrigin:(CGPoint)origin
+- (void)setPy_origin:(CGPoint)py_origin
 {
     CGRect frame = self.frame;
-    frame.origin = origin;
+    frame.origin = py_origin;
     self.frame = frame;
 }
 
-- (CGPoint)origin
+- (CGPoint)py_origin
 {
     return self.frame.origin;
 }
 
 /** 设置锚点 */
-- (CGPoint)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
+- (CGPoint)py_setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
 {
     CGPoint oldOrigin = view.frame.origin;
     view.layer.anchorPoint = anchorPoint;
@@ -125,7 +123,7 @@
 }
 
 /** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
-- (CGPoint)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
+- (CGPoint)py_setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
 {
     // 手势为空 直接返回
     if (!gr) return CGPointMake(0.5, 0.5);
@@ -137,8 +135,8 @@
             // 当触摸开始时，获取两个触摸点
             CGPoint point1 = [gr locationOfTouch:0 inView:gr.view];
             CGPoint point2 = [gr locationOfTouch:1 inView:gr.view];
-            anchorPoint.x = (point1.x + point2.x) / 2 / gr.view.width;
-            anchorPoint.y = (point1.y + point2.y) / 2 / gr.view.height;
+            anchorPoint.x = (point1.x + point2.x) / 2 / gr.view.py_width;
+            anchorPoint.y = (point1.y + point2.y) / 2 / gr.view.py_height;
         }
     } else if ([gr isKindOfClass:[UITapGestureRecognizer class]]) { // 点击手势
         // 获取触摸点
@@ -146,18 +144,18 @@
         
         CGFloat angle = acosf(gr.view.transform.a);
         if (ABS(asinf(gr.view.transform.b) + M_PI_2) < 0.01) angle += M_PI;
-        CGFloat width = gr.view.width;
-        CGFloat height = gr.view.height;
+        CGFloat width = gr.view.py_width;
+        CGFloat height = gr.view.py_height;
         if (ABS(angle - M_PI_2) <= 0.01 || ABS(angle - M_PI_2 * 3) <= 0.01) { // 旋转角为90°
             // width 和 height 对换
-            width = gr.view.height;
-            height = gr.view.width;
+            width = gr.view.py_height;
+            height = gr.view.py_width;
         }
         // 如果旋转了
         anchorPoint.x = point.x / width;
         anchorPoint.y = point.y / height;
     };
-    return [self setAnchorPoint:anchorPoint forView:self];
+    return [self py_setAnchorPoint:anchorPoint forView:self];
 }
 
 @end

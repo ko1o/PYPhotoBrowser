@@ -37,14 +37,14 @@
     
     // 2.1 创建一个流水布局photosView
     PYPhotosView *flowPhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeFlow];
-    flowPhotosView.centerX = self.view.centerX;
-    flowPhotosView.y = 50;
+    flowPhotosView.py_centerX = self.view.py_centerX;
+    flowPhotosView.py_y = 50;
     
     // 2.2 创建一个线性布局photosView
     PYPhotosView *linePhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeLine];
-    linePhotosView.x = PYMargin;
-    linePhotosView.width = self.view.width - 2 * PYMargin;
-    linePhotosView.y = CGRectGetMaxY(flowPhotosView.frame) + 4 * PYMargin;
+    linePhotosView.py_x = PYMargin;
+    linePhotosView.py_width = self.view.py_width - 2 * PYMargin;
+    linePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 4 * PYMargin;
     
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];

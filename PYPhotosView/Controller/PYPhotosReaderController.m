@@ -39,8 +39,8 @@
 {
     if (!_pageControl) {
         _pageControl = [[UIPageControl alloc] init];
-        _pageControl.width = self.view.width;
-        _pageControl.y = self.view.height - 44;
+        _pageControl.py_width = self.view.py_width;
+        _pageControl.py_y = self.view.py_height - 44;
         [self.view addSubview:_pageControl];
     }
     return _pageControl;
@@ -60,11 +60,11 @@
     [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
     // 支持分页
     self.collectionView.pagingEnabled = YES;
-    self.collectionView.size = CGSizeMake(self.view.width, self.view.height);
+    self.collectionView.py_size = CGSizeMake(self.view.py_width, self.view.py_height);
     // 设置collectionView的width
     // 获取行间距
     CGFloat lineSpacing = ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
-    self.collectionView.width += lineSpacing;
+    self.collectionView.py_width += lineSpacing;
     // 设置collectionView的contenInset,增加范围
     if (PYIOS8) { // iOS8 会有预留20状态栏
         self.collectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, lineSpacing);
@@ -72,7 +72,7 @@
         self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, lineSpacing);
     }
     // 设置当前页面
-    self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, self.collectionView.height);
+    self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, self.collectionView.py_height);
     // 取消水平滚动条
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
@@ -119,8 +119,8 @@
     self.collectionView.alpha = 0.0;
     [UIView animateWithDuration:0.5 animations:^{
         // 放大图片
-        copyView.width = self.collectionView.width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
-        copyView.height = PYScreenW * imageSize.height / imageSize.width;
+        copyView.py_width = self.collectionView.py_width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
+        copyView.py_height = PYScreenW * imageSize.height / imageSize.width;
         copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
@@ -232,15 +232,15 @@
         self.selectedPhotoView.windowView.hidden = NO;
         // 旋转过程中不允许交互
         self.window.userInteractionEnabled = NO;
-        self.window.width = PYScreenW;
-        self.window.height = PYScreenH;
+        self.window.py_width = PYScreenW;
+        self.window.py_height = PYScreenH;
         self.window.center = CGPointMake(PYScreenW * 0.5 , PYScreenH * 0.5);
-        self.pageControl.centerX = width * 0.5;
-        self.pageControl.y = height - 30;
+        self.pageControl.py_centerX = width * 0.5;
+        self.pageControl.py_y = height - 30;
         // 刷新数据
         [self.collectionView reloadData];
         // 设置当前页面
-        self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, 0);
+        self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
     } completion:^(BOOL finished) {
         self.window.userInteractionEnabled = YES;
         tempWindow.hidden = YES;
@@ -284,7 +284,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0) return;
     
     // 计算页数
-    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.width + 0.5;
+    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
     self.pageControl.currentPage = page;
     
     // 取出photosView
@@ -301,7 +301,7 @@ static NSString * const reuseIdentifier = @"Cell";
 // 设置每个item的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(collectionView.width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.height);
+    return CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.py_height);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
