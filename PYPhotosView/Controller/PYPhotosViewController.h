@@ -11,6 +11,4 @@
 
 @interface PYPhotosViewController : UIViewController
 
-@property (nonatomic, weak) PYPhotosView *photosView;
-
 @end

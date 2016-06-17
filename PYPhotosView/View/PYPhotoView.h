@@ -42,4 +42,5 @@
 @property (nonatomic, assign) BOOL isPreview;
 
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch;
+
 @end

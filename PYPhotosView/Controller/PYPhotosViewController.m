@@ -35,10 +35,6 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 // 初始化
 - (void)setUp
 {
@@ -54,6 +50,8 @@
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+#pragma mark - 处理图片时间
 
 // 图片单击
 - (void)imagePageDidChanged:(NSNotification *)notification
@@ -73,8 +71,6 @@
     // 创建图片浏览器
     PYPhotosReaderController *photosReader = [PYPhotosReaderController readerController];
     photosReader.selectedPhotoView = photoView;
-    // 成为子控制器
-    [PYCurrentController addChildViewController:photosReader];
     self.photosReader = photosReader;
     
     // 打开一个新的窗口
@@ -83,7 +79,6 @@
     lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上
     [self.photosReader showPhotosToWindow:lastWindow];
-    
 }
 
 // 还原

@@ -27,6 +27,9 @@
 /** 存储indexPaths的数组 */
 @property (nonatomic, strong) NSMutableArray *indexPaths;
 
+/** 记录当前屏幕状态 */
+@property (nonatomic, assign) UIDeviceOrientation orientation;
+
 @end
 
 @implementation PYPhotosReaderController
@@ -57,7 +60,7 @@
     [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
     // 支持分页
     self.collectionView.pagingEnabled = YES;
-    self.collectionView.size = CGSizeMake(PYScreenW, PYScreenH);
+    self.collectionView.size = CGSizeMake(self.view.width, self.view.height);
     // 设置collectionView的width
     // 获取行间距
     CGFloat lineSpacing = ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
@@ -89,6 +92,9 @@
 // 呈现在某一个window上
 - (void)showPhotosToWindow:(UIWindow *)window
 {
+    // 监听屏幕旋转通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];;
+    
     // 显示窗口
     window.hidden = NO;
     window.backgroundColor = [UIColor blackColor];
@@ -119,12 +125,12 @@
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
         window.backgroundColor = [UIColor clearColor];
+        // 设置选中的windowView
+        self.selectedPhotoView.windowView = copyView;
         // 隐藏
         copyView.hidden = YES;
         [window addSubview:self.collectionView];
         [window addSubview:self.pageControl];
-        // 设置选中的windowView
-        self.selectedPhotoView.windowView = copyView;
     }];
     
     // 显示pageControll
@@ -134,6 +140,9 @@
 // 隐藏图片
 - (void)hiddenPhoto
 {
+    // 移除屏幕旋转通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     // 隐藏pageControll
     self.pageControl.hidden = YES;
     self.beginView.hidden = NO;
@@ -169,7 +178,73 @@
         // 移除窗口
         self.window.hidden = YES;
     }];
+}
+
+// 监听屏幕旋转
+- (void)deviceOrientationDidChange
+{
+    // 获取当前设备
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    // 设备方向位置，面朝上，面朝下
+    if (currentDevice.orientation == UIDeviceOrientationUnknown ||
+        currentDevice.orientation == UIDeviceOrientationFaceUp ||
+        currentDevice.orientation == UIDeviceOrientationFaceDown ||
+        currentDevice.orientation == self.orientation) return;
     
+    // 获取旋转角度
+    CGFloat rotateAngle = 0;
+    CGFloat width = PYScreenW;
+    CGFloat height = PYScreenH;
+    self.orientation = currentDevice.orientation;
+    switch (currentDevice.orientation) { // 正常竖屏状态
+        case UIDeviceOrientationPortraitUpsideDown:
+            NSLog(@"倒屏");
+            rotateAngle = M_PI;
+            break;
+        case UIDeviceOrientationPortrait:
+            NSLog(@"正常竖屏");
+            rotateAngle = 0;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            NSLog(@"横屏向左");
+            rotateAngle = M_PI_2;
+            width = PYScreenH;
+            height= PYScreenW;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            NSLog(@"横屏向右");
+            rotateAngle = -M_PI_2;
+            width = PYScreenH;
+            height= PYScreenW;
+            break;
+        default:
+            break;
+    }
+    
+    // 判断即将显示哪一张
+    // 执行旋转动画
+    __block UIWindow *tempWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    tempWindow.windowLevel = UIWindowLevelStatusBar;
+    tempWindow.backgroundColor = [UIColor blackColor];
+    [UIView animateWithDuration:0.5 animations:^{
+        tempWindow.hidden = NO;
+        self.window.transform = CGAffineTransformMakeRotation(rotateAngle);
+        self.selectedPhotoView.windowView.hidden = NO;
+        // 旋转过程中不允许交互
+        self.window.userInteractionEnabled = NO;
+        self.window.width = PYScreenW;
+        self.window.height = PYScreenH;
+        self.window.center = CGPointMake(PYScreenW * 0.5 , PYScreenH * 0.5);
+        self.pageControl.centerX = width * 0.5;
+        self.pageControl.y = height - 30;
+        // 刷新数据
+        [self.collectionView reloadData];
+        // 设置当前页面
+        self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.width, 0);
+    } completion:^(BOOL finished) {
+        self.window.userInteractionEnabled = YES;
+        tempWindow.hidden = YES;
+    }];
     
 }
 
@@ -186,9 +261,9 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     // 创建cell
-    PYPhotoCell *cell  = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
+    PYPhotoCell *cell = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
     // 取出模型
-    PYPhoto  *photo = self.selectedPhotoView.photos[indexPath.item];
+    PYPhoto *photo = self.selectedPhotoView.photos[indexPath.item];
     // 设置数据
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;
@@ -206,7 +281,7 @@ static NSString * const reuseIdentifier = @"Cell";
     userInfo[PYCollectionViewDidScrollNotification] = scrollView;
     [[NSNotificationCenter defaultCenter] postNotificationName:PYCollectionViewDidScrollNotification object:nil userInfo:userInfo];
 
-    if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x < 0) return;
+    if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0) return;
     
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.width + 0.5;
@@ -226,7 +301,7 @@ static NSString * const reuseIdentifier = @"Cell";
 // 设置每个item的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.view.size;
+    return CGSizeMake(collectionView.width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.height);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section

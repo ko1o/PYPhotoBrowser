@@ -13,6 +13,7 @@
 
 /** 图片模型 */
 @property (nonatomic, strong) PYPhoto *photo;
+
 /** 本地相册图片 */
 @property (nonatomic, strong) UIImage *image;
 

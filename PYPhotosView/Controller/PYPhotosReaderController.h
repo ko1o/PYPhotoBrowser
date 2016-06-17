@@ -19,7 +19,7 @@
 @property (nonatomic, weak) PYPhotoView *selectedPhotoView;
 
 /** 复制的view*/
-@property (nonatomic, weak) PYPhotoView *beginView;
+@property (nonatomic, strong) PYPhotoView *beginView;
 
 - (void)hiddenPhoto;
 

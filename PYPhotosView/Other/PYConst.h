@@ -29,9 +29,6 @@
 #define PYScreenH [UIScreen mainScreen].bounds.size.height
 #define PYScreenSize [UIScreen mainScreen].bounds.size
 
-// 获取当前控制器
-#define PYCurrentController [[UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers lastObject]
-
 // 判断当前系统版本
 #define PYIOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0 && [[UIDevice currentDevice].systemVersion floatValue] < 9.0
 #define PYIOS9 [[UIDevice currentDevice].systemVersion floatValue] >= 9.0 && [[UIDevice currentDevice].systemVersion floatValue] < 10.0
