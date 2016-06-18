@@ -112,29 +112,36 @@ NSMutableArray *imageUrls = [NSMutableArray array];
 ## <a id="自定义photosView"></a>自定义photosView
 
 ### 通过设置photosView的对象属性值即可修改
-* 设置图片间距（默认为5）
+
+* 设置分页指示类型（默认为pageControll指示器）
 ```objc
- // 设置图片间距为10
- photosView.photoMargin = 10;
+// 设置指示类型为文本指示
+photosView.pageType = PYPhotosViewPageTypeLabel;
+```
+
+* 设置图片间距（默认为5）
+
+```objc
+// 设置图片间距为10
+photosView.photoMargin = 10;
 ```
 
 * 设置图片大小（默认70\*70）
 
 ```objc
-
 // 设置图片的宽（width）
 photosView.photoWidth = 100;
 // 设置图片的高（height）
 photosView.photoHeight = 60;
-
 ```
 
 * 设置每行图片最多个数（默认为3个）
+
 ```objc
 // 设置图片最多列数
 photosView.photosMaxCol = 6;
-
 ```
+
 ## <a id="期待什么"></a>期待
 
 - 如果在使用过程中遇到BUG,希望您呢个Issues我，谢谢（或者尝试下载最新的框架代码看看BUG修复没有）
