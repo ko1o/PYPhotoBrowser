@@ -37,6 +37,9 @@
     
     // 2.1 创建一个流水布局photosView
     PYPhotosView *flowPhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeFlow];
+    // 设置分页指示类型
+    flowPhotosView.pageType = PYPhotosViewPageTypeLabel;
+    
     flowPhotosView.py_centerX = self.view.py_centerX;
     flowPhotosView.py_y = 50;
     

@@ -20,6 +20,11 @@ typedef NS_ENUM(NSInteger, PYPhotosViewState) { // 图片状态
     PYPhotosViewStateDidCompose = 1     // 已发布
 };
 
+typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
+    PYPhotosViewPageTypeControll = 0, // pageControll（当图片超过九张，改为label显示）
+    PYPhotosViewPageTypeLabel = 1  // label
+};
+
 @interface PYPhotosView : UIScrollView
 
 /** 网络图片相册 */
@@ -30,6 +35,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewState) { // 图片状态
 @property (nonatomic, assign) PYPhotosViewState photosState;
 /** 图片布局（默认为流水布局） */
 @property (nonatomic, assign) PYPhotosViewLayoutType layoutType;
+/** 图片分页指示类型(默认为pageControll。当图片超过九张，改为label显示) */
+@property (nonatomic, assign) PYPhotosViewPageType pageType;
 
 /** 图片间距（默认为5） */
 @property (nonatomic, assign) CGFloat photoMargin;

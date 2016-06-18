@@ -2,20 +2,16 @@
 #import "UIView+PYExtension.h"
 #import "MBProgressHUD+MJ.h"
 
-/** --------------可修改的宏定义------------- */
-
-#define PYPhotoMargin 5     // 图片之间的默认间距
-#define PYPhotoWidth 70     // 图片的默认宽度
-#define PYPhotoHeight 70    // 图片的默认高度
-#define PYPhotosMaxCol 3    // 图片每行默认最多个数
-#define PYPreviewPhotoSpacing 30 // 预览图片时，图片的间距
-#define PYPreviewPhotoMaxScale 2   // 预览图片时，图片最大放大倍数
-
-#define PYImageCountWhenWillCompose 9 // 在发布状态时，最多可以上传的图片张数
-
+/** --------------可修改(在PYConst.m修改)------------- */
 #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
 #define PYLoadFailureImage [UIImage imageNamed:@"PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
-
+UIKIT_EXTERN const CGFloat PYPhotoMargin;   // 图片之间的默认间距
+UIKIT_EXTERN const CGFloat PYPhotoWidth;    // 图片的默认宽度
+UIKIT_EXTERN const CGFloat PYPhotoHeight;   // 图片的默认高度
+UIKIT_EXTERN const CGFloat PYPhotosMaxCol;  // 图片每行默认最多个数
+UIKIT_EXTERN const CGFloat PYPreviewPhotoSpacing;   // 预览图片时，图片的间距
+UIKIT_EXTERN const CGFloat PYPreviewPhotoMaxScale;  // 预览图片时，图片最大放大倍数
+UIKIT_EXTERN const CGFloat PYImageCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
 
 /** ---------------建议不修改的宏定义------------- */
 

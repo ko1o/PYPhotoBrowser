@@ -13,7 +13,7 @@
 #import "PYPhotoCell.h"
 
 @interface PYPhotosViewController ()
-
+/** 图片查看控制机器 */
 @property (nonatomic, strong) PYPhotosReaderController *photosReader;
 
 /** 相册图片*/

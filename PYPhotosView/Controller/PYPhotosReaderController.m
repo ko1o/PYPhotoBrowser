@@ -23,6 +23,8 @@
 
 /** 分页计数器 */
 @property (nonatomic, strong) UIPageControl *pageControl;
+/** 分页计数（文本） */
+@property (nonatomic, strong) UILabel *pageLabel;
 
 /** 存储indexPaths的数组 */
 @property (nonatomic, strong) NSMutableArray *indexPaths;
@@ -41,9 +43,27 @@
         _pageControl = [[UIPageControl alloc] init];
         _pageControl.py_width = self.view.py_width;
         _pageControl.py_y = self.view.py_height - 44;
-        [self.view addSubview:_pageControl];
     }
+    _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9;
+    self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
     return _pageControl;
+}
+
+- (UILabel *)pageLabel
+{
+    if (!_pageLabel) {
+        UILabel *pageLabel = [[UILabel alloc] init];
+        pageLabel.py_height = 44;
+        pageLabel.py_width = self.view.py_width;
+        pageLabel.py_y = self.view.py_height - 54;
+        pageLabel.font = [UIFont boldSystemFontOfSize:16];
+        pageLabel.textColor = [UIColor whiteColor];
+        pageLabel.textAlignment = NSTextAlignmentCenter;
+        _pageLabel = pageLabel;
+    }
+    // 和pageControl取反
+    _pageLabel.hidden = !_pageControl.hidden;
+    return _pageLabel;
 }
 
 - (NSMutableArray *)indexPaths
@@ -131,6 +151,7 @@
         copyView.hidden = YES;
         [window addSubview:self.collectionView];
         [window addSubview:self.pageControl];
+        [window addSubview:self.pageLabel];
     }];
     
     // 显示pageControll
@@ -237,6 +258,8 @@
         self.window.center = CGPointMake(PYScreenW * 0.5 , PYScreenH * 0.5);
         self.pageControl.py_centerX = width * 0.5;
         self.pageControl.py_y = height - 30;
+        self.pageLabel.py_centerX = width * 0.5;
+        self.pageLabel.py_y = height - 54;
         // 刷新数据
         [self.collectionView reloadData];
         // 设置当前页面

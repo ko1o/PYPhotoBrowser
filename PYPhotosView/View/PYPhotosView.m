@@ -11,6 +11,7 @@
 #import "PYPhoto.h"
 #import "PYConst.h"
 #import "PYPhotosViewController.h"
+#import "PYPhotosReaderController.h"
 
 @interface PYPhotosView()
 
@@ -51,6 +52,7 @@ static PYPhotosViewController *_handleController;
         self.photosMaxCol = PYPhotosMaxCol;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
+        self.pageType = PYPhotosViewPageTypeControll;
         self.x = 0;
     }
     return self;
