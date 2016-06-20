@@ -38,18 +38,11 @@
 
 /** 记录加载链接 */
 @property (nonatomic, strong) NSURL *lastUrl;
-
-/** 放大的倍数 */
-@property (nonatomic, assign) CGFloat scale;
-
 /** 旋转的角度 */
 @property (nonatomic, assign) CGFloat rotation;
 
 /** 手势状态 */
 @property (nonatomic, assign) UIGestureRecognizerState state;
-
-/** 判断是否是旋转手势 */
-@property (nonatomic, assign, getter=isRotationGesture) BOOL rotationGesture;
 
 /** 加载失败显示图片 */
 @property (nonatomic, weak) UIImageView *loadFailureView;
@@ -221,7 +214,6 @@
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
     self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
     self.loadFailureView.center = self.progressView.center;
-    
 }
 
 // 如果有旋转，需要修改锚点
@@ -264,6 +256,7 @@ static CGSize originalSize;
     
     // 计算旋转角度
     self.transform = CGAffineTransformRotate(self.transform, rotation.rotation);
+    
     if (rotation.state == UIGestureRecognizerStateEnded
         || rotation.state == UIGestureRecognizerStateFailed
         || rotation.state == UIGestureRecognizerStateCancelled) { // 手势结束\失败\取消
@@ -299,7 +292,7 @@ static CGSize originalSize;
         } else if (angle < M_PI * 7 / 4) { // 旋转角度在225°~315°之间
             angle = M_PI_2 * 3 ;
         }
-        
+        // 默认为0.25秒
         [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.transform = CGAffineTransformMakeRotation(angle * factor);
             self.rotation = acosf(self.transform.a);
@@ -357,10 +350,11 @@ static CGSize originalSize;
                 scale = self.photo.verticalWidth * PYPreviewPhotoMaxScale / self.py_width;
             }
         } else if (PYVertical) { // 旋转角为90°或者270°
-            if (originalSize.width > originalSize.height * 2) { //image高和屏幕高一样
+            if (originalSize.width > originalSize.height * 2) { // image高和屏幕高一样
                 if (self.py_height < PYPhotoCellH) { // 比原来小了
                     scale = PYPhotoCellH / self.py_height;
                 } else if (self.py_height > PYPhotoCellH * PYPreviewPhotoMaxScale) { // 超过了最大倍数
+                    NSLog(@"%f height", PYPhotoCellH);
                     scale = PYPhotoCellH * PYPreviewPhotoMaxScale / self.py_height;
                 }
             } else { // image宽和屏幕一样
@@ -405,6 +399,7 @@ static CGSize originalSize;
 
     // 放大倍数（默认为放大）
     CGFloat scale = 2.0;
+    NSLog(@"%f  %f", self.py_width, self.photo.verticalWidth);
     if ((self.py_width - self.photo.verticalWidth) > 0.01) scale = self.photo.verticalWidth / self.py_width;
     
     [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -527,6 +522,7 @@ static CGSize originalSize;
     if (((self.photoCell.py_x >= scrollView.contentOffset.x + scrollView.py_width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.py_width >= PYPhotoCellW || self.photoCell.contentScrollView.transform.a)) { // 不在屏幕上并且有缩放或者旋转，就要初始化
         self.photo.progress = 0.0;
         self.rotation = 0.0;
+        self.scale = 1.0;
         self.transform = CGAffineTransformIdentity;
         self.py_height = PYPhotoCellW * self.py_height / self.py_width;
         self.py_width = PYPhotoCellW;

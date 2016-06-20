@@ -14,6 +14,9 @@
 #import "PYConst.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "UIImageView+WebCache.h"
+// 旋转角为90°或者270°
+#define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
+
 @interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
 /** photoView */
 @property (nonatomic, strong) PYPhotoView *photoView;
@@ -31,6 +34,9 @@
 
 /** 记录当前屏幕状态 */
 @property (nonatomic, assign) UIDeviceOrientation orientation;
+
+/** 是否正在旋转 */
+@property (nonatomic, assign, getter=isRotationg) BOOL rotating;
 
 @end
 
@@ -145,13 +151,10 @@
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
         window.backgroundColor = [UIColor clearColor];
-        // 设置选中的windowView
-        self.selectedPhotoView.windowView = copyView;
-        // 隐藏
-        copyView.hidden = YES;
         [window addSubview:self.collectionView];
         [window addSubview:self.pageControl];
         [window addSubview:self.pageLabel];
+        copyView.hidden = YES;
     }];
     
     // 显示pageControll
@@ -210,7 +213,8 @@
     if (currentDevice.orientation == UIDeviceOrientationUnknown ||
         currentDevice.orientation == UIDeviceOrientationFaceUp ||
         currentDevice.orientation == UIDeviceOrientationFaceDown ||
-        currentDevice.orientation == self.orientation) return;
+        currentDevice.orientation == self.orientation ||
+        self.isRotationg) return;
     
     // 获取旋转角度
     CGFloat rotateAngle = 0;
@@ -246,29 +250,52 @@
     // 执行旋转动画
     __block UIWindow *tempWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     tempWindow.windowLevel = UIWindowLevelStatusBar;
+    // 自动调节宽高
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tempWindow.backgroundColor = [UIColor blackColor];
+    // 记录刚开始的旋转
+    PYPhotoView *windowView = self.selectedPhotoView.windowView;
+    CGAffineTransform temp = CGAffineTransformScale(windowView.transform, 1 / windowView.scale, 1 / windowView.scale);
+    // 获取角度
+    CGFloat originalAngle = acosf(temp.a);
+    if (ABS(asinf(windowView.transform.b) + M_PI_2) < 0.01) { // 旋转270°
+        originalAngle += M_PI;
+    }
+    windowView.transform = CGAffineTransformScale(windowView.transform, 1 / windowView.scale, 1 / windowView.scale);
+    // 获取旋转角度
+    UIRotationGestureRecognizer *rotateGR = [[UIRotationGestureRecognizer alloc] init];
+    [rotateGR setValue:@(UIGestureRecognizerStateBegan) forKeyPath:@"state"];
+    rotateGR.rotation = - originalAngle;
+    [self.selectedPhotoView.windowView photoDidRotation:rotateGR];
+    windowView.rotationGesture = NO;
+    // 恢复倍数
+    windowView.scale = 1.0;
     [UIView animateWithDuration:0.5 animations:^{
+        // 正在旋转
+        self.rotating = YES;
+        // 禁止与用户交互
+        self.window.userInteractionEnabled = NO;
+        // 显示临时黑色背景窗口
         tempWindow.hidden = NO;
         self.window.transform = CGAffineTransformMakeRotation(rotateAngle);
-        self.selectedPhotoView.windowView.hidden = NO;
-        // 旋转过程中不允许交互
-        self.window.userInteractionEnabled = NO;
         self.window.py_width = PYScreenW;
         self.window.py_height = PYScreenH;
         self.window.center = CGPointMake(PYScreenW * 0.5 , PYScreenH * 0.5);
+        self.view.py_size = self.window.py_size;
         self.pageControl.py_centerX = width * 0.5;
         self.pageControl.py_y = height - 30;
         self.pageLabel.py_centerX = width * 0.5;
         self.pageLabel.py_y = height - 54;
         // 刷新数据
         [self.collectionView reloadData];
-        // 设置当前页面
+        self.collectionView.contentSize = CGSizeMake(self.collectionView.py_width * self.selectedPhotoView.photos.count, self.collectionView.py_height);
         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
     } completion:^(BOOL finished) {
+        self.rotating = NO;
         self.window.userInteractionEnabled = YES;
         tempWindow.hidden = YES;
     }];
-    
 }
 
 static NSString * const reuseIdentifier = @"Cell";
@@ -291,6 +318,8 @@ static NSString * const reuseIdentifier = @"Cell";
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;
     cell.photo = photo;
+    self.selectedPhotoView.windowView = cell.photoView;
+    
     // 返回cell
     return cell;
 }
@@ -304,10 +333,12 @@ static NSString * const reuseIdentifier = @"Cell";
     userInfo[PYCollectionViewDidScrollNotification] = scrollView;
     [[NSNotificationCenter defaultCenter] postNotificationName:PYCollectionViewDidScrollNotification object:nil userInfo:userInfo];
 
+    NSLog(@"%f --offset.x", scrollView.contentOffset.x);
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0) return;
     
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
+    NSLog(@"%f  ", self.collectionView.py_width);
     self.pageControl.currentPage = page;
     
     // 取出photosView
@@ -317,6 +348,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // 判断即将显示哪一张
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
     PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+
     self.selectedPhotoView.windowView = currentCell.photoView;
 }
 
@@ -324,7 +356,9 @@ static NSString * const reuseIdentifier = @"Cell";
 // 设置每个item的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.py_height);
+    CGFloat itemHeight = PYVertical ? PYScreenW : PYScreenH;
+    self.collectionView.py_height = itemHeight;
+    return CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, itemHeight);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section

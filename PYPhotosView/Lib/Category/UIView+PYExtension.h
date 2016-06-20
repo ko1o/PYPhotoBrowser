@@ -18,7 +18,6 @@
 @property (nonatomic, assign) CGSize  py_size;
 @property (nonatomic, assign) CGPoint py_origin;
 
-
 /** 设置锚点 */
 - (CGPoint)py_setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view;
 
