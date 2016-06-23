@@ -5,7 +5,7 @@
 //
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
-#import "MBProgressHUD+MJ.h"
+#import "MBProgressHUD+PY.h"
 
 /** --------------可修改(在PYConst.m修改)------------- */
 #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图

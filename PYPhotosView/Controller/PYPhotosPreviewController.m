@@ -101,12 +101,11 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) { // 删除
-        [MBProgressHUD showSuccess:@"已删除"];// 计算页数
+        [MBProgressHUD py_showSuccess:@"已删除" toView:nil];// 计算页数
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
-            NSLog(@"-----page--%zd",page);
             // 取出可见cell
             // 判断即将显示哪一张
             NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];

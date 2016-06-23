@@ -330,13 +330,10 @@ static NSString * const reuseIdentifier = @"Cell";
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     userInfo[PYCollectionViewDidScrollNotification] = scrollView;
     [[NSNotificationCenter defaultCenter] postNotificationName:PYCollectionViewDidScrollNotification object:nil userInfo:userInfo];
-
-    NSLog(@"%f --offset.x", scrollView.contentOffset.x);
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0) return;
     
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
-    NSLog(@"%f  ", self.collectionView.py_width);
     self.pageControl.currentPage = page;
     
     // 取出photosView

@@ -12,11 +12,11 @@
 #import "PYPhotosReaderController.h"
 #import "PYPhotoCell.h"
 #import "PYDALabeledCircularProgressView.h"
+#import "MBProgressHUD+PY.h"
 // cell的宽
 #define PYPhotoCellW (self.photoCell.py_width > 0 ? self.photoCell.py_width : PYScreenW)
 // cell的高
 #define PYPhotoCellH (self.photoCell.py_height > 0 ? self.photoCell.py_height : PYScreenH)
-
 
 // 旋转角为PI的整数倍
 #define PYHorizontal (ABS(self.rotation) < 0.01 || ABS(self.rotation - M_PI) < 0.01 || ABS(self.rotation - M_PI * 2) < 0.01)
@@ -352,7 +352,6 @@ static CGSize originalSize;
                 if (self.py_height < PYPhotoCellH) { // 比原来小了
                     scale = PYPhotoCellH / self.py_height;
                 } else if (self.py_height > PYPhotoCellH * PYPreviewPhotoMaxScale) { // 超过了最大倍数
-                    NSLog(@"%f height", PYPhotoCellH);
                     scale = PYPhotoCellH * PYPreviewPhotoMaxScale / self.py_height;
                 }
             } else { // image宽和屏幕一样
@@ -397,7 +396,6 @@ static CGSize originalSize;
 
     // 放大倍数（默认为放大）
     CGFloat scale = 2.0;
-    NSLog(@"%f  %f", self.py_width, self.photo.verticalWidth);
     if ((self.py_width - self.photo.verticalWidth) > 0.01) scale = self.photo.verticalWidth / self.py_width;
     
     [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -549,6 +547,6 @@ static CGSize originalSize;
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-    error ? [MBProgressHUD showError:@"保存失败"] : [MBProgressHUD showSuccess:@"保存成功"];
+    error ? [MBProgressHUD py_showError:@"保存失败" toView:nil] : [MBProgressHUD py_showSuccess:@"保存成功" toView:nil];
 }
 @end
