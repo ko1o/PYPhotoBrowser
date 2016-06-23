@@ -63,14 +63,8 @@ static PYPhotosViewController *_handleController;
 
 + (instancetype)photosView:(NSArray *)photos
 {
-    // 封装photos为模型
-    NSMutableArray *photosM = [NSMutableArray array];
-    for (NSString *url in photos) {
-        PYPhoto *photo = [PYPhoto photoWithUrl:url];
-        [photosM addObject:photo];
-    }
     PYPhotosView *photosView = [self photosView];
-    photosView.photos = photosM;
+    photosView.photos = photos;
     return photosView;
 }
 
@@ -110,7 +104,16 @@ static PYPhotosViewController *_handleController;
 
 - (void)setPhotos:(NSArray *)photos
 {
-    _photos = photos;
+    NSMutableArray *photosM = [NSMutableArray array];
+    for (id photoUrl in photos) {
+        if ([photoUrl isKindOfClass:[NSString class]]) {  // 数组为字符串时，封装photos为模型
+            PYPhoto *photo = [PYPhoto photoWithUrl:photoUrl];
+            [photosM addObject:photo];
+        } else {
+            [photosM addObject:photoUrl];
+        }
+    }
+    _photos = photosM;
     // 移除添加图片按钮
     [self.addImageButton removeFromSuperview];
     // 设置图片状态

@@ -34,10 +34,10 @@
     [imageUrls addObject:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image10.gif"];
     
     // 2.1 创建一个流水布局photosView
-    PYPhotosView *flowPhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeFlow];
+    PYPhotosView *flowPhotosView = [PYPhotosView photosView];
+    flowPhotosView.photos = imageUrls;
     // 设置分页指示类型
     flowPhotosView.pageType = PYPhotosViewPageTypeLabel;
-    
     flowPhotosView.py_centerX = self.view.py_centerX;
     flowPhotosView.py_y = 50;
     
