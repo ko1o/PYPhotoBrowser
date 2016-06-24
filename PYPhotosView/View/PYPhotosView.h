@@ -7,7 +7,6 @@
 #import <UIKit/UIKit.h>
 #import "PYConst.h"
 @class PYPhotoView,PYPhotosView;
-
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -23,7 +22,23 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
     PYPhotosViewPageTypeLabel = 1  // label
 };
 
+@protocol PYPhotosViewDelegate <NSObject, UIScrollViewDelegate>
+
+@optional
+/**
+ * 添加图片按钮选中时调用此方法
+ * images : 当前存在的图片（未发布）数组
+ */
+- (void)photosView:(PYPhotosView *)photosView didAddImageClcikedWithImages:(NSMutableArray *)images;
+
+@end
+
+
+
 @interface PYPhotosView : UIScrollView
+
+/** 代理 */
+@property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
 /** 网络图片相册 */
 @property (nonatomic, strong) NSArray *photos;
@@ -43,7 +58,7 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 图片的高 (默认为70) */
 @property (nonatomic, assign) CGFloat photoHeight;
 
-/** 每行最多个数（默认为3）, 当图片布局为流水布局时，此设置失效 */
+/** 每行最多个数（默认为3）, 当图片布局为线性布局时，此设置失效 */
 @property (nonatomic, assign) NSInteger photosMaxCol;
 
 /** 快速创建photosView对象 */

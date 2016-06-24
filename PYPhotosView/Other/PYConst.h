@@ -10,17 +10,24 @@
 /** --------------可修改(在PYConst.m修改)------------- */
 #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
 #define PYLoadFailureImage [UIImage imageNamed:@"PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
+#define PYAddImage [UIImage imageNamed:@"PYPhotosView.bundle/addimage"] // 添加图片图
+#define PYDeleteImage [UIImage imageNamed:@"PYPhotosView.bundle/deleteimage"] // 删除图片图
+
 UIKIT_EXTERN const CGFloat PYPhotoMargin;   // 图片之间的默认间距
 UIKIT_EXTERN const CGFloat PYPhotoWidth;    // 图片的默认宽度
 UIKIT_EXTERN const CGFloat PYPhotoHeight;   // 图片的默认高度
 UIKIT_EXTERN const CGFloat PYPhotosMaxCol;  // 图片每行默认最多个数
 UIKIT_EXTERN const CGFloat PYPreviewPhotoSpacing;   // 预览图片时，图片的间距
 UIKIT_EXTERN const CGFloat PYPreviewPhotoMaxScale;  // 预览图片时，图片最大放大倍数
-UIKIT_EXTERN const CGFloat PYImageCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
+UIKIT_EXTERN const CGFloat PYImageMaxCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
 
 /** ---------------建议不修改的宏定义------------- */
+// 边距
+#define PYMargin 10
 
-#define PYMargin 10 // 边距
+// (预览时)状态栏颜色
+#define PYBarTintColor PYColor(15, 16, 19)
+
 // 颜色
 #define PYColor(r,g,b) [UIColor colorWithRed:(r/255.0) green:(g/255.0) blue:(b/255.0) alpha:1.0]
 #define PYRandomColor  PYColor(arc4random_uniform(256),arc4random_uniform(256),arc4random_uniform(256))

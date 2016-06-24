@@ -28,7 +28,7 @@ static PYPhotosViewController *_handleController;
 
 @implementation PYPhotosView
 
-
+@dynamic delegate;
 
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame
@@ -148,7 +148,7 @@ static PYPhotosViewController *_handleController;
     // 取出size
     CGSize size = [self sizeWithPhotoCount:self.photos.count photosState:self.photosState];
     self.contentSize = size;
-    
+    self.contentOffset = CGPointZero;
     CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
     self.py_size = CGSizeMake(width, size.height);
 }
@@ -159,7 +159,7 @@ static PYPhotosViewController *_handleController;
     
     // 移除添加图片按钮
     [self.addImageButton removeFromSuperview];
-    // 设置图片状态
+    
     self.photosState = PYPhotosViewStateWillCompose;
     
     NSInteger imageCount = images.count;
@@ -187,6 +187,13 @@ static PYPhotosViewController *_handleController;
         }
     }
     
+    // 设置contentSize和 self.size
+    // 取出size
+    CGSize size = [self sizeWithPhotoCount:self.images.count photosState:self.photosState];
+    self.contentSize = size;
+    CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
+    self.py_size = CGSizeMake(width, size.height);
+    
     // 刷新
     [self layoutSubviews];
 }
@@ -211,6 +218,10 @@ static PYPhotosViewController *_handleController;
     userInfo[PYAddImageDidClickedNotification] = self.images;
     NSNotification *notifaction = [[NSNotification alloc] initWithName:PYAddImageDidClickedNotification object:nil userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:notifaction];
+    
+    if ([self.delegate respondsToSelector:@selector(photosView:didAddImageClcikedWithImages:)]) {
+        [self.delegate photosView:self didAddImageClcikedWithImages:self.images];
+    }
 }
 
 /** 添加图片按钮 */
@@ -218,7 +229,7 @@ static PYPhotosViewController *_handleController;
 {
     if (!_addImageButton) {
         UIButton *addImage = [[UIButton alloc] init];
-        [addImage setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+        [addImage setBackgroundImage:PYAddImage forState:UIControlStateNormal];
         [addImage addTarget:self action:@selector(addImageDidClicked) forControlEvents:UIControlEventTouchUpInside];
         _addImageButton = addImage;
     }
@@ -234,12 +245,14 @@ static PYPhotosViewController *_handleController;
     CGFloat photosViewW = 0;
     CGFloat photosViewH = 0;
     // 根据图片个数设置图片
+    maxCount = self.photosMaxCol;
     if (state == PYPhotosViewStateDidCompose) { // 已经发布
-        maxCount = count == 4 ? 2 : self.photosMaxCol;
+        if (self.photos.count > 0 && self.layoutType == PYPhotosViewLayoutTypeFlow) {
+           maxCount = count == 4 ? 2 : maxCount;
+        }
         // 设置图片
     }else if (state == PYPhotosViewStateWillCompose){ // 未发布
-        maxCount = 4;
-        if (count < PYImageCountWhenWillCompose) count ++;
+        if (count < PYImageMaxCountWhenWillCompose) count ++;
     }
     
     cols = (count >= maxCount) ? maxCount : count;
@@ -255,8 +268,15 @@ static PYPhotosViewController *_handleController;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    // 取消内边距
+    self.contentInset = UIEdgeInsetsZero;
     NSInteger photosCount = self.photos.count > 0 ?  self.photos.count : self.images.count;
-    NSInteger maxCol = self.photos.count > 0 ? self.photosMaxCol : 4;
+    NSInteger maxCol = self.photosMaxCol;
+    
+    if (self.photos.count == 4 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.photosState == PYPhotosViewStateDidCompose) {
+        maxCol = 2;
+    }
+    
     // 调整图片位置
     for (int i = 0; i < photosCount; i++) {
         PYPhotoView *photoView = self.subviews[i];
@@ -268,13 +288,17 @@ static PYPhotosViewController *_handleController;
         photoView.py_width = self.photoWidth;
         photoView.py_height = self.photoHeight;
     }
-    if (self.images.count < PYImageCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
+    if (self.images.count < PYImageMaxCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
         [self addSubview:self.addImageButton];
-        self.addImageButton.py_y = (self.images.count / 4) * (self.photoHeight + self.photoMargin);
-        self.addImageButton.py_x = (self.images.count % 4) * (self.photoWidth + self.photoMargin);
+        self.addImageButton.py_y = (self.images.count / maxCol) * (self.photoHeight + self.photoMargin);
+        self.addImageButton.py_x = (self.images.count % maxCol) * (self.photoWidth + self.photoMargin);
         self.addImageButton.py_width = self.photoWidth;
         self.addImageButton.py_height = self.photoHeight;
+        if (self.images.count == 0) { // 数组为空
+            self.py_size = self.addImageButton.py_size;
+        }
     }
+    
 }
 
 @end

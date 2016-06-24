@@ -9,28 +9,33 @@
 #import "PYPhotosView.h"
 #import "PYPhotoCell.h"
 #import "PYConst.h"
-@interface PYPhotosPreviewController ()<UIActionSheetDelegate>
+@interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, assign) BOOL isFirst;
+
+/** 记录statusBar是否隐藏 */
+@property (nonatomic, assign, getter=isStatusBarHidden) BOOL statusBarHidden;
+
+/** 是否正在执行动画 */
+@property (nonatomic, assign, getter=isAnimating) BOOL animating;
 
 @end
 
 @implementation PYPhotosPreviewController
 
-- (instancetype)init
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
 {
-    if (self = [super init]) {
-        
+    if (self = [super initWithCollectionViewLayout:layout]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     return self;
 }
-
 + (instancetype)previewController
 {
     // 创建流水布局
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     // 设置间距
-    layout.minimumLineSpacing = 0;
+    layout.minimumLineSpacing = PYPreviewPhotoSpacing;
     layout.minimumInteritemSpacing = 0;
     // 设置滚动方向
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -45,9 +50,8 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
     if (self.isFirst) {
-         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
+        self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
         self.isFirst = NO;
     }
 }
@@ -55,7 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_back"] style:UIBarButtonItemStylePlain target:self action:@selector(BackAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     self.navigationController.navigationBar.backIndicatorImage = nil;
     self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashDidClicked)];
@@ -68,27 +72,49 @@
     [center addObserver:self selector:@selector(changeNavBarState) name:PYChangeNavgationBarStateNotification object:nil];
 }
 
-- (void)changeNavBarState
+// 状态栏颜色
+- (UIStatusBarStyle)preferredStatusBarStyle
 {
-    if(self.navigationController.navigationBar.py_y < 0){ // 隐藏
-        [UIView animateWithDuration:0.5 animations:^{
-//            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.py_y = [UIApplication sharedApplication].statusBarFrame.size.height;
-        }];
-    }else{
-        [UIView animateWithDuration:0.5 animations:^{
-//            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.py_y = - self.navigationController.navigationBar.py_height;
-        }];
-    }
+    return UIStatusBarStyleLightContent;
 }
 
-- (void)BackAction
+// 状态栏隐藏动画
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
 {
+    return UIStatusBarAnimationSlide;
+}
+
+// 状态栏是否隐藏
+- (BOOL)prefersStatusBarHidden
+{
+    return self.isStatusBarHidden;
+}
+
+// 改变状态栏状态
+- (void)changeNavBarState
+{
+    
+    if (self.isAnimating) return;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.animating = YES;
+        self.statusBarHidden = self.navigationController.navigationBar.py_y > 0;
+        [self setNeedsStatusBarAppearanceUpdate];
+        self.navigationController.navigationBar.py_y = self.statusBarHidden ? -self.navigationController.navigationBar.py_height : [UIApplication sharedApplication].statusBarFrame.size.height;
+    } completion:^(BOOL finished) {
+        self.animating = NO;
+    }];
+}
+
+- (void)backAction
+{
+    // 刷新发布上的photosView
+    self.selectedPhotoView.photosView.images = self.selectedPhotoView.images;
+    
     if ([self.delegate respondsToSelector:@selector(photosPreviewController:didImagesChanged:)]) {
         [self.delegate photosPreviewController:self didImagesChanged:self.selectedPhotoView.photosView.images];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)trashDidClicked
@@ -117,21 +143,21 @@
             // 移除cell
             [currentCell removeFromSuperview];
             
-            // 往前移一张
-            self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x - self.collectionView.py_width, 0);
-            
             // 刷新cell
             [self.collectionView reloadData];
             
-            NSUInteger currentPage = 0;
-            currentPage = self.selectedPhotoView.tag == 1 ? 1 : page - 1;
+            NSUInteger currentPage = self.selectedPhotoView.tag;
+            currentPage = self.selectedPhotoView.tag <= 1 ? 1 : self.selectedPhotoView.tag;
+            
+            // 往前移一张
+            self.collectionView.contentOffset = CGPointMake((currentPage - 1) * self.collectionView.py_width, 0);
             
             // 刷新标题
             self.title = [NSString stringWithFormat:@"%zd/%zd", currentPage,self.selectedPhotoView.photosView.images.count];
             
-            if(self.selectedPhotoView.photosView.images.count == 0) {
+            if (self.selectedPhotoView.photosView.images.count == 0) {
                 // 来到这里，证明
-                [self BackAction];
+                [self backAction];
             };
 
         });
@@ -157,34 +183,25 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    [super scrollViewDidScroll:scrollView];
     
-    if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x < 0) return;
-    // 计算页数
-    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
-    // 取出photosView
-    PYPhotosView *photosView = self.selectedPhotoView.photosView;
-    self.selectedPhotoView = photosView.subviews[page];
-    // 判断即将显示哪一张
-    NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
-    PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    // 隐藏状态栏
+    if (!self.isStatusBarHidden) { // 没隐藏
+        [self changeNavBarState];
+    }
     
-    self.selectedPhotoView.windowView = currentCell.photoView;
     self.title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1,self.selectedPhotoView.photosView.images.count];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark <UICollectionViewDelegateFlowLayout>
+// 设置每个item的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(self.navigationController.navigationBar.py_y < 0){ // 隐藏
-        [UIView animateWithDuration:0.5 animations:^{
-            //            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.py_y = [UIApplication sharedApplication].statusBarFrame.size.height;
-        }];
-    }else{
-        [UIView animateWithDuration:0.5 animations:^{
-            //            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-            self.navigationController.navigationBar.py_y = - self.navigationController.navigationBar.py_height;
-        }];
-    }
+    return PYScreenSize;
+}
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsZero;
 }
 
 @end

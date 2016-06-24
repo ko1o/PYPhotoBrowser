@@ -80,6 +80,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // 注册cell
     [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
     // 支持分页
@@ -168,6 +169,7 @@
     // 隐藏pageControll
     self.pageControl.hidden = YES;
     self.beginView.hidden = NO;
+    self.pageLabel.hidden = YES;
     
     // 先转移坐标系
     self.selectedPhotoView.windowView.frame = [self.selectedPhotoView.windowView convertRect:self.selectedPhotoView.windowView.bounds toView:self.window];

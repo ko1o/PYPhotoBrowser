@@ -6,13 +6,17 @@
 
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
+#import "PYPhotosPreviewController.h"
 #import "PYConst.h"
 #import "PYPhotoView.h"
 #import "PYPhotoCell.h"
+#import "PYNavigationController.h"
 
 @interface PYPhotosViewController ()
 /** 图片查看控制机器 */
 @property (nonatomic, strong) PYPhotosReaderController *photosReader;
+/** 图片查看控制机器 */
+@property (nonatomic, strong) PYPhotosPreviewController *photosPreview;
 
 /** 相册图片*/
 @property (nonatomic, strong) NSMutableArray *images;
@@ -41,6 +45,7 @@
     [center addObserver:self selector:@selector(bigImageDidClicked:) name:PYBigImageDidClikedNotification object:nil];
     [center addObserver:self selector:@selector(smallImageDidClieked:) name:PYSmallgImageDidClikedNotification object:nil];
     [center addObserver:self selector:@selector(imagePageDidChanged:) name:PYImagePageDidChangedNotification object:nil];
+    [center addObserver:self selector:@selector(previewImageDidClicked:) name:PYPreviewImagesDidChangedNotification object:nil];
 }
 
 - (void)dealloc
@@ -92,4 +97,18 @@
     [self.photosReader hiddenPhoto];
 }
 
+// 图片预览（未发布）
+- (void)previewImageDidClicked:(NSNotification *)notification
+{
+    // 取出选中图片
+    NSDictionary *userInfo = notification.userInfo;
+    PYPhotoView *photoView = userInfo[PYPreviewImagesDidChangedNotification];
+    // 创建图片浏览器
+    PYPhotosPreviewController *photosPreviewVc = [PYPhotosPreviewController previewController];
+    self.photosPreview = photosPreviewVc;
+    photosPreviewVc.selectedPhotoView = photoView;
+    PYNavigationController *nav = [[PYNavigationController alloc] initWithRootViewController:photosPreviewVc];
+    [self.navigationController pushViewController:photosPreviewVc animated:YES];
+    [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:nav animated:YES completion:nil];
+}
 @end

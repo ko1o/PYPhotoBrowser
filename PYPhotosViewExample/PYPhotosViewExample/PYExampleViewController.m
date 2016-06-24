@@ -7,6 +7,7 @@
 #import "PYExampleViewController.h"
 #import "AppDelegate.h"
 #import "PYPhotosView.h"
+#import "PYPublishExampleViewController.h"
 
 @interface PYExampleViewController ()
 
@@ -14,11 +15,21 @@
 
 @implementation PYExampleViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+// 初始化
+- (void)setup
+{
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStyleDone target:self action:@selector(publishDidCicked)];
+    
+    self.title = @"示例控制器";
     
     // 设置背景色
     self.view.backgroundColor = PYColor(102, 153, 255);
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // 初始化
+    [self setup];
     
     // 1. 创建图片链接数组
     NSMutableArray *imageUrls = [NSMutableArray array];
@@ -39,17 +50,25 @@
     // 设置分页指示类型
     flowPhotosView.pageType = PYPhotosViewPageTypeLabel;
     flowPhotosView.py_centerX = self.view.py_centerX;
-    flowPhotosView.py_y = 50;
+    flowPhotosView.py_y = 20 + 64;
     
     // 2.2 创建一个线性布局photosView
     PYPhotosView *linePhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeLine];
     linePhotosView.py_x = PYMargin;
     linePhotosView.py_width = self.view.py_width - 2 * PYMargin;
-    linePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 4 * PYMargin;
+    linePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
     
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];
     [self.view addSubview:linePhotosView];
+}
+
+#pragma mark publishDidCicked 
+- (void)publishDidCicked
+{
+    PYPublishExampleViewController *publishVc = [[PYPublishExampleViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:publishVc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end

@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSArray *photos;
 
 /** 本地相册图片 */
-@property (nonatomic, strong) NSArray *images;
+@property (nonatomic, strong) NSMutableArray *images;
 
 /** 是否放大状态 */
 @property (nonatomic, assign) BOOL isBig;

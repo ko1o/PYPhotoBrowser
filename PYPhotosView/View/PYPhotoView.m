@@ -45,6 +45,9 @@
 /** 加载失败显示图片 */
 @property (nonatomic, weak) UIImageView *loadFailureView;
 
+/** 删除图片 */
+@property (nonatomic, weak) UIImageView *deleteImageView;
+
 @end
 
 @implementation PYPhotoView
@@ -84,6 +87,18 @@
         // 默认放大倍数和旋转角度
         self.scale = 1.0;
         self.rotation = 0.0;
+        
+        // 删除图片
+        UIImageView *deleteImageView = [[UIImageView alloc] init];
+        [deleteImageView setImage:PYDeleteImage];
+        deleteImageView.py_size = CGSizeMake(15, 15);
+        deleteImageView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        deleteImageView.userInteractionEnabled = YES;
+        [deleteImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteImage)]];
+        // 默认隐藏
+        deleteImageView.hidden = YES;
+        [self addSubview:deleteImageView];
+        self.deleteImageView = deleteImageView;
     }
     return self;
 }
@@ -236,7 +251,6 @@
 
 // 记录预览时的最原始大小（未伸缩\旋转）
 static CGSize originalSize;
-
 
 // 旋转手势
 - (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation
@@ -485,6 +499,21 @@ static CGSize originalSize;
     }];
 }
 
+// 设置本地图片（未发布）
+- (void)setImages:(NSMutableArray *)images
+{
+    _images = images;
+    
+    self.deleteImageView.hidden = images.count == 0;
+}
+
+// 删除图片
+- (void)deleteImage
+{
+    [self.images removeObjectAtIndex:self.tag];
+    self.photosView.images = self.images;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -492,7 +521,7 @@ static CGSize originalSize;
     if ((PYVertical && PYPhotoCellH > PYPhotoCellW) || (PYHorizontal && PYPhotoCellW > PYPhotoCellH)) return;
     CGFloat width = PYScreenW;
     CGFloat height =  width * self.image.size.height / self.image.size.width;
-    if (self.isBig) { // 预览状态
+    if (self.isBig || self.isPreview) { // 预览状态
         if (height > PYScreenH) { // 长图
             UIScrollView *contentScrollView = self.photoCell.contentScrollView;
             contentScrollView.scrollEnabled = YES;
@@ -504,6 +533,9 @@ static CGSize originalSize;
             self.photoCell.contentScrollView.scrollEnabled = NO;
         }
     }
+    
+    // 设置删除图片位置
+    self.deleteImageView.py_x = self.py_width - self.deleteImageView.py_width;
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell

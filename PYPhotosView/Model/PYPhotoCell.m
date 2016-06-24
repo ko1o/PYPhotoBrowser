@@ -80,8 +80,6 @@
     self.contentScrollView.py_size = self.photoView.py_size;
     self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
     self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
-//    self.contentScrollView.backgroundColor = [UIColor greenColor];
-//    self.backgroundColor = [UIColor yellowColor];
 }
 
 // 设置图片（图片来源自本地相册）
@@ -91,6 +89,9 @@
     self.photoView.image = image;
     // 设置图片状态
     self.photoView.photosView.photosState = PYPhotosViewStateWillCompose;
+    // 隐藏进度条
+    self.photoView.progressView.hidden = YES;
+
     // 取出图片大小
     CGSize imageSize = self.photoView.image.size;
     // 放大图片
@@ -101,6 +102,7 @@
     self.contentScrollView.py_size = self.photoView.py_size;
     self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
+
 
 static NSString * const reuseIdentifier = @"Cell";
 

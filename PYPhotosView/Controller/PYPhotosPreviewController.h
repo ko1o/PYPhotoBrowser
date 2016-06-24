@@ -9,7 +9,6 @@
 
 @protocol PYPhotosPreviewControllerDelegate <NSObject>
 @optional
-
 - (void)photosPreviewController:(PYPhotosPreviewController *)previewController didImagesChanged:(NSMutableArray *)images;
 
 @end

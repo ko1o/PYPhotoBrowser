@@ -10,7 +10,7 @@ const CGFloat PYPhotoHeight = 70;   // 图片的默认高度
 const CGFloat PYPhotosMaxCol = 3;  // 图片每行默认最多个数
 const CGFloat PYPreviewPhotoSpacing = 30;   // 预览图片时，图片的间距
 const CGFloat PYPreviewPhotoMaxScale = 2;  // 预览图片时，图片最大放大倍数
-const CGFloat PYImageCountWhenWillCompose = 9; // 在发布状态时，最多可以上传的图片张数
+const CGFloat PYImageMaxCountWhenWillCompose = 9; // 在发布状态时，最多可以上传的图片张数
 
 NSString *const PYBigImageDidClikedNotification = @"PYBigImageDidClikedNotification";
 
