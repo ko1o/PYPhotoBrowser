@@ -67,7 +67,7 @@
     // 在这里做当点击添加图片按钮时，你想做的事。
     // 这里我利用导入的图片，模拟从相册选图片或者拍照。(这里默认最多导入9张，超过时取前九张)
     for (int i = 0; i < arc4random_uniform(6) + 1; i++) {
-        [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(4) + 1]]];
+        [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(9) + 1]]];
     }
     // 刷新
     [photosView reloadDataWithImages:images];

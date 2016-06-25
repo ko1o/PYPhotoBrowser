@@ -12,11 +12,6 @@
 #import "UIImageView+WebCache.h"
 #import "PYDALabeledCircularProgressView.h"
 
-@interface PYPhotoCell ()
-
-
-@end
-
 @implementation PYPhotoCell
 
 // 初始化

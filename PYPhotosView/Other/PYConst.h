@@ -19,7 +19,7 @@ UIKIT_EXTERN const CGFloat PYPhotoHeight;   // 图片的默认高度
 UIKIT_EXTERN const CGFloat PYPhotosMaxCol;  // 图片每行默认最多个数
 UIKIT_EXTERN const CGFloat PYPreviewPhotoSpacing;   // 预览图片时，图片的间距
 UIKIT_EXTERN const CGFloat PYPreviewPhotoMaxScale;  // 预览图片时，图片最大放大倍数
-UIKIT_EXTERN const CGFloat PYImageMaxCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
+UIKIT_EXTERN const CGFloat PYImagesMaxCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
 
 /** ---------------建议不修改的宏定义------------- */
 // 边距

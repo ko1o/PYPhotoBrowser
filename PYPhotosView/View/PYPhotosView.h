@@ -59,12 +59,14 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 每行最多个数（默认为3）, 当图片布局为线性布局时，此设置失效 */
 @property (nonatomic, assign) NSInteger photosMaxCol;
 /** 当图片上传前，最多上传的张数，默认为9 */
-@property (nonatomic, assign) NSInteger imageMaxCountWhenWillCompose;
+@property (nonatomic, assign) NSInteger imagesMaxCountWhenWillCompose;
 
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */
-+ (instancetype)photosView:(NSArray *)photos;
++ (instancetype)photosViewWithPhotos:(NSArray *)photos;
+/** images : 存储本地图片的数组 */
++ (instancetype)photosViewWithImages:(NSMutableArray *)images;
 
 /**
  * photos : 保存图片链接的数组
@@ -77,6 +79,7 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  * maxCol : 每行最多显示图片的个数
  */
 + (instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol;
+
 /** 根据图片个数和图片状态自动计算出PYPhontosView的size */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;
 

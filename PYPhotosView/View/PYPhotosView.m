@@ -48,7 +48,7 @@ static PYPhotosViewController *_handleController;
         self.photoWidth = PYPhotoWidth;
         self.photoHeight = PYPhotoHeight;
         self.photosMaxCol = PYPhotosMaxCol;
-        self.imageMaxCountWhenWillCompose = PYImageMaxCountWhenWillCompose;
+        self.imagesMaxCountWhenWillCompose = PYImagesMaxCountWhenWillCompose;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.pageType = PYPhotosViewPageTypeControll;
@@ -62,23 +62,30 @@ static PYPhotosViewController *_handleController;
     return [[self alloc] init];
 }
 
-+ (instancetype)photosView:(NSArray *)photos
++ (instancetype)photosViewWithPhotos:(NSArray *)photos
 {
     PYPhotosView *photosView = [self photosView];
     photosView.photos = photos;
     return photosView;
 }
 
++ (instancetype)photosViewWithImages:(NSMutableArray *)images
+{
+    PYPhotosView *photosView = [self photosView];
+    photosView.images = images;
+    return photosView;
+}
+
 + (instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type
 {
-    PYPhotosView *photosView = [self photosView:photos];
+    PYPhotosView *photosView = [self photosViewWithPhotos:photos];
     photosView.layoutType = type;
     return photosView;
 }
 
 + (instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol
 {
-    PYPhotosView *photosView = [self photosView:photos];
+    PYPhotosView *photosView = [self photosViewWithPhotos:photos];
     photosView.photosMaxCol = maxCol;
     return photosView;
 }
@@ -157,8 +164,8 @@ static PYPhotosViewController *_handleController;
 - (void)setImages:(NSMutableArray *)images
 {
     // 图片大于规定数字（取前九张）
-    if (images.count > self.imageMaxCountWhenWillCompose) {
-        NSRange range = NSMakeRange(0, self.imageMaxCountWhenWillCompose);
+    if (images.count > self.imagesMaxCountWhenWillCompose) {
+        NSRange range = NSMakeRange(0, self.imagesMaxCountWhenWillCompose);
         NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
         images = [NSMutableArray arrayWithArray:[images objectsAtIndexes:set]];
     };
@@ -268,7 +275,7 @@ static PYPhotosViewController *_handleController;
         }
         // 设置图片
     }else if (state == PYPhotosViewStateWillCompose){ // 未发布
-        if (count < self.imageMaxCountWhenWillCompose) count ++;
+        if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
     
     cols = (count >= maxCount) ? maxCount : count;
@@ -303,7 +310,7 @@ static PYPhotosViewController *_handleController;
         photoView.py_width = self.photoWidth;
         photoView.py_height = self.photoHeight;
     }
-    if (self.images.count < self.imageMaxCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
+    if (self.images.count < self.imagesMaxCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
         [self addSubview:self.addImageButton];
         self.addImageButton.py_y = (self.images.count / maxCol) * (self.photoHeight + self.photoMargin);
         self.addImageButton.py_x = (self.images.count % maxCol) * (self.photoWidth + self.photoMargin);
