@@ -1,8 +1,6 @@
-//
-//  PYPublishExampleViewController.m
-//  PYPhotosViewExample
-//
-//  Created by 谢培艺 on 16/6/24.
+//  代码地址: https://github.com/iphone5solo/PYPhotosView
+//  代码地址: http://code4app.com/thread-8612-1-1.html
+//  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //
 
@@ -64,15 +62,17 @@
 }
 
 #pragma mark - PYPhotosViewDelegate
-- (void)photosView:(PYPhotosView *)photosView didAddImageClcikedWithImages:(NSMutableArray *)images
+- (void)photosView:(PYPhotosView *)photosView didAddImageClickedWithImages:(NSMutableArray *)images
 {
-    NSLog(@"点击了添加图片按钮 --- 当前有%zd张图片", images.count);
+    NSLog(@"点击了添加图片按钮 --- 添加前有%zd张图片", images.count);
     // 在这里做当点击添加图片按钮时，你想做的事。
     // 这里我利用导入的图片，模拟从相册选图片或者拍照。
-    [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(4) + 1]]];
+    for (int i = 0; i < arc4random_uniform(6) + 1; i++) {
+        [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(4) + 1]]];
+    }
     // 刷新
-    photosView.images = images;
+    [photosView reloadDataWithImages:images];
+    NSLog(@"添加图片 --- 添加后有%zd张图片", photosView.images.count);
 }
-
 
 @end

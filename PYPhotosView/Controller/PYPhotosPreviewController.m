@@ -17,7 +17,7 @@
 @property (nonatomic, assign, getter=isStatusBarHidden) BOOL statusBarHidden;
 
 /** 是否正在执行动画 */
-@property (nonatomic, assign, getter=isAnimating) BOOL animating;
+@property (nonatomic, assign, getter=isNavBarAnimating) BOOL navBarAnimating;
 
 @end
 
@@ -59,7 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     self.navigationController.navigationBar.backIndicatorImage = nil;
     self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashDidClicked)];
@@ -93,24 +93,25 @@
 // 改变状态栏状态
 - (void)changeNavBarState
 {
-    
-    if (self.isAnimating) return;
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        self.animating = YES;
+    // 如果正在执行动画，直接返回
+    if (self.isNavBarAnimating) return;
+    CGFloat duration = 0.5;
+    [UIView animateWithDuration:duration animations:^{
+        self.navBarAnimating = YES;
         self.statusBarHidden = self.navigationController.navigationBar.py_y > 0;
         [self setNeedsStatusBarAppearanceUpdate];
         self.navigationController.navigationBar.py_y = self.statusBarHidden ? -self.navigationController.navigationBar.py_height : [UIApplication sharedApplication].statusBarFrame.size.height;
-    } completion:^(BOOL finished) {
-        self.animating = NO;
-    }];
+    } completion:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.navBarAnimating = NO;
+    });
 }
 
 - (void)backAction
 {
     // 刷新发布上的photosView
     self.selectedPhotoView.photosView.images = self.selectedPhotoView.images;
-    
+    // 调用代理实现
     if ([self.delegate respondsToSelector:@selector(photosPreviewController:didImagesChanged:)]) {
         [self.delegate photosPreviewController:self didImagesChanged:self.selectedPhotoView.photosView.images];
     }
@@ -128,9 +129,7 @@
 {
     if (buttonIndex == 0) { // 删除
         [MBProgressHUD py_showSuccess:@"已删除" toView:nil];// 计算页数
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
             NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
             // 取出可见cell
             // 判断即将显示哪一张
@@ -139,19 +138,15 @@
             
             // 移除数组中的某个元素
             [self.selectedPhotoView.photosView.images removeObjectAtIndex:page];
-            
             // 移除cell
             [currentCell removeFromSuperview];
-            
             // 刷新cell
             [self.collectionView reloadData];
             
             NSUInteger currentPage = self.selectedPhotoView.tag;
             currentPage = self.selectedPhotoView.tag <= 1 ? 1 : self.selectedPhotoView.tag;
-            
             // 往前移一张
             self.collectionView.contentOffset = CGPointMake((currentPage - 1) * self.collectionView.py_width, 0);
-            
             // 刷新标题
             self.title = [NSString stringWithFormat:@"%zd/%zd", currentPage,self.selectedPhotoView.photosView.images.count];
             
@@ -159,7 +154,6 @@
                 // 来到这里，证明
                 [self backAction];
             };
-
         });
     }
 }
@@ -184,12 +178,15 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [super scrollViewDidScroll:scrollView];
-    
+    // 设置contentScrollView
+    UIScrollView *contentScrollView = self.selectedPhotoView.windowView.photoCell.contentScrollView;
+    contentScrollView.py_height = contentScrollView.py_height > PYScreenH ? PYScreenH : contentScrollView.py_height;
+    contentScrollView.contentOffset = CGPointZero;
+    contentScrollView.scrollEnabled = YES;
+    contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
     // 隐藏状态栏
-    if (!self.isStatusBarHidden) { // 没隐藏
-        [self changeNavBarState];
-    }
-    
+    if (!self.isStatusBarHidden) [self changeNavBarState];
+    // 设置标题
     self.title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1,self.selectedPhotoView.photosView.images.count];
 }
 

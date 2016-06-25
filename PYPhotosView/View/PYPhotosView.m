@@ -48,6 +48,7 @@ static PYPhotosViewController *_handleController;
         self.photoWidth = PYPhotoWidth;
         self.photoHeight = PYPhotoHeight;
         self.photosMaxCol = PYPhotosMaxCol;
+        self.imageMaxCountWhenWillCompose = PYImageMaxCountWhenWillCompose;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.pageType = PYPhotosViewPageTypeControll;
@@ -155,6 +156,13 @@ static PYPhotosViewController *_handleController;
 
 - (void)setImages:(NSMutableArray *)images
 {
+    // 图片大于规定数字（取前九张）
+    if (images.count > self.imageMaxCountWhenWillCompose) {
+        NSRange range = NSMakeRange(0, self.imageMaxCountWhenWillCompose);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        images = [NSMutableArray arrayWithArray:[images objectsAtIndexes:set]];
+    };
+    
     _images = images;
     
     // 移除添加图片按钮
@@ -210,6 +218,8 @@ static PYPhotosViewController *_handleController;
     self.py_size = CGSizeMake(width, self.py_height);
 }
 
+#pragma mark - handle image
+
 /** 点击添加图片调用此方法 */
 - (void)addImageDidClicked
 {
@@ -219,8 +229,8 @@ static PYPhotosViewController *_handleController;
     NSNotification *notifaction = [[NSNotification alloc] initWithName:PYAddImageDidClickedNotification object:nil userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:notifaction];
     
-    if ([self.delegate respondsToSelector:@selector(photosView:didAddImageClcikedWithImages:)]) {
-        [self.delegate photosView:self didAddImageClcikedWithImages:self.images];
+    if ([self.delegate respondsToSelector:@selector(photosView:didAddImageClickedWithImages:)]) {
+        [self.delegate photosView:self didAddImageClickedWithImages:self.images];
     }
 }
 
@@ -234,6 +244,12 @@ static PYPhotosViewController *_handleController;
         _addImageButton = addImage;
     }
     return _addImageButton;
+}
+
+/** 根据新的图片（未发布）刷新界面 */
+- (void)reloadDataWithImages:(NSMutableArray *)images
+{
+    [self setImages:images];
 }
 
 /** 根据图片个数和图片状态自动计算出大小 */
@@ -252,7 +268,7 @@ static PYPhotosViewController *_handleController;
         }
         // 设置图片
     }else if (state == PYPhotosViewStateWillCompose){ // 未发布
-        if (count < PYImageMaxCountWhenWillCompose) count ++;
+        if (count < self.imageMaxCountWhenWillCompose) count ++;
     }
     
     cols = (count >= maxCount) ? maxCount : count;
@@ -263,7 +279,6 @@ static PYPhotosViewController *_handleController;
     
     return CGSizeMake(photosViewW, photosViewH);
 }
-
 
 - (void)layoutSubviews
 {
@@ -288,7 +303,7 @@ static PYPhotosViewController *_handleController;
         photoView.py_width = self.photoWidth;
         photoView.py_height = self.photoHeight;
     }
-    if (self.images.count < PYImageMaxCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
+    if (self.images.count < self.imageMaxCountWhenWillCompose && self.photosState == PYPhotosViewStateWillCompose) {
         [self addSubview:self.addImageButton];
         self.addImageButton.py_y = (self.images.count / maxCol) * (self.photoHeight + self.photoMargin);
         self.addImageButton.py_x = (self.images.count % maxCol) * (self.photoWidth + self.photoMargin);
@@ -298,7 +313,6 @@ static PYPhotosViewController *_handleController;
             self.py_size = self.addImageButton.py_size;
         }
     }
-    
 }
 
 @end

@@ -332,7 +332,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     userInfo[PYCollectionViewDidScrollNotification] = scrollView;
     [[NSNotificationCenter defaultCenter] postNotificationName:PYCollectionViewDidScrollNotification object:nil userInfo:userInfo];
-    if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0) return;
+    if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0 || self.rotating) return;
     
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
@@ -345,7 +345,6 @@ static NSString * const reuseIdentifier = @"Cell";
     // 判断即将显示哪一张
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
     PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
-
     self.selectedPhotoView.windowView = currentCell.photoView;
 }
 
