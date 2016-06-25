@@ -8,8 +8,10 @@
 #import "PYPhotosView.h"
 
 @interface PYPublishExampleViewController () <PYPhotosViewDelegate>
+
 /** 即将发布的图片存储的photosView */
 @property (nonatomic, weak) PYPhotosView *publishPhotosView;
+
 @end
 
 @implementation PYPublishExampleViewController
@@ -21,22 +23,19 @@
     
     // 1. 常见一个发布图片时的photosView
     PYPhotosView *publishPhotosView = [PYPhotosView photosView];
-    
     // 2. 添加本地图片
     NSMutableArray *imagesM = [NSMutableArray array];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < arc4random_uniform(4) + 1; i++) {
         [imagesM addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", i + 1]]];
     }
     publishPhotosView.py_x = PYMargin * 5;
     publishPhotosView.py_y = PYMargin * 2 + 64;
+    // 2.1 设置本地图片
     publishPhotosView.images = imagesM;
-    
     // 3. 设置代理
     publishPhotosView.delegate = self;
-    
     // 4. 添加photosView
     [self.view addSubview:publishPhotosView];
-    
     self.publishPhotosView = publishPhotosView;
 }
 
@@ -66,7 +65,7 @@
 {
     NSLog(@"点击了添加图片按钮 --- 添加前有%zd张图片", images.count);
     // 在这里做当点击添加图片按钮时，你想做的事。
-    // 这里我利用导入的图片，模拟从相册选图片或者拍照。
+    // 这里我利用导入的图片，模拟从相册选图片或者拍照。(这里默认最多导入9张，超过时取前九张)
     for (int i = 0; i < arc4random_uniform(6) + 1; i++) {
         [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(4) + 1]]];
     }

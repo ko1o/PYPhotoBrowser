@@ -19,12 +19,9 @@
 - (void)setup
 {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStyleDone target:self action:@selector(publishDidCicked)];
-    
     self.title = @"示例控制器";
-    
-    // 设置背景色
-    self.view.backgroundColor = PYColor(102, 153, 255);
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -64,6 +61,7 @@
 }
 
 #pragma mark publishDidCicked 
+// 点击发布时调用
 - (void)publishDidCicked
 {
     PYPublishExampleViewController *publishVc = [[PYPublishExampleViewController alloc] init];
