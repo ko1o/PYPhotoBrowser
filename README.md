@@ -128,7 +128,9 @@
 ```
 
 ## <a id="如何使用PYPhotosView"></a>如何使用PYPhotosView
-
+* 使用Cocoapods:
+  - `pod "PYPhotosView"`
+  - 导入主头文件`#import <PYPhotosView.h>`
 * 手动导入：
   - 将`PYPhotosView`文件夹中的所有文件拽入项目中
   - 导入主头文件`#import "PYPhotosView.h"`
@@ -136,12 +138,11 @@
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
 
-- **已发布（网络图片浏览）**
-
 1. 创建图片链接数组
 2. 创建photosView对象
 3. 添加对象
 
+- **已发布（网络图片浏览）**
 
 示例代码：
 
@@ -150,9 +151,9 @@
 // 1.1 创建图片链接数组
 NSMutableArray *imageUrls = [NSMutableArray array];
    
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 9; i++) {
       // 1.2 图片链接
-      NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/PYPhotosView/raw/master/images/IMG_02%02d.PNG", 25+i];
+      NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg", i + 1];
       // 1.3 添加图片链接
       [imageUrls addObject:imageUrl];
   }
