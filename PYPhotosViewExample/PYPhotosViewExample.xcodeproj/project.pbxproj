@@ -11,8 +11,6 @@
 		6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */; };
 		6B7B2B391D13E1810012B152 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */; };
 		6B7B2B881D1BFC6A0012B152 /* MBProgressHUD+PY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */; };
-		6B7B2BE81D1C092A0012B152 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B7B2BC31D1C092A0012B152 /* MBProgressHUD.bundle */; };
-		6B7B2BE91D1C092A0012B152 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BC51D1C092A0012B152 /* MBProgressHUD.m */; };
 		6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BC81D1C092A0012B152 /* MKAnnotationView+WebCache.m */; };
 		6B7B2BEB1D1C092A0012B152 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BCA1D1C092A0012B152 /* NSData+ImageContentType.m */; };
 		6B7B2BEC1D1C092A0012B152 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BCC1D1C092A0012B152 /* SDImageCache.m */; };
@@ -48,6 +46,8 @@
 		6BA2830A1D004FB3007FE7E8 /* PYPhotosView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BA282E71D004FB3007FE7E8 /* PYPhotosView.bundle */; };
 		6BA2830B1D004FB3007FE7E8 /* PYPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EA1D004FB3007FE7E8 /* PYPhotosView.m */; };
 		6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EC1D004FB3007FE7E8 /* PYPhotoView.m */; };
+		6BC54BDA1D20314500580646 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BC54BD71D20314500580646 /* MBProgressHUD.bundle */; };
+		6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC54BD91D20314500580646 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,9 +76,6 @@
 		6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
 		6B7B2B861D1BFC6A0012B152 /* MBProgressHUD+PY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PY.h"; sourceTree = "<group>"; };
 		6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PY.m"; sourceTree = "<group>"; };
-		6B7B2BC31D1C092A0012B152 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
-		6B7B2BC41D1C092A0012B152 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		6B7B2BC51D1C092A0012B152 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		6B7B2BC71D1C092A0012B152 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		6B7B2BC81D1C092A0012B152 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		6B7B2BC91D1C092A0012B152 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -149,6 +146,9 @@
 		6BA282EA1D004FB3007FE7E8 /* PYPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosView.m; sourceTree = "<group>"; };
 		6BA282EB1D004FB3007FE7E8 /* PYPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoView.h; sourceTree = "<group>"; };
 		6BA282EC1D004FB3007FE7E8 /* PYPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoView.m; sourceTree = "<group>"; };
+		6BC54BD71D20314500580646 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		6BC54BD81D20314500580646 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		6BC54BD91D20314500580646 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,20 +201,10 @@
 		6B7B2BC11D1BFE3E0012B152 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				6B7B2BC21D1C092A0012B152 /* MBProgressHUD */,
+				6BC54BD61D20314500580646 /* MBProgressHUD */,
 				6B7B2BC61D1C092A0012B152 /* SDWebImage */,
 			);
 			path = Lib;
-			sourceTree = "<group>";
-		};
-		6B7B2BC21D1C092A0012B152 /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				6B7B2BC31D1C092A0012B152 /* MBProgressHUD.bundle */,
-				6B7B2BC41D1C092A0012B152 /* MBProgressHUD.h */,
-				6B7B2BC51D1C092A0012B152 /* MBProgressHUD.m */,
-			);
-			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		6B7B2BC61D1C092A0012B152 /* SDWebImage */ = {
@@ -392,6 +382,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		6BC54BD61D20314500580646 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6BC54BD71D20314500580646 /* MBProgressHUD.bundle */,
+				6BC54BD81D20314500580646 /* MBProgressHUD.h */,
+				6BC54BD91D20314500580646 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -498,7 +498,7 @@
 			files = (
 				6BA2827E1D004F20007FE7E8 /* LaunchScreen.storyboard in Resources */,
 				6BA2830A1D004FB3007FE7E8 /* PYPhotosView.bundle in Resources */,
-				6B7B2BE81D1C092A0012B152 /* MBProgressHUD.bundle in Resources */,
+				6BC54BDA1D20314500580646 /* MBProgressHUD.bundle in Resources */,
 				6BA2827B1D004F20007FE7E8 /* Assets.xcassets in Resources */,
 				6BA282791D004F20007FE7E8 /* Main.storyboard in Resources */,
 			);
@@ -532,6 +532,7 @@
 				6BA283071D004FB3007FE7E8 /* PYPhoto.m in Sources */,
 				6B7B2BF61D1C092A0012B152 /* UIImage+WebP.m in Sources */,
 				6B7B2BEB1D1C092A0012B152 /* NSData+ImageContentType.m in Sources */,
+				6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */,
 				6BA282701D004F20007FE7E8 /* main.m in Sources */,
 				6BA2830B1D004FB3007FE7E8 /* PYPhotosView.m in Sources */,
 				6B7B2BEE1D1C092A0012B152 /* SDWebImageDecoder.m in Sources */,
@@ -558,7 +559,6 @@
 				6B7B2BF91D1C092A0012B152 /* UIView+WebCacheOperation.m in Sources */,
 				6B7B2BED1D1C092A0012B152 /* SDWebImageCompat.m in Sources */,
 				6BA282A31D004F86007FE7E8 /* PYExampleViewController.m in Sources */,
-				6B7B2BE91D1C092A0012B152 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
