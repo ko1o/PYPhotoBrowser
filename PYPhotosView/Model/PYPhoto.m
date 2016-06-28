@@ -24,4 +24,5 @@
     photo.thumbnail_pic = url;
     return photo;
 }
+
 @end

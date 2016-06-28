@@ -471,7 +471,6 @@ static CGSize originalSize;
     
     // 设置已经加载的进度
     [self.progressView setProgress:self.photo.progress animated:NO];
-    
      NSURL *url = [NSURL URLWithString:photo.thumbnail_pic];
     [self sd_setImageWithURL:url placeholderImage:PYPlaceholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         // 获取图片链接
@@ -541,14 +540,13 @@ static CGSize originalSize;
 // 监听滚动，判断cell是否在屏幕上，初始化cell
 - (void)collectionViewDidScroll:(NSNotification *)noti
 {
-    // 刷新进度条的进度
-    self.progressView.progressLabel.text = [[NSString stringWithFormat:@"%.0f%%", self.photo.progress * 100] stringByReplacingOccurrencesOfString:@"-" withString:@""];
     // 取出参数
     NSDictionary *info = noti.userInfo;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
+    // 刷新进度条的进度
     
     if (((self.photoCell.py_x >= scrollView.contentOffset.x + scrollView.py_width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.py_width >= PYPhotoCellW || self.photoCell.contentScrollView.transform.a)) { // 不在屏幕上并且有缩放或者旋转，就要初始化
-        self.photo.progress = 0.0;
+        [self.progressView setProgress:0.0 animated:NO];
         self.rotation = 0.0;
         self.scale = 1.0;
         self.transform = CGAffineTransformIdentity;
