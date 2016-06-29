@@ -138,13 +138,9 @@
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
 
-1. 创建图片链接数组
-2. 创建photosView对象
-3. 添加对象
-
 - **已发布（网络图片浏览）**
 
-示例代码：
+    示例代码：
 
 ```objc
 
@@ -168,7 +164,7 @@ NSMutableArray *imageUrls = [NSMutableArray array];
   
 - **未发布（本地图片上传\发布\预览）**
 
-示例代码：
+   示例代码：
 
 ```objc
     
@@ -230,6 +226,7 @@ photosView.imagesMaxCountWhenWillCompose = 15；
 
 ## <a id="期待什么"></a>期待
 
-- 如果在使用过程中遇到BUG,希望您呢个Issues我，谢谢（或者尝试下载最新的框架代码看看BUG修复没有）
+- 如果您在使用过程中有任何问题，欢迎直接加我QQ:499491531联系，很乐意为您解答任何相关问题
+- 如果在使用过程中遇到BUG,希望您能够个Issues我，谢谢（或者尝试下载最新的框架代码看看BUG修复没有）
 - 如果在使用过程中发现功能不够用，希望你能Issues我，我非常想为这个框架增加更多好用的功能，谢谢
 - 如果你想为PYPhotosView输出代码，请拼命Pull Requests我
