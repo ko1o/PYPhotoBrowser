@@ -12,6 +12,8 @@
 #import "PYConst.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "UIImageView+WebCache.h"
+#import "PYMoviePlayerView.h"
+#import "PYMoviePlayerController.h"
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
 
@@ -126,7 +128,6 @@
     
     // 转移到窗口上
     PYPhotoView *copyView = [[PYPhotoView alloc] initWithImage:self.selectedPhotoView.image];
-    
     // 转移坐标系
     copyView.frame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:window];
     [window addSubview:copyView];
@@ -149,11 +150,11 @@
         copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
+        copyView.hidden = YES;
         window.backgroundColor = [UIColor clearColor];
         [window addSubview:self.collectionView];
         [window addSubview:self.pageControl];
         [window addSubview:self.pageLabel];
-        copyView.hidden = YES;
     }];
     
     // 显示pageControll
@@ -188,7 +189,8 @@
 
     // 移除self.collectionView的所有子控件
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
+    // 停止播放视频
+    [self.beginView.playerController pause];
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
         // 恢复矩阵变换
@@ -306,7 +308,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.selectedPhotoView.photos.count;
+    return self.selectedPhotoView.isMovie ? 1 : self.selectedPhotoView.photos.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -317,9 +319,13 @@ static NSString * const reuseIdentifier = @"Cell";
     // 设置数据
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;
-    cell.photo = photo;
+    if (self.selectedPhotoView.isMovie) {
+        cell.movieLocalUrl = self.selectedPhotoView.movieLocalUrl;
+        cell.movieNetworkUrl = self.selectedPhotoView.movieNetworkUrl;
+    } else {
+        cell.photo = photo;
+    }
     self.selectedPhotoView.windowView = cell.photoView;
-    
     // 返回cell
     return cell;
 }

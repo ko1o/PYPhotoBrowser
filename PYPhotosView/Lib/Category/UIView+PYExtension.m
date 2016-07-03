@@ -155,5 +155,4 @@
     };
     return [self py_setAnchorPoint:anchorPoint forView:self];
 }
-
 @end

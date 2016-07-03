@@ -42,6 +42,38 @@
     photoView.photoCell = self;
 }
 
+// 设置视频
+- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+{
+    _movieLocalUrl = movieLocalUrl;
+    
+    [self setMovieUrl];
+}
+
+- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
+{
+    _movieNetworkUrl = movieNetworkUrl;
+    [self setMovieUrl];
+}
+
+- (void)setMovieUrl
+{
+    // 设置图片状态
+    self.photoView.photosView.photosState = PYPhotosViewStateDidCompose;
+    
+    [self.photoView setMovieLocalUrl:self.movieLocalUrl];
+    [self.photoView setMovieNetworkUrl:self.movieNetworkUrl];
+    self.photo.originalSize = self.photoView.py_size;
+    self.photo.verticalWidth = self.photo.originalSize.width;
+    
+    // 放大图片
+    // 设置scrollView的大小
+    self.contentScrollView.py_size = self.photoView.py_size;
+    self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+    self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
+}
+
+
 // 设置图片（图片来源自网络）
 - (void)setPhoto:(PYPhoto *)photo
 {

@@ -110,6 +110,68 @@ static PYPhotosViewController *_handleController;
     self.photos = self.photos;
 }
 
+- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+{
+    if (!movieLocalUrl) return;
+    _movieLocalUrl = movieLocalUrl;
+    self.movieNetworkUrl = nil;
+    [self setMovieUrl];
+}
+
+- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
+{
+    if (!movieNetworkUrl) return;
+    _movieNetworkUrl = movieNetworkUrl;
+    self.movieLocalUrl = nil;
+    [self setMovieUrl];
+}
+
+
+- (void)setMovieUrl
+{
+    // 移除添加图片按钮
+    [self.addImageButton removeFromSuperview];
+    // 设置图片状态
+    self.photosState = PYPhotosViewStateDidCompose;
+    
+    NSInteger photoCount = 1;
+    // 添加相应的图片
+    while (self.subviews.count < photoCount) { // UIImageView不够，需要创建
+        PYPhotoView *photoView = [[PYPhotoView alloc] init];
+        photoView.photosView = self;
+        photoView.movieLocalUrl = self.movieLocalUrl;
+        photoView.movieNetworkUrl = self.movieNetworkUrl;
+        [self addSubview:photoView];
+    }
+    
+    // 设置视频
+    for(int i = 0; i < self.subviews.count; i++)
+    {
+        PYPhotoView *photoView = self.subviews[i];
+        // 设置标记
+        photoView.tag = i;
+        if (i < photoCount) {
+            photoView.hidden = NO;
+            // 设置图片
+            photoView.movieLocalUrl = self.movieLocalUrl;
+            photoView.movieNetworkUrl = self.movieNetworkUrl;
+        }else{
+            photoView.hidden = YES;
+        }
+    }
+    
+    // 设置contentSize和 self.size
+    // 取出size
+    CGSize size = [self sizeWithPhotoCount:photoCount photosState:self.photosState];
+    self.contentSize = size;
+    self.contentOffset = CGPointZero;
+    CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
+    self.py_size = CGSizeMake(width, size.height);
+    
+    // 刷新
+    [self layoutSubviews];
+}
+
 - (void)setPhotos:(NSArray *)photos
 {
     NSMutableArray *photosM = [NSMutableArray array];
@@ -213,6 +275,20 @@ static PYPhotosViewController *_handleController;
     [self layoutSubviews];
 }
 
+- (void)setPhotoWidth:(CGFloat)photoWidth
+{
+    _photoWidth = photoWidth;
+    
+    [self layoutSubviews];
+}
+
+- (void)setPhotoHeight:(CGFloat)photoHeight
+{
+    _photoHeight = photoHeight;
+    
+    [self layoutSubviews];
+}
+
 - (void)setX:(CGFloat)x
 {
     CGRect frame = self.frame;
@@ -293,12 +369,13 @@ static PYPhotosViewController *_handleController;
     // 取消内边距
     self.contentInset = UIEdgeInsetsZero;
     NSInteger photosCount = self.photos.count > 0 ?  self.photos.count : self.images.count;
+    photosCount  = (self.movieLocalUrl.length > 0 || self.movieNetworkUrl.length > 0) ?  1 : photosCount;
+    
     NSInteger maxCol = self.photosMaxCol;
     
     if (self.photos.count == 4 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.photosState == PYPhotosViewStateDidCompose) {
         maxCol = 2;
     }
-    
     // 调整图片位置
     for (int i = 0; i < photosCount; i++) {
         PYPhotoView *photoView = self.subviews[i];

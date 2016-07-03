@@ -13,6 +13,8 @@
 #import "PYPhotoCell.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "MBProgressHUD+PY.h"
+#import "PYMoviePlayerView.h"
+#import "PYMoviePlayerController.h"
 // cell的宽
 #define PYPhotoCellW (self.photoCell.py_width > 0 ? self.photoCell.py_width : PYScreenW)
 // cell的高
@@ -99,8 +101,19 @@
         deleteImageView.hidden = YES;
         [self addSubview:deleteImageView];
         self.deleteImageView = deleteImageView;
+        // 取消自动布局
+        self.autoresizingMask = UIViewAutoresizingNone;
     }
     return self;
+}
+
+- (PYMoviePlayerController *)playerController
+{
+    if (!_playerController) {
+        _playerController = [[PYMoviePlayerController alloc] init];
+        _playerController.controlStyle = MPMovieControlStyleNone;
+    }
+    return _playerController;
 }
 
 - (void)dealloc
@@ -227,6 +240,52 @@
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
     self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
     self.loadFailureView.center = self.progressView.center;
+}
+
+
+- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+{
+    if (!movieLocalUrl) return;
+    _movieLocalUrl = movieLocalUrl;
+    self.photo = NULL;
+    self.isMovie = YES;
+    self.playerController.contentURL = [NSURL fileURLWithPath:movieLocalUrl];
+    [self addSubview:self.playerController.view];
+    if (self.isBig) { // 大图
+        self.py_size = CGSizeMake(PYScreenW, PYScreenH);
+        self.playerController.scalingMode = MPMovieScalingModeAspectFit;
+    } else {
+        self.py_size = self.photo.originalSize;
+        self.playerController.scalingMode = MPMovieScalingModeAspectFill;
+    }
+    
+    self.playerController.playView.hidden = !self.isBig;
+    self.playerController.playButtonView.hidden = self.isBig;
+    self.playerController.view.userInteractionEnabled = self.isBig;
+    self.playerController.shouldAutoplay = self.isBig;
+}
+
+- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
+{
+    if (!movieNetworkUrl) return;
+    _movieNetworkUrl = movieNetworkUrl;
+    self.photo = NULL;
+    self.isMovie = YES;
+    self.playerController.contentURL = [NSURL URLWithString:movieNetworkUrl];
+    [self addSubview:self.playerController.view];
+    if (self.isBig) { // 大图
+        self.py_size = CGSizeMake(PYScreenW, PYScreenH);
+        self.playerController.scalingMode = MPMovieScalingModeAspectFit;
+    } else {
+        self.py_size = self.photo.originalSize;
+        self.playerController.scalingMode = MPMovieScalingModeAspectFill;
+    }
+    
+    self.playerController.playView.hidden = !self.isBig;
+    self.playerController.playButtonView.hidden = self.isBig;
+    self.playerController.view.userInteractionEnabled = self.isBig;
+    self.playerController.shouldAutoplay = self.isBig;
+    
 }
 
 // 如果有旋转，需要修改锚点
@@ -429,6 +488,14 @@ static CGSize originalSize;
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
         if (!self.isBig) { // 放大
+            if (self.isMovie) { // 设置视频封面
+                // 获取当qian的缩略图
+                [self.playerController requestThumbnailImagesAtTimes:@[@(self.playerController.currentPlaybackTime)] timeOption:MPMovieTimeOptionNearestKeyFrame];
+                self.contentMode = UIViewContentModeScaleToFill;
+                // 设置封面图
+                self.image = self.playerController.playView.movieImage;
+                self.py_size = CGSizeMake(self.photosView.photoWidth, self.photosView.photoHeight);
+            }
             // 遍历所有photoFrame记录原始frame
             for (PYPhotoView *photoView in self.photosView.subviews) {
                 photoView.orignalFrame = photoView.frame;
@@ -462,6 +529,8 @@ static CGSize originalSize;
 - (void)setPhoto:(PYPhoto *)photo
 {
     _photo = photo;
+    // 移除视频播放view
+    [self.playerController.view removeFromSuperview];
     
     // 判断是否隐藏加载进度
     self.progressView.hidden = !self.isBig;
@@ -535,6 +604,11 @@ static CGSize originalSize;
     
     // 设置删除图片位置
     self.deleteImageView.py_x = self.py_width - self.deleteImageView.py_width;
+    
+    // 设置视频播放范围
+    self.playerController.view.frame = self.playerController.playView.frame = self.bounds;
+    
+    self.playerController.playButtonView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell

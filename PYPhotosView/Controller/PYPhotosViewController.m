@@ -55,7 +55,6 @@
 }
 
 #pragma mark - 处理图片时间
-
 // 图片单击
 - (void)imagePageDidChanged:(NSNotification *)notification
 {

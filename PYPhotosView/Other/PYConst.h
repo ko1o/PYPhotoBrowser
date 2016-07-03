@@ -13,13 +13,15 @@
 #define PYAddImage [UIImage imageNamed:@"PYPhotosView.bundle/addimage"] // 添加图片图
 #define PYDeleteImage [UIImage imageNamed:@"PYPhotosView.bundle/deleteimage"] // 删除图片图
 
-UIKIT_EXTERN const CGFloat PYPhotoMargin;   // 图片之间的默认间距
-UIKIT_EXTERN const CGFloat PYPhotoWidth;    // 图片的默认宽度
-UIKIT_EXTERN const CGFloat PYPhotoHeight;   // 图片的默认高度
-UIKIT_EXTERN const CGFloat PYPhotosMaxCol;  // 图片每行默认最多个数
-UIKIT_EXTERN const CGFloat PYPreviewPhotoSpacing;   // 预览图片时，图片的间距
-UIKIT_EXTERN const CGFloat PYPreviewPhotoMaxScale;  // 预览图片时，图片最大放大倍数
-UIKIT_EXTERN const CGFloat PYImagesMaxCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数
+UIKIT_EXTERN const CGFloat PYPhotoMargin;   // 图片之间的默认间距(默认为5)
+UIKIT_EXTERN const CGFloat PYPhotoWidth;    // 图片的默认宽度（默认为70）
+UIKIT_EXTERN const CGFloat PYPhotoHeight;   // 图片的默认高度（默认为70）
+UIKIT_EXTERN const CGFloat PYPhotosMaxCol;  // 图片每行默认最多个数（默认为3）
+UIKIT_EXTERN const CGFloat PYPreviewPhotoSpacing;   // 预览图片时，图片的间距（默认为30）
+UIKIT_EXTERN const CGFloat PYPreviewPhotoMaxScale;  // 预览图片时，图片最大放大倍数（默认为2）
+UIKIT_EXTERN const CGFloat PYImagesMaxCountWhenWillCompose; // 在发布状态时，最多可以上传的图片张数（默认为9）
+
+
 
 /** ---------------建议不修改的宏定义------------- */
 // 边距

@@ -49,15 +49,19 @@
     flowPhotosView.py_centerX = self.view.py_centerX;
     flowPhotosView.py_y = 20 + 64;
     
-    // 2.2 创建一个线性布局photosView
-    PYPhotosView *linePhotosView = [PYPhotosView photosView:imageUrls layoutType:PYPhotosViewLayoutTypeLine];
-    linePhotosView.py_x = PYMargin;
-    linePhotosView.py_width = self.view.py_width - 2 * PYMargin;
-    linePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
+    // 2.3 创建一个视频的photosView
+    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
+    moviePhotosView.backgroundColor = [UIColor redColor];
+    moviePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
+    moviePhotosView.py_x = PYMargin;
+    moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
+    moviePhotosView.photoHeight = 180;
+    // 设置本地视频地址
+    moviePhotosView.movieLocalUrl = [[NSBundle mainBundle] pathForResource:@"colgate.mp4" ofType:nil];
     
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];
-    [self.view addSubview:linePhotosView];
+    [self.view addSubview:moviePhotosView];
 }
 
 #pragma mark publishDidCicked 
