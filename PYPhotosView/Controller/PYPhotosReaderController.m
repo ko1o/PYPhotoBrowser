@@ -143,6 +143,7 @@
     
     // 添加控制器View
     self.collectionView.alpha = 0.0;
+    
     [UIView animateWithDuration:0.5 animations:^{
         // 放大图片
         copyView.py_width = self.collectionView.py_width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
@@ -191,6 +192,11 @@
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     // 停止播放视频
     [self.beginView.playerController pause];
+    
+    // 隐藏大窗口视频的playView，显示小窗口视频的播放按钮
+    self.beginView.playerController.playView.hidden = YES;
+    self.selectedPhotoView.playerController.playButtonView.hidden = NO;
+    
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
         // 恢复矩阵变换
@@ -322,6 +328,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (self.selectedPhotoView.isMovie) {
         cell.movieLocalUrl = self.selectedPhotoView.movieLocalUrl;
         cell.movieNetworkUrl = self.selectedPhotoView.movieNetworkUrl;
+        cell.photoView.playerController.currentPlaybackTime = self.selectedPhotoView.playerController.currentPlaybackTime;
     } else {
         cell.photo = photo;
     }

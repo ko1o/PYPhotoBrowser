@@ -17,12 +17,14 @@
 @end
 
 @interface PYMoviePlayerView : UIView
-
 /** 视频封面 */
 @property (nonatomic, strong) UIImage *movieImage;
 
 @property (nonatomic, weak) id<PYMoviePlayerViewDelegate> delegate;
 
 + (instancetype)moviePlayerView;
+
+/** 是否正在加载 */
+@property (nonatomic, assign, getter=isLoading) BOOL loading;
 
 @end

@@ -6,10 +6,14 @@
 
 
 #import <MediaPlayer/MediaPlayer.h>
-@class PYMoviePlayerView;
+@class PYMoviePlayerView, ASIHTTPRequest;
 
 @interface PYMoviePlayerController : MPMoviePlayerController
-
+{
+    ASIHTTPRequest *videoRequest;
+    unsigned long long Recordull;
+    BOOL isPlay;
+}
 @property (nonatomic, weak) PYMoviePlayerView *playView;
 
 @property (nonatomic, weak) UIImageView *playButtonView;

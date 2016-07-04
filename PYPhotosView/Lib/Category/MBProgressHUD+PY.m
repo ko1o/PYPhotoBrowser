@@ -31,6 +31,7 @@
     [self py_show:error icon:@"error.png" view:view];
 }
 
+#pragma mark 显示正确信息
 + (void)py_showSuccess:(NSString *)success toView:(UIView *)view
 {
     [self py_show:success icon:@"success.png" view:view];

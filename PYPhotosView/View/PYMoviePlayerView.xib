@@ -106,7 +106,7 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9y-YS-Um2" userLabel="downloadSlider">
                             <rect key="frame" x="0.0" y="0.0" width="0.0" height="5"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" id="Dki-Z2-fUY"/>
                             </constraints>
@@ -127,7 +127,7 @@
                             </constraints>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="u9y-YS-Um2" secondAttribute="bottom" id="9cB-1O-uuY"/>
                         <constraint firstItem="xXU-Dv-rbR" firstAttribute="top" secondItem="Zx4-IQ-Y8Q" secondAttribute="top" constant="-6" id="JBs-sN-Qqo"/>
@@ -142,29 +142,58 @@
                         <constraint firstItem="u9y-YS-Um2" firstAttribute="leading" secondItem="Zx4-IQ-Y8Q" secondAttribute="leading" id="tRQ-87-rOh"/>
                     </constraints>
                 </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dFR-sN-PVJ" userLabel="loading">
+                    <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="30H-QY-4bz"/>
+                        <constraint firstAttribute="height" constant="40" id="lnt-AW-fjE"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="30H-QY-4bz"/>
+                            <exclude reference="lnt-AW-fjE"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="30H-QY-4bz"/>
+                            <include reference="lnt-AW-fjE"/>
+                        </mask>
+                    </variation>
+                </activityIndicatorView>
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="1fp-Zg-J25" secondAttribute="bottom" id="6jW-PO-mw9"/>
                 <constraint firstAttribute="bottom" secondItem="eXS-CJ-saD" secondAttribute="bottom" id="6tG-I6-WeZ"/>
-                <constraint firstItem="j2O-Gk-cPL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="BQw-yf-e6e"/>
+                <constraint firstItem="j2O-Gk-cPL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="BQw-yf-e6e">
+                    <variation key="widthClass=compact" constant="20"/>
+                </constraint>
                 <constraint firstAttribute="trailing" secondItem="fbL-dG-ffi" secondAttribute="trailing" constant="10" id="Cc7-rr-Nt0"/>
                 <constraint firstItem="Zx4-IQ-Y8Q" firstAttribute="leading" secondItem="1fp-Zg-J25" secondAttribute="trailing" constant="5" id="Ejq-hR-Bsl"/>
                 <constraint firstItem="KyV-gg-9GC" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="FZE-iA-sir"/>
                 <constraint firstAttribute="trailing" secondItem="eXS-CJ-saD" secondAttribute="trailing" id="HaM-RD-uFv"/>
-                <constraint firstItem="Yrw-eo-Psm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="II9-Z7-zsb"/>
+                <constraint firstItem="Yrw-eo-Psm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="II9-Z7-zsb">
+                    <variation key="widthClass=compact" constant="20"/>
+                </constraint>
                 <constraint firstAttribute="bottom" secondItem="fbL-dG-ffi" secondAttribute="bottom" id="K33-dt-ejT"/>
+                <constraint firstItem="dFR-sN-PVJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Kcn-5g-AAX"/>
                 <constraint firstItem="eXS-CJ-saD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SKg-Wf-rgq"/>
                 <constraint firstAttribute="bottom" secondItem="Pg7-8i-L4c" secondAttribute="bottom" constant="5" id="TuZ-pj-JDx">
                     <variation key="widthClass=compact" constant="5"/>
                 </constraint>
-                <constraint firstAttribute="trailing" secondItem="Yrw-eo-Psm" secondAttribute="trailing" constant="10" id="XgB-6g-uQu"/>
+                <constraint firstAttribute="trailing" secondItem="Yrw-eo-Psm" secondAttribute="trailing" constant="10" id="XgB-6g-uQu">
+                    <variation key="widthClass=compact" constant="20"/>
+                </constraint>
                 <constraint firstItem="KyV-gg-9GC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZzU-uW-8WT"/>
+                <constraint firstItem="dFR-sN-PVJ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jac-it-uYY"/>
                 <constraint firstAttribute="bottom" secondItem="Zx4-IQ-Y8Q" secondAttribute="bottom" constant="14" id="jkP-Ia-Xby">
                     <variation key="widthClass=compact" constant="13"/>
                 </constraint>
                 <constraint firstItem="Pg7-8i-L4c" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="pN7-Ym-AdC"/>
                 <constraint firstItem="fbL-dG-ffi" firstAttribute="leading" secondItem="Zx4-IQ-Y8Q" secondAttribute="trailing" constant="10" id="q1n-7h-Kry"/>
-                <constraint firstItem="j2O-Gk-cPL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="rDt-ha-HbD"/>
+                <constraint firstItem="j2O-Gk-cPL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="rDt-ha-HbD">
+                    <variation key="widthClass=compact" constant="20"/>
+                </constraint>
                 <constraint firstItem="1fp-Zg-J25" firstAttribute="leading" secondItem="Pg7-8i-L4c" secondAttribute="trailing" constant="5" id="sIS-6O-YiV"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -172,8 +201,11 @@
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="eXS-CJ-saD"/>
+                    <exclude reference="dFR-sN-PVJ"/>
                 </mask>
                 <mask key="constraints">
+                    <exclude reference="Kcn-5g-AAX"/>
+                    <exclude reference="jac-it-uYY"/>
                     <exclude reference="6tG-I6-WeZ"/>
                     <exclude reference="HaM-RD-uFv"/>
                     <exclude reference="SKg-Wf-rgq"/>
@@ -182,8 +214,11 @@
             <variation key="widthClass=compact">
                 <mask key="subviews">
                     <include reference="eXS-CJ-saD"/>
+                    <include reference="dFR-sN-PVJ"/>
                 </mask>
                 <mask key="constraints">
+                    <include reference="Kcn-5g-AAX"/>
+                    <include reference="jac-it-uYY"/>
                     <include reference="6tG-I6-WeZ"/>
                     <include reference="HaM-RD-uFv"/>
                     <include reference="SKg-Wf-rgq"/>
@@ -194,7 +229,9 @@
                 <outlet property="closeButton" destination="j2O-Gk-cPL" id="emI-2c-Ty5"/>
                 <outlet property="currentTimeLabel" destination="1fp-Zg-J25" id="wbt-76-weY"/>
                 <outlet property="downloadSliderView" destination="u9y-YS-Um2" id="8bf-6d-HyG"/>
+                <outlet property="downloadSliderWidth" destination="Dki-Z2-fUY" id="jY5-wd-ewy"/>
                 <outlet property="leftTimeLabel" destination="fbL-dG-ffi" id="zAl-aJ-Mqh"/>
+                <outlet property="loadingView" destination="dFR-sN-PVJ" id="yIf-AD-AOc"/>
                 <outlet property="moreButton" destination="Yrw-eo-Psm" id="nVt-4A-MUv"/>
                 <outlet property="playOrPauseButton" destination="Pg7-8i-L4c" id="Dcw-4N-ChW"/>
                 <outlet property="playerButton" destination="KyV-gg-9GC" id="H0D-X7-78D"/>

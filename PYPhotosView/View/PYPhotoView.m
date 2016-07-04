@@ -209,6 +209,7 @@
 
 - (void)setImage:(UIImage *)image
 {
+    
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
@@ -285,6 +286,9 @@
     self.playerController.playButtonView.hidden = self.isBig;
     self.playerController.view.userInteractionEnabled = self.isBig;
     self.playerController.shouldAutoplay = self.isBig;
+    if (!self.isBig) {
+        [self.playerController prepareToPlay];
+    }
     
 }
 
@@ -487,15 +491,15 @@ static CGSize originalSize;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
+        if (self.isMovie) { // 设置视频封面
+            self.contentMode = UIViewContentModeScaleToFill;
+            // 封面图还没加载完 不允许点击
+            if (!self.playerController.playView.movieImage) return;
+            // 设置封面图
+            self.image = self.playerController.playView.movieImage;
+            self.py_size = CGSizeMake(self.photosView.photoWidth, self.photosView.photoHeight);
+        }
         if (!self.isBig) { // 放大
-            if (self.isMovie) { // 设置视频封面
-                // 获取当qian的缩略图
-                [self.playerController requestThumbnailImagesAtTimes:@[@(self.playerController.currentPlaybackTime)] timeOption:MPMovieTimeOptionNearestKeyFrame];
-                self.contentMode = UIViewContentModeScaleToFill;
-                // 设置封面图
-                self.image = self.playerController.playView.movieImage;
-                self.py_size = CGSizeMake(self.photosView.photoWidth, self.photosView.photoHeight);
-            }
             // 遍历所有photoFrame记录原始frame
             for (PYPhotoView *photoView in self.photosView.subviews) {
                 photoView.orignalFrame = photoView.frame;
@@ -653,4 +657,5 @@ static CGSize originalSize;
 {
     error ? [MBProgressHUD py_showError:@"保存失败" toView:nil] : [MBProgressHUD py_showSuccess:@"保存成功" toView:nil];
 }
+
 @end

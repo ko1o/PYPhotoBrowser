@@ -73,7 +73,6 @@
     self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
 }
 
-
 // 设置图片（图片来源自网络）
 - (void)setPhoto:(PYPhoto *)photo
 {

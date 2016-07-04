@@ -9,4 +9,5 @@
 @interface MBProgressHUD (PY)
 + (void)py_showSuccess:(NSString *)success toView:(UIView *)view;
 + (void)py_showError:(NSString *)error toView:(UIView *)view;
++ (void)py_showLoading:(NSString *)loading toView:(UIView *)view;
 @end
