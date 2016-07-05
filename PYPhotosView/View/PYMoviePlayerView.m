@@ -98,7 +98,6 @@
 {
     _loading = loading;
     
-    self.loadingView.hidden = !loading;
     ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = loading;
 }
 
@@ -332,7 +331,6 @@
     // 刷新进程
     [self updateProgress];
     self.userInteractionEnabled = YES;
-    self.loadingView.hidden = YES;
 }
 
 

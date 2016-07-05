@@ -107,7 +107,9 @@ static PYPhotosViewController *_handleController;
     _photosMaxCol = photosMaxCol;
     
     // 刷新
-    self.photos = self.photos;
+    if (self.photos.count) { // 有图片才刷新
+        self.photos = self.photos;
+    }
 }
 
 - (void)setMovieLocalUrl:(NSString *)movieLocalUrl

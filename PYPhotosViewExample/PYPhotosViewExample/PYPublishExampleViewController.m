@@ -34,7 +34,6 @@
     publishPhotosView.images = imagesM;
     // 3. 设置代理
     publishPhotosView.delegate = self;
-    
     // 4. 添加photosView
     [self.view addSubview:publishPhotosView];
     self.publishPhotosView = publishPhotosView;
