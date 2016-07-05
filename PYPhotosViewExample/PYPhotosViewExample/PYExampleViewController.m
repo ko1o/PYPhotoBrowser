@@ -56,7 +56,7 @@
     moviePhotosView.py_x = PYMargin;
     moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
     moviePhotosView.photoHeight = 200;
-    moviePhotosView.movieLocalUrl = [[NSBundle mainBundle] pathForResource:@"colgate.mp4" ofType:nil];
+//    moviePhotosView.movieLocalUrl = [[NSBundle mainBundle] pathForResource:@"colgate.mp4" ofType:nil];
 //    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
     moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     // 3. 添加photosView

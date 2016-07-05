@@ -142,25 +142,6 @@
                         <constraint firstItem="u9y-YS-Um2" firstAttribute="leading" secondItem="Zx4-IQ-Y8Q" secondAttribute="leading" id="tRQ-87-rOh"/>
                     </constraints>
                 </view>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dFR-sN-PVJ" userLabel="loading">
-                    <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="40" id="30H-QY-4bz"/>
-                        <constraint firstAttribute="height" constant="40" id="lnt-AW-fjE"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="30H-QY-4bz"/>
-                            <exclude reference="lnt-AW-fjE"/>
-                        </mask>
-                    </variation>
-                    <variation key="widthClass=compact">
-                        <mask key="constraints">
-                            <include reference="30H-QY-4bz"/>
-                            <include reference="lnt-AW-fjE"/>
-                        </mask>
-                    </variation>
-                </activityIndicatorView>
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="1fp-Zg-J25" secondAttribute="bottom" id="6jW-PO-mw9"/>
@@ -176,7 +157,6 @@
                     <variation key="widthClass=compact" constant="20"/>
                 </constraint>
                 <constraint firstAttribute="bottom" secondItem="fbL-dG-ffi" secondAttribute="bottom" id="K33-dt-ejT"/>
-                <constraint firstItem="dFR-sN-PVJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Kcn-5g-AAX"/>
                 <constraint firstItem="eXS-CJ-saD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SKg-Wf-rgq"/>
                 <constraint firstAttribute="bottom" secondItem="Pg7-8i-L4c" secondAttribute="bottom" constant="5" id="TuZ-pj-JDx">
                     <variation key="widthClass=compact" constant="5"/>
@@ -185,7 +165,6 @@
                     <variation key="widthClass=compact" constant="20"/>
                 </constraint>
                 <constraint firstItem="KyV-gg-9GC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZzU-uW-8WT"/>
-                <constraint firstItem="dFR-sN-PVJ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jac-it-uYY"/>
                 <constraint firstAttribute="bottom" secondItem="Zx4-IQ-Y8Q" secondAttribute="bottom" constant="14" id="jkP-Ia-Xby">
                     <variation key="widthClass=compact" constant="13"/>
                 </constraint>
@@ -201,11 +180,8 @@
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="eXS-CJ-saD"/>
-                    <exclude reference="dFR-sN-PVJ"/>
                 </mask>
                 <mask key="constraints">
-                    <exclude reference="Kcn-5g-AAX"/>
-                    <exclude reference="jac-it-uYY"/>
                     <exclude reference="6tG-I6-WeZ"/>
                     <exclude reference="HaM-RD-uFv"/>
                     <exclude reference="SKg-Wf-rgq"/>
@@ -214,11 +190,8 @@
             <variation key="widthClass=compact">
                 <mask key="subviews">
                     <include reference="eXS-CJ-saD"/>
-                    <include reference="dFR-sN-PVJ"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="Kcn-5g-AAX"/>
-                    <include reference="jac-it-uYY"/>
                     <include reference="6tG-I6-WeZ"/>
                     <include reference="HaM-RD-uFv"/>
                     <include reference="SKg-Wf-rgq"/>
@@ -231,7 +204,6 @@
                 <outlet property="downloadSliderView" destination="u9y-YS-Um2" id="8bf-6d-HyG"/>
                 <outlet property="downloadSliderWidth" destination="Dki-Z2-fUY" id="jY5-wd-ewy"/>
                 <outlet property="leftTimeLabel" destination="fbL-dG-ffi" id="zAl-aJ-Mqh"/>
-                <outlet property="loadingView" destination="dFR-sN-PVJ" id="yIf-AD-AOc"/>
                 <outlet property="moreButton" destination="Yrw-eo-Psm" id="nVt-4A-MUv"/>
                 <outlet property="playOrPauseButton" destination="Pg7-8i-L4c" id="Dcw-4N-ChW"/>
                 <outlet property="playerButton" destination="KyV-gg-9GC" id="H0D-X7-78D"/>
