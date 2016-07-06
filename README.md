@@ -57,9 +57,14 @@
 ![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0230.PNG)
 
 ## <a id="依赖哪些第三方框架"></a>依赖哪些第三方框架
-- `MBProgressHUD`
-- `SDWebImage`
-
+* 图片浏览依赖框架
+	- `MBProgressHUD`
+	- `SDWebImage`
+* 视频播放依赖框架/文件
+	- `ASIHTTPRequest2`
+	- `HttpServer`
+	- `Reachability2.0`
+	- `libz.tbd`
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotosView框架的主要类
 
@@ -76,6 +81,11 @@
 @property (nonatomic, strong) NSArray *photos;
 /** 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) */
 @property (nonatomic, strong) NSMutableArray *images;
+/** 视频链接(视频来自网络) **/
+@property (nonatomic, copy) NSString *movieNetworkUrl;
+/** 本地视频地址(带有文件类型后缀) */
+@property (nonatomic, copy) NSString *movieLocalUrl;
+
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;
 /** 图片布局（默认为流水布局） */
@@ -134,7 +144,8 @@
 * 手动导入：
   - 将`PYPhotosView`文件夹中的所有文件拽入项目中
   - 导入主头文件`#import "PYPhotosView.h"`
-  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD、SDWebImage`，就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
+  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、ASIHTTPRequest2(用于视频播放、缓存)、HttpServer（用于视频播放、缓存）、Reachability2（用于视频播放、缓存）`，就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。如果用到视频播放需要导入系统文件`libz.tdb`。
+  
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
 
@@ -185,6 +196,20 @@ NSMutableArray *imageUrls = [NSMutableArray array];
 
 ```
 
+- **视频播放**
+ 示例代码
+```objc
+
+	// 1. 创建视频播放的photosView
+    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
+    
+    // 2. 设置视频的网络链接
+    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+    
+    // 3. 添加photosView
+    [self.view addSubview:moviePhotosView];
+
+```
  
 ## <a id="自定义photosView"></a>自定义photosView
 
