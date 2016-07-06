@@ -29,7 +29,6 @@
 		6B7B2BF91D1C092A0012B152 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BE71D1C092A0012B152 /* UIView+WebCacheOperation.m */; };
 		6B7B2C371D1CD8610012B152 /* PYPublishExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2C361D1CD8610012B152 /* PYPublishExampleViewController.m */; };
 		6B7B2C3A1D1D22DA0012B152 /* PYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2C391D1D22DA0012B152 /* PYNavigationController.m */; };
-		6BA1B1391D2658F00010343C /* colgate.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6BA1B1381D2658F00010343C /* colgate.mp4 */; };
 		6BA1B15B1D278C9B0010343C /* PYMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B1591D278C9B0010343C /* PYMoviePlayerView.m */; };
 		6BA1B15C1D278C9B0010343C /* PYMoviePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA1B15A1D278C9B0010343C /* PYMoviePlayerView.xib */; };
 		6BA1B1621D278D2F0010343C /* PYMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B1611D278D2F0010343C /* PYMoviePlayerController.m */; };
@@ -156,7 +155,6 @@
 		6B7B2C361D1CD8610012B152 /* PYPublishExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPublishExampleViewController.m; sourceTree = "<group>"; };
 		6B7B2C381D1D22DA0012B152 /* PYNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNavigationController.h; sourceTree = "<group>"; };
 		6B7B2C391D1D22DA0012B152 /* PYNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNavigationController.m; sourceTree = "<group>"; };
-		6BA1B1381D2658F00010343C /* colgate.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = colgate.mp4; sourceTree = "<group>"; };
 		6BA1B1581D278C9B0010343C /* PYMoviePlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMoviePlayerView.h; sourceTree = "<group>"; };
 		6BA1B1591D278C9B0010343C /* PYMoviePlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMoviePlayerView.m; sourceTree = "<group>"; };
 		6BA1B15A1D278C9B0010343C /* PYMoviePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PYMoviePlayerView.xib; sourceTree = "<group>"; };
@@ -335,6 +333,7 @@
 		6B7B2BC11D1BFE3E0012B152 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				6BA1B2A51D2A25340010343C /* libz.tbd */,
 				6BA1B23C1D2A24530010343C /* ASIHTTPRequest2 */,
 				6BA1B2531D2A24530010343C /* HttpServer */,
 				6BA1B2821D2A24530010343C /* Reachability2.0 */,
@@ -498,7 +497,6 @@
 		6BA282621D004F20007FE7E8 = {
 			isa = PBXGroup;
 			children = (
-				6BA1B2A51D2A25340010343C /* libz.tbd */,
 				6BA2826D1D004F20007FE7E8 /* PYPhotosViewExample */,
 				6BA282871D004F20007FE7E8 /* PYPhotosViewExampleTests */,
 				6BA282921D004F20007FE7E8 /* PYPhotosViewExampleUITests */,
@@ -527,7 +525,6 @@
 				6BA282A21D004F86007FE7E8 /* PYExampleViewController.m */,
 				6B7B2C351D1CD8610012B152 /* PYPublishExampleViewController.h */,
 				6B7B2C361D1CD8610012B152 /* PYPublishExampleViewController.m */,
-				6BA1B1381D2658F00010343C /* colgate.mp4 */,
 				6BA2826E1D004F20007FE7E8 /* Supporting Files */,
 			);
 			path = PYPhotosViewExample;
@@ -755,7 +752,6 @@
 				6BA1B15C1D278C9B0010343C /* PYMoviePlayerView.xib in Resources */,
 				6BA2827E1D004F20007FE7E8 /* LaunchScreen.storyboard in Resources */,
 				6BA2830A1D004FB3007FE7E8 /* PYPhotosView.bundle in Resources */,
-				6BA1B1391D2658F00010343C /* colgate.mp4 in Resources */,
 				6BC54BDA1D20314500580646 /* MBProgressHUD.bundle in Resources */,
 				6BA2827B1D004F20007FE7E8 /* Assets.xcassets in Resources */,
 				6BA282791D004F20007FE7E8 /* Main.storyboard in Resources */,

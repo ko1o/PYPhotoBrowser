@@ -194,28 +194,25 @@
 
 // 滑动手势
 - (void)panDidSlide:(UIPanGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateChanged) {
-        CGFloat maxX = self.totalSliderView.py_width;
-        // 获取位移
-        CGPoint point = [sender locationInView:self.totalSliderView];
-        // 复位
-        self.sliderButton.py_centerX = point.x;
-        
-        if (self.sliderButton.py_centerX < 0) {
-            self.sliderButton.py_centerX = 0;
-        }else if (self.sliderButton.py_centerX > maxX){
-            self.sliderButton.py_centerX = maxX;
-        }
-        
-        // 滑动滑块
-        self.visitedSliderView.py_width = self.sliderButton.py_centerX;
-        // 设置时间(整秒)
-        ((PYMoviePlayerController *)self.delegate).currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
-        NSLog(@"-----%f  当前时间", ((PYMoviePlayerController *)self.delegate).currentPlaybackTime);
-        // 刷新进程
-        [self updateProgress];
+    CGFloat maxX = self.totalSliderView.py_width;
+    // 获取位移
+    CGPoint point = [sender locationInView:self.totalSliderView];
+    // 复位
+    self.sliderButton.py_centerX = point.x;
+    
+    if (self.sliderButton.py_centerX < 0) {
+        self.sliderButton.py_centerX = 0;
+    }else if (self.sliderButton.py_centerX > maxX){
+        self.sliderButton.py_centerX = maxX;
     }
     
+    // 滑动滑块
+    self.visitedSliderView.py_width = self.sliderButton.py_centerX;
+    // 设置时间(整秒)
+    ((PYMoviePlayerController *)self.delegate).currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    // 刷新进程
+    [self updateProgress];
+
     if (sender.state == UIGestureRecognizerStateBegan) {
         if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)] && self.playOrPauseButton.isSelected) { // 正在播放
             [self.delegate movicePlayerView:self didPlaybackStateChanged:MPMoviePlaybackStatePaused];
@@ -223,6 +220,7 @@
             self.playerButton.hidden = YES;
         }
     }
+    
     // 判断手势状态
     if(sender.state == UIGestureRecognizerStateEnded ||
        sender.state == UIGestureRecognizerStateFailed ||
