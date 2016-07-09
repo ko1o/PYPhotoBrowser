@@ -13,6 +13,12 @@
 
 @interface PYMoviePlayerController ()<PYMoviePlayerViewDelegate>
 
+/** 视频大小 */
+@property (nonatomic, assign) unsigned long long movieTotalSize;
+
+/** 视频缓存路径 */
+@property (nonatomic, copy) NSString *cachePath;
+
 @end
 
 @implementation PYMoviePlayerController
@@ -26,11 +32,13 @@
     playView.delegate = self;
     self.shouldAutoplay = NO;
     UIImageView *playButtonView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
+    playButtonView.hidden = YES;
     playButtonView.py_size = CGSizeMake(50, 50);
     [self.view addSubview:playButtonView];
     [self.view addSubview:playView];
     self.playView = playView;
     self.playButtonView = playButtonView;
+    self.scalingMode = MPMovieScalingModeAspectFit;
     //视频播放结束通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinished) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
@@ -57,8 +65,33 @@
 }
 
 
+- (void)setSkip:(BOOL)skip
+{
+    _skip = skip;
+    
+    if (skip && self.cachePath) {
+        // 保存时间
+        double currentTime = self.currentPlaybackTime;
+        // 快进以后就设置真实网络地址
+        self.contentURL = [NSURL URLWithString:self.movieNetworkUrl];
+        // 恢复时间
+        self.currentPlaybackTime = currentTime;
+        self.initialPlaybackTime = self.currentPlaybackTime;
+        // 更新界面
+        [self.playView updateProgress];
+        // 播放
+        [self play];
+        self.cachePath = nil;
+        [videoRequest clearDelegatesAndCancel];
+        videoRequest = nil;
+    }
+}
+
 - (void)setContentURL:(NSURL *)contentURL
 {
+    // 链接为空
+    if (!contentURL.absoluteString) return;
+    
     // 网络临时缓存
     NSString *webPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Private Documents/Temp"];
     // 离线缓存
@@ -72,27 +105,33 @@
         // 本地已经有缓存直接播放
         contentURL = [NSURL fileURLWithPath:[cachePath stringByAppendingPathComponent:contentURL.lastPathComponent]];
         videoRequest = nil;
-    } else { // 未缓存
-        // 加载缓存
-        self.playView.loading = YES;
+    } else if (!self.skip){ // 未缓存
+        // 开始加载
+        [MBProgressHUD py_showLoading:nil toView:self.view];
         ASIHTTPRequest *request=[[ASIHTTPRequest alloc] initWithURL:contentURL];
         //下载完存储目录
         [request setDownloadDestinationPath:[cachePath stringByAppendingPathComponent:contentURL.lastPathComponent]];
+        self.cachePath = [cachePath stringByAppendingString:contentURL.lastPathComponent];
         //临时存储目录
         [request setTemporaryFileDownloadPath:[webPath stringByAppendingPathComponent:contentURL.lastPathComponent]];
         [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
+            
+            self.movieTotalSize = total;
             // 暂停
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setDouble:total forKey:@"file_length"];
             Recordull += size;//Recordull全局变量，记录已下载的文件的大小
             if (!isPlay && Recordull > 400000) {
-                NSLog(@"发请求给本地服务器");
-                // 停止加载菊花
-                self.playView.loading = NO;
+                // 隐藏加载
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                
                 isPlay = !isPlay;
+                
+                NSLog(@"请求本地地址");
+                
                 // 播放(通过向本地服务器请求)
-                NSString *head = PYIOS8 ? @"http" : @"https";
-                [super setContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://127.0.0.1:12345/%@",head, contentURL.lastPathComponent]]];
+                [super setContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:12345/%@",contentURL.lastPathComponent]]];
+                
                 // 播放
                 if (![self shouldAutoplay]) return ;
                 [self play];
@@ -103,9 +142,8 @@
         [request startAsynchronous];
         videoRequest = request;
     }
-
-    [super setContentURL:contentURL];
     
+    [super setContentURL:contentURL];
 }
 
 // 视频播放结束
@@ -115,6 +153,16 @@
         isPlay = !isPlay;
         [videoRequest clearDelegatesAndCancel];
         videoRequest = nil;
+    }
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if ([fileMgr fileExistsAtPath:self.cachePath]) { // 存在文件
+        if([[fileMgr attributesOfItemAtPath:self.cachePath error:nil] fileSize] != self.movieTotalSize) { // 缓存视频和实际视频大小不一样，删除
+            [fileMgr removeItemAtPath:self.cachePath error:nil];
+            NSLog(@"删除文件");
+        } else {
+            NSLog(@"缓存视频");
+        }
     }
 }
 

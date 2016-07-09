@@ -24,5 +24,6 @@
 
 /** 是否正在加载 */
 @property (nonatomic, assign, getter=isLoading) BOOL loading;
-
+// 更新进度
+- (void)updateProgress;
 @end

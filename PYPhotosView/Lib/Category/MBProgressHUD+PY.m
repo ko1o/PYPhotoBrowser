@@ -37,5 +37,15 @@
     [self py_show:success icon:@"success.png" view:view];
 }
 
+#pragma mark 显示加载信息
++ (void)py_showLoading:(NSString *)loading toView:(UIView *)view
+{
+    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    // 快速显示一个提示信息
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:NO];
+    // 隐藏时候从父控件中移除
+    hud.removeFromSuperViewOnHide = YES;
+}
+
 
 @end

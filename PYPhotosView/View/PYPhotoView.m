@@ -261,9 +261,11 @@
     }
     
     self.playerController.playView.hidden = !self.isBig;
-    self.playerController.playButtonView.hidden = self.isBig;
     self.playerController.view.userInteractionEnabled = self.isBig;
     self.playerController.shouldAutoplay = self.isBig;
+    if (!self.isBig) {
+        [self.playerController prepareToPlay];
+    }
 }
 
 - (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
@@ -273,6 +275,7 @@
     self.photo = NULL;
     self.isMovie = YES;
     self.playerController.contentURL = [NSURL URLWithString:movieNetworkUrl];
+    self.playerController.movieNetworkUrl = movieNetworkUrl;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);
@@ -283,13 +286,11 @@
     }
     
     self.playerController.playView.hidden = !self.isBig;
-    self.playerController.playButtonView.hidden = self.isBig;
     self.playerController.view.userInteractionEnabled = self.isBig;
     self.playerController.shouldAutoplay = self.isBig;
     if (!self.isBig) {
         [self.playerController prepareToPlay];
     }
-    
 }
 
 // 如果有旋转，需要修改锚点

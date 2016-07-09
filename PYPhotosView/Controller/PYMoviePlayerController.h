@@ -18,4 +18,8 @@
 
 @property (nonatomic, weak) UIImageView *playButtonView;
 
+@property (nonatomic, copy) NSString *movieNetworkUrl;
+
+@property (nonatomic, assign) BOOL skip; // 是否快进了（想要观看的时间超过了已缓存）
+
 @end

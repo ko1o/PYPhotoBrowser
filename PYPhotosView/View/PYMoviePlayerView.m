@@ -112,14 +112,9 @@
 - (NSTimer *)timer
 {
     if (!_timer) {
-        _timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+        _timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
     }
     return _timer;
-}
-
-- (CGFloat)movieDuration
-{
-    return (NSInteger)(_movieDuration + 0.5);
 }
 
 - (IBAction)close:(id)sender {
@@ -186,7 +181,12 @@
     self.visitedSliderView.py_width = self.sliderButton.py_centerX;
     
     // 设置时间
-    ((PYMoviePlayerController *)self.delegate).currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    // 播放器
+    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    
+    playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
+    
     // 刷新进程
     [self updateProgress];
 }
@@ -208,8 +208,10 @@
     
     // 滑动滑块
     self.visitedSliderView.py_width = self.sliderButton.py_centerX;
-    // 设置时间(整秒)
-    ((PYMoviePlayerController *)self.delegate).currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    // 设置时间
+    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
     // 刷新进程
     [self updateProgress];
 
@@ -254,22 +256,23 @@
     if (!self.delegate) return;
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     CGFloat currentPlaybackTime = playerController.currentPlaybackTime;
-    NSInteger currentTime = currentPlaybackTime + 0.5;
+    double currentTime = floor(currentPlaybackTime);
+    double totalTime = floor(self.movieDuration);
     currentTime = currentTime > 0 ? currentTime : 0;
     // 当前时间
-    NSInteger currentMinute = currentTime / 60;
-    NSInteger currentSecond = currentTime % 60;
+    double currentMinute = floor(currentTime / 60.0) ;
+    double currentSecond = fmod(currentTime, 60.0);
     // 剩余时间
-    NSInteger leftMinute = (self.movieDuration - currentTime) / 60;
-    NSInteger leftSecond = ((NSInteger)(self.movieDuration - currentTime)) % 60;
-    self.currentTimeLabel.text = [NSString stringWithFormat:@"%zd:%02zd",currentMinute, currentSecond];
-    self.leftTimeLabel.text = [NSString stringWithFormat:@"-%zd:%02zd",leftMinute, leftSecond];
+    double leftMinute = floor((self.movieDuration - currentTime) / 60);
+    double leftSecond = floor(fmod((totalTime - currentTime), 60));
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f",currentMinute, currentSecond];
+    self.leftTimeLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f",leftMinute, leftSecond];
     
     // 刷新UI
-    CGFloat visitSliderW = (currentPlaybackTime / self.movieDuration) * self.totalSliderView.py_width;
+    CGFloat visitSliderW = (currentPlaybackTime / totalTime) * self.totalSliderView.py_width;
     visitSliderW = visitSliderW > 0 ? visitSliderW : 0;
     self.visitSliderWidth.constant = visitSliderW;
-    CGFloat sliderButtonL = (currentPlaybackTime / self.movieDuration) * self.totalSliderView.py_width - 6;
+    CGFloat sliderButtonL = (currentPlaybackTime / totalTime) * self.totalSliderView.py_width - 6;
     sliderButtonL = sliderButtonL > 0 ? sliderButtonL : 0;
     self.silderButtonLeading.constant = sliderButtonL;
     CGFloat downlodaSliderW = (playerController.playableDuration / playerController.duration) * self.totalSliderView.py_width;
@@ -284,6 +287,7 @@
     [self updateProgress];
     self.playOrPauseButton.selected = YES;
     self.playerButton.hidden = YES;
+    ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = YES;
     // 添加计时器
     [self addTimer];
     self.movieImage = nil;
@@ -317,7 +321,6 @@
     self.playerButton.hidden = NO;
     // 暂停
     [self pause];
-    
 }
 
 // 播放时间已获取
@@ -329,6 +332,11 @@
     // 刷新进程
     [self updateProgress];
     self.userInteractionEnabled = YES;
+    // 隐藏加载
+    [MBProgressHUD hideHUDForView:playerController.view animated:NO];
+    if (self.hidden) {
+        ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = NO;
+    }
 }
 
 
