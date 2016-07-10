@@ -56,7 +56,9 @@
     moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
     moviePhotosView.photoHeight = 200;
 //    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
-    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+//    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+//    moviePhotosView.movieNetworkUrl = @"http://krtv.qiniudn.com/150522nextapp";
+    moviePhotosView.movieNetworkUrl = @"http://www.baidu.com";
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];
     [self.view addSubview:moviePhotosView];

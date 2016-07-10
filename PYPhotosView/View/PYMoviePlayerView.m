@@ -118,6 +118,7 @@
 }
 
 - (IBAction)close:(id)sender {
+    
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
@@ -332,11 +333,15 @@
     // 刷新进程
     [self updateProgress];
     self.userInteractionEnabled = YES;
-    // 隐藏加载
+    // 隐藏加载(两次)
     [MBProgressHUD hideHUDForView:playerController.view animated:NO];
+    [MBProgressHUD hideHUDForView:playerController.view  animated:NO];
     if (self.hidden) {
         ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = NO;
     }
+    // 设置上传时间
+    playerController.currentPlaybackTime = playerController.lastPlaybackTime;
+    self.playerButton.hidden = NO;
 }
 
 

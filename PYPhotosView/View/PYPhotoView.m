@@ -112,6 +112,7 @@
     if (!_playerController) {
         _playerController = [[PYMoviePlayerController alloc] init];
         _playerController.controlStyle = MPMovieControlStyleNone;
+        
     }
     return _playerController;
 }
@@ -239,10 +240,7 @@
     // 设置scrollView的大小
     self.photoCell.contentScrollView.py_size = self.py_size;
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
-    self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
-    self.loadFailureView.center = self.progressView.center;
 }
-
 
 - (void)setMovieLocalUrl:(NSString *)movieLocalUrl
 {
@@ -250,7 +248,13 @@
     _movieLocalUrl = movieLocalUrl;
     self.photo = NULL;
     self.isMovie = YES;
-    self.playerController.contentURL = [NSURL fileURLWithPath:movieLocalUrl];
+    
+    NSURL *contentUrl = [NSURL URLWithString:movieLocalUrl];
+    // 链接非法
+    if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
+        return;
+    }
+    self.playerController.contentURL = contentUrl;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);
@@ -270,11 +274,17 @@
 
 - (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
 {
+    
     if (!movieNetworkUrl) return;
     _movieNetworkUrl = movieNetworkUrl;
     self.photo = NULL;
     self.isMovie = YES;
-    self.playerController.contentURL = [NSURL URLWithString:movieNetworkUrl];
+    NSURL *contentUrl = [NSURL URLWithString:movieNetworkUrl];
+    // 链接非法
+    if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
+        return;
+    }
+    self.playerController.contentURL = contentUrl;
     self.playerController.movieNetworkUrl = movieNetworkUrl;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
@@ -609,7 +619,9 @@ static CGSize originalSize;
     
     // 设置删除图片位置
     self.deleteImageView.py_x = self.py_width - self.deleteImageView.py_width;
-    
+    // 设置加载进程和加载错误图片位置
+    self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+    self.loadFailureView.center = self.progressView.center;
     // 设置视频播放范围
     self.playerController.view.frame = self.playerController.playView.frame = self.bounds;
     
