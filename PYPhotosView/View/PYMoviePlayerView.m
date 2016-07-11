@@ -57,7 +57,6 @@
 
 - (void)setup
 {
-    self.userInteractionEnabled = NO;
     self.sliderButton.py_width = self.sliderButton.py_height = 15;
     self.sliderButton.py_centerX = 0;
     self.sliderButton.py_centerY = self.superview.py_height * 0.5;
@@ -97,15 +96,14 @@
 - (void)setLoading:(BOOL)loading
 {
     _loading = loading;
-    
     ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = loading;
+    self.playOrPauseButton.userInteractionEnabled = self.sliderButton.userInteractionEnabled = self.totalSliderView.userInteractionEnabled = !loading;
 }
 
 + (instancetype)moviePlayerView
 {
     PYMoviePlayerView *playerView = [[[NSBundle mainBundle] loadNibNamed:@"PYMoviePlayerView" owner:nil options:0] lastObject];
     [playerView setup];
-    
     return playerView;
 }
 
@@ -336,7 +334,7 @@
     playerController.currentPlaybackTime = 0;
     // 刷新进程
     [self updateProgress];
-    self.userInteractionEnabled = YES;
+    [self setLoading:NO];
     // 隐藏加载(两次)
     [MBProgressHUD hideHUDForView:playerController.view animated:NO];
     [MBProgressHUD hideHUDForView:playerController.view  animated:NO];

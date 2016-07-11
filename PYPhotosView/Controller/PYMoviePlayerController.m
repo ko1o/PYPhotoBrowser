@@ -28,16 +28,30 @@
 /** 初始化 */
 - (void)setup
 {
-    [self.playView removeFromSuperview];
-    [self.playButtonView removeFromSuperview];
+    // 自定义播放的view
     PYMoviePlayerView *playView = [PYMoviePlayerView moviePlayerView];
     playView.delegate = self;
     self.shouldAutoplay = NO;
+    // 播放按钮
     UIImageView *playButtonView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
     playButtonView.hidden = YES;
     playButtonView.py_size = CGSizeMake(50, 50);
     [self.view addSubview:playButtonView];
     [self.view addSubview:playView];
+    // 播放时间
+    UILabel *durationLabel = [[UILabel alloc] init];
+    durationLabel.hidden = YES;
+    durationLabel.py_size = CGSizeMake(40, 20);
+    durationLabel.font = [UIFont systemFontOfSize:12];
+    durationLabel.textColor = [UIColor whiteColor];
+    durationLabel.textAlignment = NSTextAlignmentCenter;
+    durationLabel.backgroundColor = [UIColor colorWithRed:233 green:233 blue:233 alpha:0.3];
+    durationLabel.layer.cornerRadius = 2;
+    durationLabel.layer.borderWidth = 1;
+    durationLabel.layer.borderColor = [UIColor grayColor].CGColor;
+    [self.view addSubview:durationLabel];
+    
+    self.durationLabel = durationLabel;
     self.playView = playView;
     self.playButtonView = playButtonView;
     self.scalingMode = MPMovieScalingModeAspectFit;
@@ -48,14 +62,6 @@
 - (instancetype)init
 {
     if ([super init]) {
-        [self setup];
-    }
-    return self;
-}
-
-- (instancetype)initWithContentURL:(NSURL *)url
-{
-    if (self = [super initWithContentURL:url]) {
         [self setup];
     }
     return self;
@@ -139,7 +145,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setDouble:total forKey:@"file_length"];
             // 播放
-            if (!isPlay && Recordull > 1 * 1024 * 1024) { // 下载了100KB
+            if (!isPlay && Recordull > 1 * 1024 * 1024) { // 下载了1MB
                 isPlay = !isPlay;
                 // 播放(通过向本地服务器请求)
                 [super setContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:12345/%@", urlPath]]];
@@ -147,7 +153,6 @@
                 if (![self shouldAutoplay]) { // 不需要播放
                     [videoRequest clearDelegatesAndCancel];
                     videoRequest = nil;
-                    self.playView.userInteractionEnabled = YES;
                     return ;
                 }
                 [self play];
@@ -189,11 +194,15 @@
 
 - (void)movieDurationAvailable:(PYMoviePlayerView *)playerView
 {
-    
-    self.playView.userInteractionEnabled = YES;
     if (![self shouldAutoplay]) { // 还没点击播放
+        double totalMinute = floor(self.duration / 60);
+        double totalSecond = floor(fmod(self.duration, 60));
+        self.durationLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f",totalMinute, totalSecond];
+        self.durationLabel.hidden = NO;
         // 时间获取完毕, 取消下载
         [self movieFinished];
+    } else {
+        self.durationLabel.hidden = YES;
     }
 }
 

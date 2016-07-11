@@ -45,6 +45,8 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:NO];
     // 隐藏时候从父控件中移除
     hud.removeFromSuperViewOnHide = YES;
+    // 设置加载时MBProgressHUD不能与用户交互
+    hud.userInteractionEnabled = NO;
 }
 
 

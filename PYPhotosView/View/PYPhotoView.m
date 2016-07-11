@@ -546,8 +546,6 @@ static CGSize originalSize;
 - (void)setPhoto:(PYPhoto *)photo
 {
     _photo = photo;
-    // 移除视频播放view
-    [self.playerController.view removeFromSuperview];
     
     // 判断是否隐藏加载进度
     self.progressView.hidden = !self.isBig;
@@ -624,10 +622,14 @@ static CGSize originalSize;
     // 设置加载进程和加载错误图片位置
     self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
     self.loadFailureView.center = self.progressView.center;
-    // 设置视频播放范围
-    self.playerController.view.frame = self.playerController.playView.frame = self.bounds;
-    
-    self.playerController.playButtonView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+    if (self.isMovie) { // 含有视频
+        // 设置视频播放范围
+        self.playerController.view.frame = self.playerController.playView.frame = self.bounds;
+        // 设置播放按钮的位置
+        self.playerController.playButtonView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+        // 设置视频时间label的位置
+        self.playerController.durationLabel.py_origin = CGPointMake(PYMargin, self.py_height - self.playerController.durationLabel.py_height - PYMargin);
+    }
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell

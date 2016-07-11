@@ -141,8 +141,6 @@ static PYPhotosViewController *_handleController;
     while (self.subviews.count < photoCount) { // UIImageView不够，需要创建
         PYPhotoView *photoView = [[PYPhotoView alloc] init];
         photoView.photosView = self;
-        photoView.movieLocalUrl = self.movieLocalUrl;
-        photoView.movieNetworkUrl = self.movieNetworkUrl;
         [self addSubview:photoView];
     }
     

@@ -55,7 +55,7 @@
     moviePhotosView.py_x = PYMargin;
     moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
     moviePhotosView.photoHeight = 200;
-    // 2.3.1 设置视频地址
+//    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
     moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];
