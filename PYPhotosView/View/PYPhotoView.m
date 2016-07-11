@@ -15,6 +15,7 @@
 #import "MBProgressHUD+PY.h"
 #import "PYMoviePlayerView.h"
 #import "PYMoviePlayerController.h"
+#import <AVKit/AVKit.h>
 // cell的宽
 #define PYPhotoCellW (self.photoCell.py_width > 0 ? self.photoCell.py_width : PYScreenW)
 // cell的高
@@ -103,6 +104,8 @@
         self.deleteImageView = deleteImageView;
         // 取消自动布局
         self.autoresizingMask = UIViewAutoresizingNone;
+        // 设置图片为默认图片
+        self.image = PYPlaceholderImage;
     }
     return self;
 }
@@ -210,7 +213,6 @@
 
 - (void)setImage:(UIImage *)image
 {
-    
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
@@ -242,19 +244,36 @@
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
 }
 
-- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+- (void)setContentUrl:(NSString *)url
 {
-    if (!movieLocalUrl) return;
-    _movieLocalUrl = movieLocalUrl;
-    self.photo = NULL;
-    self.isMovie = YES;
-    
-    NSURL *contentUrl = [NSURL URLWithString:movieLocalUrl];
+    NSURL *contentUrl = [NSURL URLWithString:url];
     // 链接非法
     if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
+        self.loadFailureView.hidden = NO;
+        self.userInteractionEnabled = NO;
         return;
     }
+    // 链接合法
+    dispatch_async(dispatch_get_global_queue(0, 0) , ^{
+       //  判断是否是视频连接
+        AVAsset *asset = [AVURLAsset URLAssetWithURL:contentUrl options:nil];
+        NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+        BOOL hasVideoTrack = [tracks count] > 0;
+        if (!hasVideoTrack) {
+            dispatch_async(dispatch_get_main_queue(), ^{ // 刷新界面
+                self.loadFailureView.hidden = NO;
+                self.userInteractionEnabled = NO;
+                self.playerController.noVideo = YES;
+                self.playerController = nil;
+            });
+        }
+    });
+
+    self.userInteractionEnabled = YES;
+    self.photo = NULL;
+    self.isMovie = YES;
     self.playerController.contentURL = contentUrl;
+    self.playerController.movieNetworkUrl = self.movieNetworkUrl;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);
@@ -272,35 +291,18 @@
     }
 }
 
+- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+{
+     if (movieLocalUrl.length == 0) return;
+    _movieLocalUrl = movieLocalUrl;
+    [self setContentUrl:movieLocalUrl];
+}
+
 - (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
 {
-    
-    if (!movieNetworkUrl) return;
+    if (movieNetworkUrl.length == 0) return;
     _movieNetworkUrl = movieNetworkUrl;
-    self.photo = NULL;
-    self.isMovie = YES;
-    NSURL *contentUrl = [NSURL URLWithString:movieNetworkUrl];
-    // 链接非法
-    if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
-        return;
-    }
-    self.playerController.contentURL = contentUrl;
-    self.playerController.movieNetworkUrl = movieNetworkUrl;
-    [self addSubview:self.playerController.view];
-    if (self.isBig) { // 大图
-        self.py_size = CGSizeMake(PYScreenW, PYScreenH);
-        self.playerController.scalingMode = MPMovieScalingModeAspectFit;
-    } else {
-        self.py_size = self.photo.originalSize;
-        self.playerController.scalingMode = MPMovieScalingModeAspectFill;
-    }
-    
-    self.playerController.playView.hidden = !self.isBig;
-    self.playerController.view.userInteractionEnabled = self.isBig;
-    self.playerController.shouldAutoplay = self.isBig;
-    if (!self.isBig) {
-        [self.playerController prepareToPlay];
-    }
+    [self setContentUrl:self.movieNetworkUrl];
 }
 
 // 如果有旋转，需要修改锚点

@@ -121,6 +121,10 @@
     
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    if ([self.delegate respondsToSelector:@selector(closeMoviePlayerView:)]) {
+        [self.delegate closeMoviePlayerView:self];
+    }
 }
 - (IBAction)more:(id)sender {
     NSLog(@"更多...");
@@ -342,6 +346,11 @@
     // 设置上传时间
     playerController.currentPlaybackTime = playerController.lastPlaybackTime;
     self.playerButton.hidden = NO;
+    
+    // 通知代理
+    if ([self.delegate respondsToSelector:@selector(movieDurationAvailable:)]) {
+        [self.delegate movieDurationAvailable:self];
+    }
 }
 
 

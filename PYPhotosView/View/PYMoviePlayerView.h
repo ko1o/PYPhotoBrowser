@@ -12,6 +12,10 @@
 @optional
 - (void)movicePlayerView:(PYMoviePlayerView *)playerView didPlaybackStateChanged:(MPMoviePlaybackState)state;
 
+- (void)movieDurationAvailable:(PYMoviePlayerView *)playerView;
+
+- (void)closeMoviePlayerView:(PYMoviePlayerView *)playerView;
+
 @end
 
 @interface PYMoviePlayerView : UIView

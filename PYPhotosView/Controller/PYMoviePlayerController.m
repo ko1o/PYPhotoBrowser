@@ -94,6 +94,10 @@
         NSFileManager *fileMgr = [NSFileManager defaultManager];
         [fileMgr removeItemAtPath:self.movieCachePath error:nil];
         [fileMgr removeItemAtPath:self.movieTempPath error:nil];
+        // 取消下载
+        [videoRequest clearDelegatesAndCancel];
+        videoRequest = nil;
+        [self.view removeFromSuperview];
     }
 }
 
@@ -103,7 +107,7 @@
     NSString *webPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Private Documents/Temp"];
     // 离线缓存
     NSString *cachePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Private Documents/Cache"];
-    // 编码
+    // 视频地址
     NSString *urlPath = contentURL.lastPathComponent;
     self.movieCachePath = [cachePath stringByAppendingPathComponent:urlPath];
     self.movieTempPath = [webPath stringByAppendingPathComponent:urlPath];
@@ -112,6 +116,7 @@
     {
         [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
+    
     if ([fileManager fileExistsAtPath:self.movieCachePath]) { // 已缓存
         // 本地已经有缓存直接播放
         contentURL = [NSURL fileURLWithPath:self.movieCachePath];
@@ -129,17 +134,17 @@
         [request setTemporaryFileDownloadPath:self.movieTempPath];
         
         [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
-            Recordull += size; // Recordull全局变量，记录已下载的文件的大小
+            Recordull += size;
             // 暂停
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setDouble:total forKey:@"file_length"];
-            if (!isPlay) { // 下载了100KB
+            // 播放
+            if (!isPlay && Recordull > 1 * 1024 * 1024) { // 下载了100KB
                 isPlay = !isPlay;
                 // 播放(通过向本地服务器请求)
                 [super setContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:12345/%@", urlPath]]];
-                
                 // 播放
-                if (![self shouldAutoplay] && Recordull > 0.1 * 1024 * 1024) { // 不需要播放
+                if (![self shouldAutoplay]) { // 不需要播放
                     [videoRequest clearDelegatesAndCancel];
                     videoRequest = nil;
                     self.playView.userInteractionEnabled = YES;
@@ -180,6 +185,22 @@
         default:
             break;
     }
+}
+
+- (void)movieDurationAvailable:(PYMoviePlayerView *)playerView
+{
+    
+    self.playView.userInteractionEnabled = YES;
+    if (![self shouldAutoplay]) { // 还没点击播放
+        // 时间获取完毕, 取消下载
+        [self movieFinished];
+    }
+}
+
+- (void)closeMoviePlayerView:(PYMoviePlayerView *)playerView
+{
+    // 关闭播放
+    [self movieFinished];
 }
 
 @end
