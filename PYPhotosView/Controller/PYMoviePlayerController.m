@@ -12,8 +12,9 @@
 #import "PYConst.h"
 #import "PYPhotoView.h"
 #import <AVKit/AVKit.h>
+#import "PYMovie.h"
 
-@interface PYMoviePlayerController ()<PYMoviePlayerViewDelegate>
+@interface PYMoviePlayerController ()<PYMoviePlayerViewDelegate, MPMediaPlayback>
 
 /** 缓存路径 */
 @property (nonatomic, copy) NSString *movieCachePath;
@@ -28,15 +29,15 @@
 /** 初始化 */
 - (void)setup
 {
-    // 自定义播放的view
-    PYMoviePlayerView *playView = [PYMoviePlayerView moviePlayerView];
-    playView.delegate = self;
-    self.shouldAutoplay = NO;
     // 播放按钮
     UIImageView *playButtonView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
     playButtonView.hidden = YES;
     playButtonView.py_size = CGSizeMake(50, 50);
     [self.view addSubview:playButtonView];
+    // 自定义播放的view
+    PYMoviePlayerView *playView = [PYMoviePlayerView moviePlayerView];
+    playView.delegate = self;
+    self.shouldAutoplay = NO;
     [self.view addSubview:playView];
     // 播放时间
     UILabel *durationLabel = [[UILabel alloc] init];
@@ -55,6 +56,8 @@
     self.playView = playView;
     self.playButtonView = playButtonView;
     self.scalingMode = MPMovieScalingModeAspectFit;
+    self.initialPlaybackTime = 0.0;
+    self.first = YES;
     // 视频播放结束通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinished) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
@@ -72,16 +75,27 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setMovie:(PYMovie *)movie
+{
+    _movie = movie;
+    
+    self.contentURL = movie.url;
+    // 刷新界面
+    [self.playView updateProgress];
+}
+
 - (void)setSkip:(BOOL)skip
 {
     _skip = skip;
-    
+    if (!self.movie.skip) {
+        self.movie.skip = skip;
+    }
     if (skip) {
         // 保存时间
-        self.lastPlaybackTime = self.currentPlaybackTime;
+        self.movie.lastTime = self.currentPlaybackTime;
         // 快进以后就设置真实网络地址
-        if (![self.contentURL.absoluteString isEqualToString:self.movieNetworkUrl]) {
-            self.contentURL = [NSURL URLWithString:self.movieNetworkUrl];
+        if (![self.contentURL.absoluteString isEqualToString:self.movie.url.absoluteString]) {
+            self.contentURL = self.movie.url;
             // 更新界面
             [self.playView updateProgress];
             [self play];
@@ -90,6 +104,7 @@
         }
     }
 }
+
 
 - (void)setNoVideo:(BOOL)noVideo
 {
@@ -127,7 +142,7 @@
         // 本地已经有缓存直接播放
         contentURL = [NSURL fileURLWithPath:self.movieCachePath];
         videoRequest = nil;
-    } else if (!self.skip){ // 未缓存
+    } else if (!self.movie.skip){ // 未缓存
         if (videoRequest) return; // 已经开始下载
         // 开始加载
         [MBProgressHUD py_showLoading:nil toView:self.view];
@@ -165,6 +180,7 @@
     }
     
     [super setContentURL:contentURL];
+    
 }
 
 // 视频播放结束

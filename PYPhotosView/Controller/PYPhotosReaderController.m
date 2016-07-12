@@ -14,6 +14,8 @@
 #import "UIImageView+WebCache.h"
 #import "PYMoviePlayerView.h"
 #import "PYMoviePlayerController.h"
+#import "PYMovie.h"
+
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
 
@@ -197,6 +199,13 @@
     self.beginView.playerController.playView.hidden = YES;
     self.selectedPhotoView.playerController.playButtonView.hidden = NO;
     
+    // 设置当前播放时间
+    self.selectedPhotoView.movie.url = self.beginView.playerController.movie.url;
+    self.selectedPhotoView.movie.lastTime = self.beginView.playerController.movie.lastTime;
+    self.selectedPhotoView.movie.skip = self.beginView.playerController.movie.skip;
+    self.selectedPhotoView.playerController.currentPlaybackTime = self.selectedPhotoView.movie.lastTime;
+    self.selectedPhotoView.playerController.skip = self.beginView.playerController.skip;
+    
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
         // 恢复矩阵变换
@@ -326,9 +335,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;
     if (self.selectedPhotoView.isMovie) {
-        cell.movieLocalUrl = self.selectedPhotoView.movieLocalUrl;
-        cell.movieNetworkUrl = self.selectedPhotoView.movieNetworkUrl;
-        cell.photoView.playerController.currentPlaybackTime = self.selectedPhotoView.playerController.currentPlaybackTime;
+        cell.movie = self.selectedPhotoView.movie;
     } else {
         cell.photo = photo;
     }

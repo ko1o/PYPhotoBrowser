@@ -91,10 +91,12 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-0:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbL-dG-ffi" userLabel="leftTimeLabel">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-0:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbL-dG-ffi" userLabel="leftTimeLabel">
                     <rect key="frame" x="550" y="570" width="40" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="40" id="LKQ-Lc-tCv"/>
+                        <constraint firstAttribute="width" constant="40" id="LKQ-Lc-tCv">
+                            <variation key="widthClass=compact" constant="50"/>
+                        </constraint>
                         <constraint firstAttribute="height" constant="30" id="fXC-2C-2R9"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -149,7 +151,9 @@
                 <constraint firstItem="j2O-Gk-cPL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="BQw-yf-e6e">
                     <variation key="widthClass=compact" constant="20"/>
                 </constraint>
-                <constraint firstAttribute="trailing" secondItem="fbL-dG-ffi" secondAttribute="trailing" constant="10" id="Cc7-rr-Nt0"/>
+                <constraint firstAttribute="trailing" secondItem="fbL-dG-ffi" secondAttribute="trailing" constant="10" id="Cc7-rr-Nt0">
+                    <variation key="widthClass=compact" constant="5"/>
+                </constraint>
                 <constraint firstItem="Zx4-IQ-Y8Q" firstAttribute="leading" secondItem="1fp-Zg-J25" secondAttribute="trailing" constant="5" id="Ejq-hR-Bsl"/>
                 <constraint firstItem="KyV-gg-9GC" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="FZE-iA-sir"/>
                 <constraint firstAttribute="trailing" secondItem="eXS-CJ-saD" secondAttribute="trailing" id="HaM-RD-uFv"/>
@@ -174,6 +178,9 @@
                     <variation key="widthClass=compact" constant="20"/>
                 </constraint>
                 <constraint firstItem="1fp-Zg-J25" firstAttribute="leading" secondItem="Pg7-8i-L4c" secondAttribute="trailing" constant="5" id="sIS-6O-YiV"/>
+                <constraint firstItem="fbL-dG-ffi" firstAttribute="leading" secondItem="Zx4-IQ-Y8Q" secondAttribute="trailing" constant="61" id="z9M-4V-dyT">
+                    <variation key="widthClass=compact" constant="10"/>
+                </constraint>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -185,6 +192,7 @@
                     <exclude reference="6tG-I6-WeZ"/>
                     <exclude reference="HaM-RD-uFv"/>
                     <exclude reference="SKg-Wf-rgq"/>
+                    <exclude reference="z9M-4V-dyT"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
@@ -195,6 +203,8 @@
                     <include reference="6tG-I6-WeZ"/>
                     <include reference="HaM-RD-uFv"/>
                     <include reference="SKg-Wf-rgq"/>
+                    <exclude reference="q1n-7h-Kry"/>
+                    <include reference="z9M-4V-dyT"/>
                 </mask>
             </variation>
             <connections>

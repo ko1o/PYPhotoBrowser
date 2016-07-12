@@ -11,6 +11,7 @@
 #import "PYConst.h"
 #import "UIImageView+WebCache.h"
 #import "PYDALabeledCircularProgressView.h"
+#import "PYMovie.h"
 
 @implementation PYPhotoCell
 
@@ -43,29 +44,14 @@
 }
 
 // 设置视频
-- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
+- (void)setMovie:(PYMovie *)movie
 {
-    _movieLocalUrl = movieLocalUrl;
-    
-    [self setMovieUrl];
-}
-
-- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
-{
-    _movieNetworkUrl = movieNetworkUrl;
-    [self setMovieUrl];
-}
-
-- (void)setMovieUrl
-{
+    _movie = movie;
     // 设置图片状态
     self.photoView.photosView.photosState = PYPhotosViewStateDidCompose;
-    
-    [self.photoView setMovieLocalUrl:self.movieLocalUrl];
-    [self.photoView setMovieNetworkUrl:self.movieNetworkUrl];
+    self.photoView.movie = movie;
     self.photo.originalSize = self.photoView.py_size;
     self.photo.verticalWidth = self.photo.originalSize.width;
-    
     // 放大图片
     // 设置scrollView的大小
     self.contentScrollView.py_size = self.photoView.py_size;

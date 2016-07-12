@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PYConst.h"
-@class PYPhotoView,PYPhotosView;
+@class PYPhotoView,PYPhotosView, PYMovie;
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -46,6 +46,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 @property (nonatomic, copy) NSString *movieNetworkUrl;
 /** 本地视频地址(带有文件类型后缀) */
 @property (nonatomic, copy) NSString *movieLocalUrl;
+/** 视频模型 */
+@property (nonatomic, strong) PYMovie *movie;
 
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;

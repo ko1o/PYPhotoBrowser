@@ -65,6 +65,7 @@
 		6BA1B2A31D2A24530010343C /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2811D2A24530010343C /* WebSocket.m */; };
 		6BA1B2A41D2A24530010343C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2841D2A24530010343C /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BA1B2A61D2A25340010343C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA1B2A51D2A25340010343C /* libz.tbd */; };
+		6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2CE1D34B0D30010343C /* PYMovie.m */; };
 		6BA282701D004F20007FE7E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2826F1D004F20007FE7E8 /* main.m */; };
 		6BA282731D004F20007FE7E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282721D004F20007FE7E8 /* AppDelegate.m */; };
 		6BA282791D004F20007FE7E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BA282771D004F20007FE7E8 /* Main.storyboard */; };
@@ -225,6 +226,8 @@
 		6BA1B2831D2A24530010343C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		6BA1B2841D2A24530010343C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		6BA1B2A51D2A25340010343C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		6BA1B2CD1D34B0D30010343C /* PYMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMovie.h; sourceTree = "<group>"; };
+		6BA1B2CE1D34B0D30010343C /* PYMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMovie.m; sourceTree = "<group>"; };
 		6BA2826B1D004F20007FE7E8 /* PYPhotosViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PYPhotosViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA2826F1D004F20007FE7E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6BA282711D004F20007FE7E8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -566,6 +569,8 @@
 			children = (
 				6BA282E01D004FB3007FE7E8 /* PYPhoto.h */,
 				6BA282E11D004FB3007FE7E8 /* PYPhoto.m */,
+				6BA1B2CD1D34B0D30010343C /* PYMovie.h */,
+				6BA1B2CE1D34B0D30010343C /* PYMovie.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -787,6 +792,7 @@
 				6BA1B28F1D2A24530010343C /* DDAbstractDatabaseLogger.m in Sources */,
 				6BA1B2981D2A24530010343C /* GCDAsyncSocket.m in Sources */,
 				6BA1B2861D2A24530010343C /* ASIDataCompressor.m in Sources */,
+				6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */,
 				6BA1B28E1D2A24530010343C /* ContextFilterLogFormatter.m in Sources */,
 				6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */,
 				6BA1B1621D278D2F0010343C /* PYMoviePlayerController.m in Sources */,

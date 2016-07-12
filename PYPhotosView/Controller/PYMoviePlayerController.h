@@ -6,7 +6,7 @@
 
 
 #import <MediaPlayer/MediaPlayer.h>
-@class PYMoviePlayerView, ASIHTTPRequest;
+@class PYMoviePlayerView, ASIHTTPRequest, PYMovie;
 
 @interface PYMoviePlayerController : MPMoviePlayerController
 {
@@ -21,15 +21,16 @@
 @property (nonatomic, weak) UIImageView *playButtonView;
 /** 播放时间 */
 @property (nonatomic, weak) UILabel *durationLabel;
-/** 网络链接 */
-@property (nonatomic, copy) NSString *movieNetworkUrl;
+/** 视频模型 */
+@property (nonatomic, strong) PYMovie *movie;
 /** 快进了 */
 @property (nonatomic, assign) BOOL skip; // 是否快进了（想要观看的时间超过了已缓存）
 /** 最近一次播放时间 */
-@property (nonatomic, assign) NSTimeInterval lastPlaybackTime;
+//@property (nonatomic, assign) NSTimeInterval lastPlaybackTime;
 /** 不是视频 */
 @property (nonatomic, assign) BOOL noVideo;
 
-
+/** 是否是刚进入 */
+@property (nonatomic, assign) BOOL first;
 
 @end

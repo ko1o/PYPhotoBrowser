@@ -5,13 +5,14 @@
 //  预览图片的新弹出窗口控制器
 
 #import <UIKit/UIKit.h>
-@class PYPhotoView,PYPhotosView;
+@class PYPhotoView, PYPhotosView;
 
 @interface PYPhotosReaderController : UICollectionViewController
 
 + (instancetype)readerController;
 
 - (void)showPhotosToWindow:(UIWindow *)window;
+- (void)hiddenPhoto;
 
 /** 选中的照片的view*/
 @property (nonatomic, weak) PYPhotoView *selectedPhotoView;
@@ -19,6 +20,5 @@
 /** 复制的view*/
 @property (nonatomic, strong) PYPhotoView *beginView;
 
-- (void)hiddenPhoto;
 
 @end

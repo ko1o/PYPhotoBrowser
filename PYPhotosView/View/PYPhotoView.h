@@ -5,7 +5,7 @@
 //
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
-@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYMoviePlayerController;
+@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYMoviePlayerController, PYMovie;
 
 @interface PYPhotoView : UIImageView
 
@@ -15,10 +15,8 @@
 @property (nonatomic, strong) NSArray *photos;
 /** 本地相册图片 */
 @property (nonatomic, strong) NSMutableArray *images;
-/** 视频链接(视频来自网络) **/
-@property (nonatomic, copy) NSString *movieNetworkUrl;
-/** 本地视频地址(带有文件类型后缀) */
-@property (nonatomic, copy) NSString *movieLocalUrl;
+/** 视频模型 */
+@property (nonatomic, strong) PYMovie *movie;
 
 /** 是否放大状态 */
 @property (nonatomic, assign) BOOL isBig;

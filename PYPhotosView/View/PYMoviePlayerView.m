@@ -9,6 +9,7 @@
 #import "PYMoviePlayerView.h"
 #import "UIView+PYExtension.h"
 #import "PYConst.h"
+#import "PYMovie.h"
 
 @interface PYMoviePlayerView ()
 /** 中间的播放按钮 */
@@ -116,6 +117,11 @@
 }
 
 - (IBAction)close:(id)sender {
+    // 播放器
+    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    
+    // 设置模型的最新播放时间
+    playerController.movie.lastTime = playerController.currentPlaybackTime;
     
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -258,6 +264,7 @@
     // 如果没有代理 直接返回
     if (!self.delegate) return;
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    
     CGFloat currentPlaybackTime = playerController.currentPlaybackTime;
     double currentTime = floor(currentPlaybackTime);
     double totalTime = floor(self.movieDuration);
@@ -269,7 +276,7 @@
     double leftMinute = floor((self.movieDuration - currentTime) / 60);
     double leftSecond = floor(fmod((totalTime - currentTime), 60));
     self.currentTimeLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f",currentMinute, currentSecond];
-    self.leftTimeLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f",leftMinute, leftSecond];
+    self.leftTimeLabel.text = [NSString stringWithFormat:@"-%02.0f:%02.0f",leftMinute, leftSecond];
     
     // 刷新UI
     CGFloat visitSliderW = (currentPlaybackTime / totalTime) * self.totalSliderView.py_width;
@@ -301,7 +308,6 @@
 {
     // 更新进度
     [self updateProgress];
-    self.playerButton.hidden = NO;
     self.playOrPauseButton.selected = NO;
     [self removeTimer];
     self.movieImage = nil;
@@ -331,23 +337,28 @@
 {
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     self.movieDuration = playerController.duration;
-    playerController.currentPlaybackTime = 0;
+    self.playerButton.hidden = NO;
+    [playerController setInitialPlaybackTime:0.1];
+    playerController.currentPlaybackTime = 0.1;
     // 刷新进程
     [self updateProgress];
     [self setLoading:NO];
     // 隐藏加载(两次)
     [MBProgressHUD hideHUDForView:playerController.view animated:NO];
     [MBProgressHUD hideHUDForView:playerController.view  animated:NO];
-    if (self.hidden) {
-        ((PYMoviePlayerController *)self.delegate).playButtonView.hidden = NO;
-    }
-    // 设置上传时间
-    playerController.currentPlaybackTime = playerController.lastPlaybackTime;
-    self.playerButton.hidden = NO;
     
     // 通知代理
     if ([self.delegate respondsToSelector:@selector(movieDurationAvailable:)]) {
         [self.delegate movieDurationAvailable:self];
+    }
+    
+    playerController.playButtonView.hidden = playerController.shouldAutoplay;
+    // 暂停 设置播放时间
+    [playerController pause];
+    playerController.currentPlaybackTime = playerController.movie.lastTime;
+    // 开始播放
+    if ([playerController shouldAutoplay]) {
+        [playerController play];
     }
 }
 
@@ -363,6 +374,9 @@
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     if (playerController.loadState == MPMovieLoadStatePlayable ||
         playerController.loadState == MPMovieLoadStatePlaythroughOK) {
+        if (playerController.movie.skip) {
+            playerController.currentPlaybackTime = playerController.movie.lastTime;
+        }
         // 获取封面图
         if (!self.movieImage) { // 没有封面图
             // 获取当前的封面图

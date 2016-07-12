@@ -10,6 +10,7 @@
 #import "PYConst.h"
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
+#import "PYMovie.h"
 
 @interface PYPhotosView()
 
@@ -29,6 +30,15 @@ static PYPhotosViewController *_handleController;
 @implementation PYPhotosView
 
 @dynamic delegate;
+
+#pragma mark - 懒加载
+- (PYMovie *)movie
+{
+    if (!_movie) {
+        _movie = [[PYMovie alloc] init];
+    }
+    return _movie;
+}
 
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame
@@ -53,6 +63,7 @@ static PYPhotosViewController *_handleController;
         self.showsHorizontalScrollIndicator = NO;
         self.pageType = PYPhotosViewPageTypeControll;
         self.x = 0;
+        self.pagingEnabled = YES;
     }
     return self;
 }
@@ -116,6 +127,8 @@ static PYPhotosViewController *_handleController;
 {
     if (!movieLocalUrl) return;
     _movieLocalUrl = movieLocalUrl;
+    // 转成模型
+    self.movie.url = [NSURL fileURLWithPath:movieLocalUrl];
     self.movieNetworkUrl = nil;
     [self setMovieUrl];
 }
@@ -124,6 +137,8 @@ static PYPhotosViewController *_handleController;
 {
     if (!movieNetworkUrl) return;
     _movieNetworkUrl = movieNetworkUrl;
+    self.movie.url = [NSURL URLWithString:movieNetworkUrl];
+    // 转成模型
     self.movieLocalUrl = nil;
     [self setMovieUrl];
 }
@@ -152,9 +167,8 @@ static PYPhotosViewController *_handleController;
         photoView.tag = i;
         if (i < photoCount) {
             photoView.hidden = NO;
-            // 设置图片
-            photoView.movieLocalUrl = self.movieLocalUrl;
-            photoView.movieNetworkUrl = self.movieNetworkUrl;
+            // 设置视频模型
+            photoView.movie = self.movie;
         }else{
             photoView.hidden = YES;
         }

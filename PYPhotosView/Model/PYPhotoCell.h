@@ -5,7 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PYPhoto,PYPhotoView,PYPhotosView;
+@class PYPhoto,PYPhotoView,PYPhotosView, PYMovie;
 
 @interface PYPhotoCell : UICollectionViewCell
 
@@ -13,10 +13,8 @@
 @property (nonatomic, strong) PYPhoto *photo;
 /** 本地相册图片 */
 @property (nonatomic, strong) UIImage *image;
-/** 视频链接(视频来自网络) **/
-@property (nonatomic, copy) NSString *movieNetworkUrl;
-/** 本地视频地址(带有文件类型后缀) */
-@property (nonatomic, copy) NSString *movieLocalUrl;
+/** 视频模型 */
+@property (nonatomic, strong) PYMovie *movie;
 
 /** cell上的photoView */
 @property (nonatomic, strong) PYPhotoView *photoView;

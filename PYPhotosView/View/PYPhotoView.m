@@ -15,7 +15,8 @@
 #import "MBProgressHUD+PY.h"
 #import "PYMoviePlayerView.h"
 #import "PYMoviePlayerController.h"
-#import <AVKit/AVKit.h>
+#import "PYMovie.h"
+
 // cell的宽
 #define PYPhotoCellW (self.photoCell.py_width > 0 ? self.photoCell.py_width : PYScreenW)
 // cell的高
@@ -115,7 +116,6 @@
     if (!_playerController) {
         _playerController = [[PYMoviePlayerController alloc] init];
         _playerController.controlStyle = MPMovieControlStyleNone;
-        
     }
     return _playerController;
 }
@@ -244,9 +244,10 @@
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
 }
 
-- (void)setContentUrl:(NSString *)url
+- (void)setMovie:(PYMovie *)movie
 {
-    NSURL *contentUrl = [NSURL URLWithString:url];
+    _movie = movie;
+    NSURL *contentUrl = movie.url;
     // 链接非法
     if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
         self.loadFailureView.hidden = NO;
@@ -272,8 +273,9 @@
     self.userInteractionEnabled = YES;
     self.photo = NULL;
     self.isMovie = YES;
-    self.playerController.contentURL = contentUrl;
-    self.playerController.movieNetworkUrl = self.movieNetworkUrl;
+    // 将模型传给phtosView
+    self.playerController.movie = movie;
+    self.photosView.movie = self.playerController.movie;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);
@@ -289,20 +291,6 @@
     if (!self.isBig) {
         [self.playerController prepareToPlay];
     }
-}
-
-- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
-{
-     if (movieLocalUrl.length == 0) return;
-    _movieLocalUrl = movieLocalUrl;
-    [self setContentUrl:movieLocalUrl];
-}
-
-- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
-{
-    if (movieNetworkUrl.length == 0) return;
-    _movieNetworkUrl = movieNetworkUrl;
-    [self setContentUrl:self.movieNetworkUrl];
 }
 
 // 如果有旋转，需要修改锚点
