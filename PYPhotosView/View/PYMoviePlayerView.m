@@ -219,10 +219,6 @@
     self.visitedSliderView.py_width = self.sliderButton.py_centerX;
     // 设置时间
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
-    playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
-    playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
-    // 刷新进程
-    [self updateProgress];
 
     if (sender.state == UIGestureRecognizerStateBegan) {
         if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)] && self.playOrPauseButton.isSelected) { // 正在播放
@@ -236,6 +232,10 @@
     if(sender.state == UIGestureRecognizerStateEnded ||
        sender.state == UIGestureRecognizerStateFailed ||
        sender.state == UIGestureRecognizerStateCancelled) { // 滑动结束\取消\失败
+        playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+        playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
+        // 刷新进程
+        [self updateProgress];
         if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)] && self.playOrPauseButton.isSelected) {
             [self.delegate movicePlayerView:self didPlaybackStateChanged:MPMoviePlaybackStatePlaying];
         }
@@ -374,8 +374,9 @@
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     if (playerController.loadState == MPMovieLoadStatePlayable ||
         playerController.loadState == MPMovieLoadStatePlaythroughOK) {
-        if (playerController.movie.skip) {
+        if (playerController.movie.skip && self.lastTime != playerController.movie.lastTime ) {
             playerController.currentPlaybackTime = playerController.movie.lastTime;
+            self.lastTime = playerController.movie.lastTime;
         }
         // 获取封面图
         if (!self.movieImage) { // 没有封面图

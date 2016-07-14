@@ -28,6 +28,8 @@
 
 /** 是否正在加载 */
 @property (nonatomic, assign, getter=isLoading) BOOL loading;
+/** 最近一次播放时间 */
+@property (nonatomic, assign) NSTimeInterval lastTime;
 // 更新进度
 - (void)updateProgress;
 @end
