@@ -192,19 +192,20 @@
 
     // 移除self.collectionView的所有子控件
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    // 停止播放视频
-    [self.beginView.playerController pause];
+    if (self.beginView.isMovie) {
+        // 停止播放视频
+        [self.beginView.playerController pause];
+        // 隐藏大窗口视频的playView，显示小窗口视频的播放按钮
+        self.beginView.playerController.playView.hidden = YES;
+        self.selectedPhotoView.playerController.playButtonView.hidden = NO;
+        // 设置当前播放时间
+        self.selectedPhotoView.movie.url = self.beginView.playerController.movie.url;
+        self.selectedPhotoView.movie.lastTime = self.beginView.playerController.movie.lastTime;
+        self.selectedPhotoView.movie.skip = self.beginView.playerController.movie.skip;
+        self.selectedPhotoView.playerController.currentPlaybackTime = self.selectedPhotoView.movie.lastTime;
+        self.selectedPhotoView.playerController.skip = self.beginView.playerController.skip;
+    }
     
-    // 隐藏大窗口视频的playView，显示小窗口视频的播放按钮
-    self.beginView.playerController.playView.hidden = YES;
-    self.selectedPhotoView.playerController.playButtonView.hidden = NO;
-    
-    // 设置当前播放时间
-    self.selectedPhotoView.movie.url = self.beginView.playerController.movie.url;
-    self.selectedPhotoView.movie.lastTime = self.beginView.playerController.movie.lastTime;
-    self.selectedPhotoView.movie.skip = self.beginView.playerController.movie.skip;
-    self.selectedPhotoView.playerController.currentPlaybackTime = self.selectedPhotoView.movie.lastTime;
-    self.selectedPhotoView.playerController.skip = self.beginView.playerController.skip;
     
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{

@@ -157,7 +157,6 @@
     };
 }
 
-
 // 添加通知监控媒体播放控制器状态
 -(void)addNotification{
     NSNotificationCenter *notificationCenter=[NSNotificationCenter defaultCenter];
@@ -166,7 +165,6 @@
     [notificationCenter addObserver:self selector:@selector(mediaPlayerThumbnailRequestFinished:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.delegate];
     [notificationCenter addObserver:self selector:@selector(movieDurationAvailable:) name:MPMovieDurationAvailableNotification object:self.delegate];
     [notificationCenter addObserver:self selector:@selector(moviePlayerLoadStateDidChange:) name:MPMoviePlayerLoadStateDidChangeNotification object:self.delegate];
-    
 }
 
 -(void)dealloc{

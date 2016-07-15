@@ -50,16 +50,16 @@
     flowPhotosView.py_y = 20 + 64;
     
     // 2.3 创建一个视频的photosView
-    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
-    moviePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
-    moviePhotosView.py_x = PYMargin;
-    moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
-    moviePhotosView.photoHeight = 200;
-//    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
-    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+//    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
+//    moviePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
+//    moviePhotosView.py_x = PYMargin;
+//    moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
+//    moviePhotosView.photoHeight = 200;
+////    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
+//    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     // 3. 添加photosView
     [self.view addSubview:flowPhotosView];
-    [self.view addSubview:moviePhotosView];
+//    [self.view addSubview:moviePhotosView];
 }
 
 #pragma mark publishDidCicked 

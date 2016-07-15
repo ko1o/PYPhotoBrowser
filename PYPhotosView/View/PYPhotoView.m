@@ -246,6 +246,8 @@
 
 - (void)setMovie:(PYMovie *)movie
 {
+    if (!movie) return;
+    
     _movie = movie;
     NSURL *contentUrl = movie.url;
     // 链接非法
@@ -541,6 +543,9 @@ static CGSize originalSize;
     // 移除手势
     [self removeGestureRecognizers];
     
+    // 视频为空
+    self.movie = nil;
+    
     // 设置已经加载的进度
     [self.progressView setProgress:self.photo.progress animated:NO];
      NSURL *url = [NSURL URLWithString:photo.thumbnail_pic];
@@ -566,7 +571,7 @@ static CGSize originalSize;
             self.photo.verticalWidth = self.photo.originalSize.width;
         }
         // 图片加载失败(是否隐藏)
-        self.loadFailureView.hidden = image;
+        self.loadFailureView.hidden = !self.isBig || image;
     }];
 }
 
