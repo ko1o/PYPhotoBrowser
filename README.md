@@ -1,6 +1,6 @@
 # PYPhotoView
-- Framework with a simple method of rendering images
-- 用法简单的呈现一组图片的框架
+- Framework with a simple method of rendering images and play video
+- 用法简单的呈现一组图片和视频播放的框架
 
 ## Contents
 * Getting Started
@@ -27,6 +27,10 @@
 - **图片未发布（本地图片上传\发布\预览）**
 
   ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosViewWillcompose.gif)
+  
+- **视频播放**
+
+  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYMoviePlay.gif)
 
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
@@ -197,6 +201,7 @@ NSMutableArray *imageUrls = [NSMutableArray array];
 ```
 
 - **视频播放**
+ 
  示例代码
 ```objc
 
