@@ -56,6 +56,11 @@
     }
 }
 
+- (void)dealloc
+{
+    NSLog(@"PYPhotosPreviewController  delloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

@@ -52,6 +52,7 @@
 {
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"PYPhotosViewController delloc");
 }
 
 #pragma mark - 处理图片时间

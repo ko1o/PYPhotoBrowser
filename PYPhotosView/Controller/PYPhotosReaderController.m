@@ -222,6 +222,11 @@
     }];
 }
 
+- (void)dealloc
+{
+    NSLog(@"PYPhotosReaderController  delloc");
+}
+
 // 监听屏幕旋转
 - (void)deviceOrientationDidChange
 {

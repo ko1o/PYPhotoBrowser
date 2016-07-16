@@ -16,6 +16,8 @@
 
 @interface PYMoviePlayerController ()<PYMoviePlayerViewDelegate, MPMediaPlayback>
 
+
+
 /** 缓存路径 */
 @property (nonatomic, copy) NSString *movieCachePath;
 
@@ -60,7 +62,6 @@
     self.first = YES;
     // 视频播放结束通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinished) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-    NSLog(@"创建播放器");
 }
 
 - (instancetype)init
