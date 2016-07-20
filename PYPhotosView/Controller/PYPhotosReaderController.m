@@ -192,9 +192,10 @@
 
     // 移除self.collectionView的所有子控件
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     if (self.beginView.isMovie) {
         // 停止播放视频
-        [self.beginView.playerController pause];
+        [self.beginView.playerController.player pause];
         // 隐藏大窗口视频的playView，显示小窗口视频的播放按钮
         self.beginView.playerController.playView.hidden = YES;
         self.selectedPhotoView.playerController.playButtonView.hidden = NO;
@@ -202,10 +203,11 @@
         self.selectedPhotoView.movie.url = self.beginView.playerController.movie.url;
         self.selectedPhotoView.movie.lastTime = self.beginView.playerController.movie.lastTime;
         self.selectedPhotoView.movie.skip = self.beginView.playerController.movie.skip;
-        self.selectedPhotoView.playerController.currentPlaybackTime = self.selectedPhotoView.movie.lastTime;
         self.selectedPhotoView.playerController.skip = self.beginView.playerController.skip;
+        [self.selectedPhotoView.playerController setCurrentPlaybackTime:self.selectedPhotoView.movie.lastTime completionHandler:^(BOOL finished) {
+            [self.selectedPhotoView.playerController.player pause];
+        }];
     }
-    
     
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
@@ -220,11 +222,6 @@
         // 移除窗口
         self.window.hidden = YES;
     }];
-}
-
-- (void)dealloc
-{
-    NSLog(@"PYPhotosReaderController  delloc");
 }
 
 // 监听屏幕旋转

@@ -17,10 +17,8 @@
 @property (nonatomic, strong) PYPhotosReaderController *photosReader;
 /** 图片查看控制机器 */
 @property (nonatomic, strong) PYPhotosPreviewController *photosPreview;
-
 /** 相册图片*/
 @property (nonatomic, strong) NSMutableArray *images;
-
 /** 从相册中选择的图片*/
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
@@ -30,7 +28,7 @@
 
 - (instancetype)init
 {
-    if ([super init]) {
+    if (self = [super init]) {
         // 初始化
         [self setUp];
     }
@@ -52,7 +50,6 @@
 {
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    NSLog(@"PYPhotosViewController delloc");
 }
 
 #pragma mark - 处理图片时间
@@ -111,4 +108,5 @@
     [self.navigationController pushViewController:photosPreviewVc animated:YES];
     [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:nav animated:YES completion:nil];
 }
+
 @end

@@ -115,17 +115,17 @@
 {
     if (!_playerController) {
         _playerController = [[PYMoviePlayerController alloc] init];
-        _playerController.controlStyle = MPMovieControlStyleNone;
     }
     return _playerController;
 }
 
 - (void)dealloc
 {
+    self.playerController = nil;
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"PYPhotoView   销毁了");
 }
-
 
 // 监听transform
 - (void)setTransform:(CGAffineTransform)transform
@@ -281,18 +281,13 @@
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);
-        self.playerController.scalingMode = MPMovieScalingModeAspectFit;
     } else {
         self.py_size = self.photo.originalSize;
-        self.playerController.scalingMode = MPMovieScalingModeAspectFill;
     }
     
     self.playerController.playView.hidden = !self.isBig;
     self.playerController.view.userInteractionEnabled = self.isBig;
     self.playerController.shouldAutoplay = self.isBig;
-    if (!self.isBig) {
-        [self.playerController prepareToPlay];
-    }
 }
 
 // 如果有旋转，需要修改锚点

@@ -10,6 +10,8 @@
 #import "UIView+PYExtension.h"
 #import "PYConst.h"
 #import "PYMovie.h"
+#import <AVFoundation/AVFoundation.h>
+#import "PYMoviePlayerController.h"
 
 @interface PYMoviePlayerView ()
 /** 中间的播放按钮 */
@@ -121,7 +123,13 @@
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     
     // 设置模型的最新播放时间
-    playerController.movie.lastTime = playerController.currentPlaybackTime;
+    playerController.movie.lastTime = [playerController currentPlaybackTime];
+    @try {
+        [playerController.player.currentItem removeObserver:self forKeyPath:AVPlayerStatusKeyPath context:nil];
+    } @catch (NSException *exception) {
+        NSLog(@"取消KVO失败");
+    }
+    
     
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -136,35 +144,21 @@
 
 - (IBAction)playOrPause:(UIButton *)sender {
     // 播放或者暂停
-    MPMoviePlaybackState playbackState = 0;
+    PYMoviePlaybackState playbackState = 0;
     self.playerButton.hidden = self.playOrPauseButton.selected = !self.playOrPauseButton.selected;
-    playbackState = self.playerButton.hidden ? MPMoviePlaybackStatePlaying : MPMoviePlaybackStatePaused;
+    playbackState = self.playerButton.hidden ? PYMoviePlaybackStatePlaying : PYMoviePlaybackStatePaused;
     if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)]) {
         [self.delegate movicePlayerView:self didPlaybackStateChanged:playbackState];
     }
 }
 
-// 设置代理
-- (void)setDelegate:(id<PYMoviePlayerViewDelegate>)delegate
-{
-    _delegate = delegate;
-    
-    if (!_delegate){ // 没有代理移除通知
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-    } else {
-        // 有代理再添加通知
-        [self addNotification];
-    };
-}
-
 // 添加通知监控媒体播放控制器状态
 -(void)addNotification{
-    NSNotificationCenter *notificationCenter=[NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(mediaPlayerPlaybackStateChange:) name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.delegate];
-    [notificationCenter addObserver:self selector:@selector(mediaPlayerPlaybackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.delegate];
-    [notificationCenter addObserver:self selector:@selector(mediaPlayerThumbnailRequestFinished:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.delegate];
-    [notificationCenter addObserver:self selector:@selector(movieDurationAvailable:) name:MPMovieDurationAvailableNotification object:self.delegate];
-    [notificationCenter addObserver:self selector:@selector(moviePlayerLoadStateDidChange:) name:MPMoviePlayerLoadStateDidChangeNotification object:self.delegate];
+    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    
+    // 监听加载状态变化
+    [playerController.player.currentItem addObserver:self forKeyPath:AVPlayerStatusKeyPath options:NSKeyValueObservingOptionNew context:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
 }
 
 -(void)dealloc{
@@ -190,12 +184,13 @@
     // 设置时间
     // 播放器
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
-    playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
+    __block typeof(playerController) weakController = playerController;
+    [playerController setCurrentPlaybackTime:self.sliderButton.py_centerX / maxX * self.movieDuration completionHandler:^(BOOL finished) {
+        weakController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
+        // 刷新进程
+        [self updateProgress];
+    }];
     
-    playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
-    
-    // 刷新进程
-    [self updateProgress];
 }
 
 
@@ -217,26 +212,29 @@
     self.visitedSliderView.py_width = self.sliderButton.py_centerX;
     // 设置时间
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
+ 
+    [playerController setCurrentPlaybackTime:self.sliderButton.py_centerX / maxX * self.movieDuration];
+    // 刷新进程
+    [self updateProgress];
 
     if (sender.state == UIGestureRecognizerStateBegan) {
         if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)] && self.playOrPauseButton.isSelected) { // 正在播放
-            [self.delegate movicePlayerView:self didPlaybackStateChanged:MPMoviePlaybackStatePaused];
+            [self.delegate movicePlayerView:self didPlaybackStateChanged:PYMoviePlaybackStatePaused];
             self.playOrPauseButton.selected = YES;
             self.playerButton.hidden = YES;
         }
+        self.sliding = YES;
     }
     
     // 判断手势状态
     if(sender.state == UIGestureRecognizerStateEnded ||
        sender.state == UIGestureRecognizerStateFailed ||
        sender.state == UIGestureRecognizerStateCancelled) { // 滑动结束\取消\失败
-        playerController.currentPlaybackTime = self.sliderButton.py_centerX / maxX * self.movieDuration;
-        playerController.skip = self.visitedSliderView.py_width > self.downloadSliderView.py_width;
-        // 刷新进程
-        [self updateProgress];
         if ([self.delegate respondsToSelector:@selector(movicePlayerView:didPlaybackStateChanged:)] && self.playOrPauseButton.isSelected) {
-            [self.delegate movicePlayerView:self didPlaybackStateChanged:MPMoviePlaybackStatePlaying];
+            [self.delegate movicePlayerView:self didPlaybackStateChanged:PYMoviePlaybackStatePlaying];
         }
+        self.sliding = NO;
     }
 }
 
@@ -263,7 +261,7 @@
     if (!self.delegate) return;
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
     
-    CGFloat currentPlaybackTime = playerController.currentPlaybackTime;
+    CGFloat currentPlaybackTime = [playerController currentPlaybackTime];
     double currentTime = floor(currentPlaybackTime);
     double totalTime = floor(self.movieDuration);
     currentTime = currentTime > 0 ? currentTime : 0;
@@ -283,7 +281,7 @@
     CGFloat sliderButtonL = (currentPlaybackTime / totalTime) * self.totalSliderView.py_width - 6;
     sliderButtonL = sliderButtonL > 0 ? sliderButtonL : 0;
     self.silderButtonLeading.constant = sliderButtonL;
-    CGFloat downlodaSliderW = (playerController.playableDuration / playerController.duration) * self.totalSliderView.py_width;
+    CGFloat downlodaSliderW = (playerController.playableDuration / [playerController duration]) * self.totalSliderView.py_width;
     downlodaSliderW = downlodaSliderW > 0 ? downlodaSliderW : 0;
     self.downloadSliderWidth.constant = downlodaSliderW;
 }
@@ -307,22 +305,13 @@
     // 更新进度
     [self updateProgress];
     self.playOrPauseButton.selected = NO;
+    self.playerButton.hidden = NO;
     [self removeTimer];
     self.movieImage = nil;
 }
 
-- (void)mediaPlayerPlaybackStateChange:(NSNotification *)noti
-{
-    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
-    if (playerController.playbackState == MPMoviePlaybackStatePlaying) { // 正在播放
-        [self play];
-    } else if (playerController.playbackState == MPMoviePlaybackStatePaused) { // 停止播放
-        [self pause];
-    }
-}
-
 // 播放结束
-- (void)mediaPlayerPlaybackFinished:(NSNotification *)noti
+- (void)mediaPlayerPlaybackFinished
 {
     self.playOrPauseButton.selected = NO;
     self.playerButton.hidden = NO;
@@ -331,13 +320,11 @@
 }
 
 // 播放时间已获取
-- (void)movieDurationAvailable:(NSNotification *)noti
+- (void)movieDurationAvailable
 {
-    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
-    self.movieDuration = playerController.duration;
+     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    self.movieDuration = [playerController duration];
     self.playerButton.hidden = NO;
-    [playerController setInitialPlaybackTime:0.1];
-    playerController.currentPlaybackTime = 0.1;
     // 刷新进程
     [self updateProgress];
     [self setLoading:NO];
@@ -352,36 +339,62 @@
     
     playerController.playButtonView.hidden = playerController.shouldAutoplay;
     // 暂停 设置播放时间
-    [playerController pause];
-    playerController.currentPlaybackTime = playerController.movie.lastTime;
-    // 开始播放
-    if ([playerController shouldAutoplay]) {
-        [playerController play];
-    }
+    [playerController.player pause];
+    __block typeof(playerController) weakController = playerController;
+    [playerController setCurrentPlaybackTime:playerController.movie.lastTime completionHandler:^(BOOL finished) {
+        // 开始播放
+        if ([weakController shouldAutoplay]) {
+            [weakController.player play];
+            [weakController.playView play];
+        }
+    }];
 }
 
-
-// 缩略图请求完成,此方法每次截图成功都会调用一次
--(void)mediaPlayerThumbnailRequestFinished:(NSNotification *)notification{
-    self.movieImage = notification.userInfo[MPMoviePlayerThumbnailImageKey];
-}
-
-// 准备播放状态
-- (void)moviePlayerLoadStateDidChange:(NSNotification *)notification
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
     PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
-    if (playerController.loadState == MPMovieLoadStatePlayable ||
-        playerController.loadState == MPMovieLoadStatePlaythroughOK) {
-        if (playerController.movie.skip && self.lastTime != playerController.movie.lastTime ) {
-            playerController.currentPlaybackTime = playerController.movie.lastTime;
-            self.lastTime = playerController.movie.lastTime;
+    
+    if ([keyPath isEqualToString:AVPlayerStatusKeyPath]) { // 加载状态发生变化
+        AVPlayerStatus status = [[change valueForKeyPath:@"new"] longValue];
+        if (status == AVPlayerStatusReadyToPlay) { // 已加载完，可以播放
+            // 时间以获取
+            [self movieDurationAvailable];
+            
+            if (playerController.movie.skip && self.lastTime != playerController.movie.lastTime ) {
+                [playerController setCurrentPlaybackTime:playerController.movie.lastTime];
+                self.lastTime = playerController.movie.lastTime;
+            }
+            
+            // 获取封面图
+            if (!self.movieImage && ![playerController shouldAutoplay]) { // 没有封面图
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    // 获取当前的封面图
+                    [self thumbnailImageRequest:[playerController currentPlaybackTime] URL:playerController.URL];
+                });
+            }
         }
-        // 获取封面图
-        if (!self.movieImage) { // 没有封面图
-            // 获取当前的封面图
-            [playerController requestThumbnailImagesAtTimes:@[@(playerController.currentPlaybackTime)] timeOption:MPMovieTimeOptionNearestKeyFrame];
-        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (void)thumbnailImageRequest:(CGFloat )timeBySecond URL:(NSURL *)URL
+{
+        //根据url创建AVURLAsset
+        AVURLAsset *urlAsset = [AVURLAsset assetWithURL:URL];
+        //根据AVURLAsset创建AVAssetImageGenerator
+        AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+        /*截图
+         * requestTime:缩略图创建时间
+         * actualTime:缩略图实际生成的时间
+         */
+        NSError *error = nil;
+        CMTime time = CMTimeMakeWithSeconds(timeBySecond, 10);//CMTime是表示电影时间信息的结构体，第一个参数表示是视频第几秒，第二个参数表示每秒帧数.(如果要获得某一秒的第几帧可以使用CMTimeMake方法)
+        CMTime actualTime;
+        CGImageRef cgImage = [imageGenerator copyCGImageAtTime:time actualTime:&actualTime error:&error];
+        if (error) return;
+        CMTimeShow(actualTime);
+        self.movieImage = [UIImage imageWithCGImage:cgImage];//转化为UIImage
 }
 
 
