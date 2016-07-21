@@ -42,7 +42,7 @@
 - (void)setup
 {
     // 播放按钮
-    UIImageView *playButtonView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
+    UIImageView *playButtonView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PYPhotosView.bundle/play"]];
     playButtonView.hidden = YES;
     playButtonView.py_size = CGSizeMake(50, 50);
     [self.view addSubview:playButtonView];

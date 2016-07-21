@@ -213,6 +213,8 @@
 
 - (void)setImage:(UIImage *)image
 {
+    if (!image) return;
+    
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;

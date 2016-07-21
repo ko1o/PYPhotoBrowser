@@ -105,7 +105,8 @@
 
 + (instancetype)moviePlayerView
 {
-    PYMoviePlayerView *playerView = [[[NSBundle mainBundle] loadNibNamed:@"PYMoviePlayerView" owner:nil options:0] lastObject];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"PYPhotosView.bundle"]];
+    PYMoviePlayerView *playerView = [[resourceBundle loadNibNamed:@"PYMoviePlayerView" owner:nil options:0] lastObject];
     [playerView setup];
     return playerView;
 }
