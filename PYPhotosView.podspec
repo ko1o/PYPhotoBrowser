@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'PYPhotosView'
-    s.version      = ‘0.3.1'
+    s.version      = '0.3.1'
     s.summary      = 'Framework with a simple method of rendering images and play video.'
     s.homepage     = 'https://github.com/iphone5solo/PYPhotosView'
     s.license      = 'MIT'
