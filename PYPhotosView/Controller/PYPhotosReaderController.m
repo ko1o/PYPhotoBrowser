@@ -40,6 +40,9 @@
 /** 是否正在旋转 */
 @property (nonatomic, assign, getter=isRotationg) BOOL rotating;
 
+/** 是否正在拖拽 */
+@property (nonatomic, assign) BOOL dragging;
+
 @end
 
 @implementation PYPhotosReaderController
@@ -94,17 +97,12 @@
     // 获取行间距
     CGFloat lineSpacing = ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
     self.collectionView.py_width += lineSpacing;
-    // 设置collectionView的contenInset,增加范围
-    if (PYIOS8) { // iOS8 会有预留20状态栏
-        self.collectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, lineSpacing);
-    } else if (PYIOS9) { // iOS 不需要预留状态栏
-        self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, lineSpacing);
-    }
-    // 设置当前页面
-    self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, self.collectionView.py_height);
+    self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, lineSpacing);
+
     // 取消水平滚动条
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
 }
 
 + (instancetype)readerController
@@ -115,6 +113,7 @@
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     PYPhotosReaderController *readerVc = [[PYPhotosReaderController alloc] initWithCollectionViewLayout:layout];
+    readerVc.dragging = NO;
     return readerVc;
 }
 
@@ -348,19 +347,27 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 #pragma mark <UICollectionViewDelegate>
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.dragging = YES;
+}
+
 // 监听scrollView的滚动事件， 判断当前页数
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (scrollView.contentOffset.x != self.selectedPhotoView.tag * self.collectionView.py_width && PYIOS8 && !self.dragging) { // 修复在iOS8系统下，scrollView.contentOffset被系统又初始化的BUG
+        scrollView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
+    }
+
     // 发出通知
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     userInfo[PYCollectionViewDidScrollNotification] = scrollView;
     [[NSNotificationCenter defaultCenter] postNotificationName:PYCollectionViewDidScrollNotification object:nil userInfo:userInfo];
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0 || self.rotating) return;
-    
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
     self.pageControl.currentPage = page;
-    
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
     self.selectedPhotoView = photosView.subviews[page];

@@ -63,7 +63,7 @@ static PYPhotosViewController *_handleController;
         self.showsHorizontalScrollIndicator = NO;
         self.pageType = PYPhotosViewPageTypeControll;
         self.x = 0;
-        self.pagingEnabled = YES;
+        self.pagingEnabled = NO;
     }
     return self;
 }

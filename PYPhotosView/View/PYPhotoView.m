@@ -124,7 +124,6 @@
     self.playerController = nil;
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    NSLog(@"PYPhotoView   销毁了");
 }
 
 // 监听transform

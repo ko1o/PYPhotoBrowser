@@ -52,7 +52,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - 处理图片时间
+#pragma mark - 处理图片事件
 // 图片单击
 - (void)imagePageDidChanged:(NSNotification *)notification
 {

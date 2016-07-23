@@ -20,5 +20,4 @@
 /** 复制的view*/
 @property (nonatomic, strong) PYPhotoView *beginView;
 
-
 @end

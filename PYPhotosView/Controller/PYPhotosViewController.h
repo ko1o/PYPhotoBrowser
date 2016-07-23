@@ -8,4 +8,5 @@
 @class PYPhotosView;
 
 @interface PYPhotosViewController : UIViewController
+
 @end
