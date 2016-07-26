@@ -94,6 +94,12 @@
     self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    self.contentScrollView.frame = self.bounds;
+}
+
 // 设置图片（图片来源自本地相册）
 - (void)setImage:(UIImage *)image
 {

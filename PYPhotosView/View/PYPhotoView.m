@@ -279,6 +279,7 @@
     // 将模型传给phtosView
     self.playerController.movie = movie;
     self.photosView.movie = self.playerController.movie;
+    self.playerController.photoView = self;
     [self addSubview:self.playerController.view];
     if (self.isBig) { // 大图
         self.py_size = CGSizeMake(PYScreenW, PYScreenH);

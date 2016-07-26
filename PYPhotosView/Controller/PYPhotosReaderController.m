@@ -39,6 +39,8 @@
 
 /** 是否正在旋转 */
 @property (nonatomic, assign, getter=isRotationg) BOOL rotating;
+/** 是否正在缩放(图片点击) */
+@property (nonatomic, assign, getter=isScaling) BOOL scaling;
 
 /** 是否正在拖拽 */
 @property (nonatomic, assign) BOOL dragging;
@@ -146,17 +148,22 @@
     self.collectionView.alpha = 0.0;
     
     [UIView animateWithDuration:0.5 animations:^{
+        self.scaling = YES;
         // 放大图片
         copyView.py_width = self.collectionView.py_width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
         copyView.py_height = PYScreenW * imageSize.height / imageSize.width;
         copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {
+        self.scaling = NO;
         copyView.hidden = YES;
         window.backgroundColor = [UIColor clearColor];
         [window addSubview:self.collectionView];
         [window addSubview:self.pageControl];
         [window addSubview:self.pageLabel];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self deviceOrientationDidChange]; // 判断当前屏幕方向
+        });
     }];
     
     // 显示pageControll
@@ -210,12 +217,14 @@
     
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
+        self.scaling = YES;
         // 恢复矩阵变换
         self.beginView.transform = CGAffineTransformIdentity;
         // 还原图片
         self.collectionView.alpha = 0.0;
         self.beginView.frame = beginFrame;
     } completion:^(BOOL finished) {
+        self.scaling = NO;
         self.beginView.hidden = YES;
         self.collectionView.hidden = YES;
         // 移除窗口
@@ -285,7 +294,7 @@
     // 获取旋转角度
     UIRotationGestureRecognizer *rotateGR = [[UIRotationGestureRecognizer alloc] init];
     [rotateGR setValue:@(UIGestureRecognizerStateBegan) forKeyPath:@"state"];
-    rotateGR.rotation = - originalAngle;
+    rotateGR.rotation = -originalAngle;
     [self.selectedPhotoView.windowView photoDidRotation:rotateGR];
     windowView.rotationGesture = NO;
     // 恢复倍数
@@ -308,8 +317,16 @@
         self.pageLabel.py_y = height - 54;
         // 刷新数据
         [self.collectionView reloadData];
-        self.collectionView.contentSize = CGSizeMake(self.collectionView.py_width * self.selectedPhotoView.photos.count, self.collectionView.py_height);
+        NSInteger photosCount = self.selectedPhotoView.isMovie ? 1 : self.selectedPhotoView.photos.count;
+        self.collectionView.contentSize = CGSizeMake(self.collectionView.py_width * photosCount, self.collectionView.py_height);
         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (self.selectedPhotoView.isMovie) {
+                PYPhotoView *photoView = self.selectedPhotoView.windowView;
+                // 横屏或者竖屏
+                photoView.playerController.fullScreen = ABS(rotateAngle) == M_PI_2;
+            }
+        });
     } completion:^(BOOL finished) {
         self.rotating = NO;
         self.window.userInteractionEnabled = YES;

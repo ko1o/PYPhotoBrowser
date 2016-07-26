@@ -7,7 +7,7 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
-@class PYMoviePlayerView, ASIHTTPRequest, PYMovie;
+@class PYMoviePlayerView, ASIHTTPRequest, PYMovie, PYPhotoView;
 
 #define AVPlayerStatusKeyPath @"status"
 #define AVPlayerLoadedTimeRangesKeyPath @"loadedTimeRanges"
@@ -47,6 +47,8 @@ typedef NS_ENUM(NSInteger,  PYMoviePlaybackState) {
 @property (nonatomic, assign) BOOL first;
 /** 是否自动播放（也作为是否是大屏播放的标记） */
 @property (nonatomic, assign) BOOL shouldAutoplay;
+/** 是否全屏 */
+@property (nonatomic, assign) BOOL fullScreen;
 /** 可播放的时间（以下载） */
 @property (nonatomic, assign) NSTimeInterval playableDuration;
 /** 播放器对象 */
@@ -57,6 +59,8 @@ typedef NS_ENUM(NSInteger,  PYMoviePlaybackState) {
 @property (nonatomic, assign, readonly) NSTimeInterval duration;
 /** 播放状态 */
 @property (nonatomic, assign, readonly) PYMoviePlayerStatus playbackState;
+/** 播放器所在的photoView */
+@property (nonatomic, weak) PYPhotoView *photoView;
 
 /** 设置当前时间 */
 - (void)setCurrentPlaybackTime:(NSTimeInterval)time;

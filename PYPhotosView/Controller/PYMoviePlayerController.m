@@ -13,6 +13,9 @@
 #import "PYPhotoView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "PYMovie.h"
+#import "PYPhotosView.h"
+#import "PYMoviePlayerController.h"
+#import "PYPhotoCell.h"
 
 
 @interface PYMoviePlayerController ()<PYMoviePlayerViewDelegate>
@@ -114,11 +117,9 @@
         self.timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
             if (weakSelf.playView.sliding) return ; // 正在滑动 直接返回
             if (weakSelf.player.rate && !weakSelf.playing) { // 播放器正在播放, 但是UI显示暂停
-                NSLog(@"播放");
                 [weakSelf.playView play];
                 weakSelf.playing = YES;
             } else if (!weakSelf.player.rate && weakSelf.playing) { // 播放器暂停但是UI显示播放
-                NSLog(@"暂停");
                 [weakSelf.playView pause];
                 weakSelf.playing = NO;
             }
@@ -143,6 +144,19 @@
 }
 
 #pragma mark - setter
+
+- (void)setFullScreen:(BOOL)fullScreen
+{
+    _fullScreen = fullScreen;
+    if (fullScreen) { // 全屏(横屏)、
+        self.photoView.photoCell.frame = CGRectMake(0, 0, PYScreenH, PYScreenW);
+        self.photoView.frame = self.photoView.photoCell.bounds;
+        self.photoView.playerController.playView.frame = self.photoView.photoCell.bounds;
+        self.photoView.playerController.view.frame = self.photoView.frame;
+    } else {
+        self.layer.bounds = CGRectMake(0, 0, PYScreenW, PYScreenW * self.photoView.photosView.py_width / self.photoView.photosView.photoHeight);
+    }
+}
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)time
 {

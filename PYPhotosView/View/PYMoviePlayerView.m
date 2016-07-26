@@ -28,16 +28,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *moreButton;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
-/** 视频总时长 */
-@property (nonatomic, assign) CGFloat movieDuration;
-
-/** 计时器*/
-@property (nonatomic, strong) NSTimer *timer;
-
-/** 最新的计时器 */
-@property (nonatomic, strong) NSTimer *lasteTimer;
-
-
 /** 滑动块 */
 @property (weak, nonatomic) IBOutlet UIButton *sliderButton;
 /** 看过的进度view */
@@ -52,6 +42,13 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *silderButtonLeading;
 /** 下载进度条的宽度约束 */
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *downloadSliderWidth;
+
+/** 视频总时长 */
+@property (nonatomic, assign) CGFloat movieDuration;
+/** 计时器*/
+@property (nonatomic, strong) NSTimer *timer;
+/** 最新的计时器 */
+@property (nonatomic, strong) NSTimer *lasteTimer;
 
 
 @end
