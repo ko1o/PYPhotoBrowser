@@ -347,7 +347,10 @@
 // 视频播放结束
 - (void)movieFinished
 {
-    [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath context:nil];
+    @try { // 尝试移除KVO
+        [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath context:nil];
+    } @catch (NSException *exception) {}
+
     [_player removeTimeObserver:self.timeObserver];
     if (videoRequest) {
         isPlay = !isPlay;
