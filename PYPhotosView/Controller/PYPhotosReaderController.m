@@ -55,7 +55,7 @@
     if (!_pageControl) {
         _pageControl = [[UIPageControl alloc] init];
         _pageControl.py_width = self.view.py_width;
-        _pageControl.py_y = self.view.py_height - 44;
+        _pageControl.py_y = self.view.py_height - 10;
     }
     _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9;
     self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
@@ -68,7 +68,7 @@
         UILabel *pageLabel = [[UILabel alloc] init];
         pageLabel.py_height = 44;
         pageLabel.py_width = self.view.py_width;
-        pageLabel.py_y = self.view.py_height - 54;
+        pageLabel.py_y = self.view.py_height - 34;
         pageLabel.font = [UIFont boldSystemFontOfSize:16];
         pageLabel.textColor = [UIColor whiteColor];
         pageLabel.textAlignment = NSTextAlignmentCenter;
@@ -164,6 +164,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self deviceOrientationDidChange]; // 判断当前屏幕方向
         });
+        
     }];
     
     // 显示pageControll
