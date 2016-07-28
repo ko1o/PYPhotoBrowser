@@ -256,7 +256,6 @@
     if ([fileManager fileExistsAtPath:self.movieCachePath]) { // 已缓存
         // 本地已经有缓存直接播放
         contentURL = [NSURL fileURLWithPath:self.movieCachePath];
-        NSLog(@"%@", self.movieCachePath);
         _downloadManger = nil;
     } else if (!self.movie.skip){ // 未缓存
         if (_downloadManger) return; // 已经开始下载

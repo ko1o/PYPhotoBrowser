@@ -74,7 +74,7 @@
 		6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EC1D004FB3007FE7E8 /* PYPhotoView.m */; };
 		6BC54BDA1D20314500580646 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BC54BD71D20314500580646 /* MBProgressHUD.bundle */; };
 		6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC54BD91D20314500580646 /* MBProgressHUD.m */; };
-		6BD8141C1D499E690012C7ED /* PYDownloadDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */; };
+		6BD814201D49F20C0012C7ED /* PYDownloadDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8141F1D49F20C0012C7ED /* PYDownloadDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,8 +229,8 @@
 		6BC54BD71D20314500580646 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		6BC54BD81D20314500580646 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6BC54BD91D20314500580646 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		6BD8141A1D499E690012C7ED /* PYDownloadDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PYDownloadDataManager.h; path = ../../PYPhotosViewExample/PYPhotosViewExample/Lib/PYDownloadDataManager.h; sourceTree = "<group>"; };
-		6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PYDownloadDataManager.m; path = ../../PYPhotosViewExample/PYPhotosViewExample/Lib/PYDownloadDataManager.m; sourceTree = "<group>"; };
+		6BD8141E1D49F20C0012C7ED /* PYDownloadDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDownloadDataManager.h; sourceTree = "<group>"; };
+		6BD8141F1D49F20C0012C7ED /* PYDownloadDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDownloadDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,8 +540,8 @@
 		6BD8141D1D49E37A0012C7ED /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				6BD8141A1D499E690012C7ED /* PYDownloadDataManager.h */,
-				6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */,
+				6BD8141E1D49F20C0012C7ED /* PYDownloadDataManager.h */,
+				6BD8141F1D49F20C0012C7ED /* PYDownloadDataManager.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -713,7 +713,6 @@
 				6BA1B29A1D2A24530010343C /* HTTPAuthenticationRequest.m in Sources */,
 				6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */,
 				6BA283091D004FB3007FE7E8 /* PYConst.m in Sources */,
-				6BD8141C1D499E690012C7ED /* PYDownloadDataManager.m in Sources */,
 				6B7B2C371D1CD8610012B152 /* PYPublishExampleViewController.m in Sources */,
 				6BA282F21D004FB3007FE7E8 /* PYPhotosViewController.m in Sources */,
 				6B7B2BF71D1C092A0012B152 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -724,6 +723,7 @@
 				6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */,
 				6BA1B28E1D2A24530010343C /* ContextFilterLogFormatter.m in Sources */,
 				6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */,
+				6BD814201D49F20C0012C7ED /* PYDownloadDataManager.m in Sources */,
 				6BA1B1621D278D2F0010343C /* PYMoviePlayerController.m in Sources */,
 				6B7B2C3A1D1D22DA0012B152 /* PYNavigationController.m in Sources */,
 				6BA1B2A21D2A24530010343C /* HTTPServer.m in Sources */,
