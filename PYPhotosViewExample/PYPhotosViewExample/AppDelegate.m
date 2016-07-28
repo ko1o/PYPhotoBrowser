@@ -14,6 +14,7 @@
 @end
 
 @implementation AppDelegate
+
 - (void)startServer
 {
     // Start the server (and check for problems)

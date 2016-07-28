@@ -7,16 +7,16 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
-@class PYMoviePlayerView, ASIHTTPRequest, PYMovie, PYPhotoView;
+@class PYMoviePlayerView, PYMovie, PYPhotoView, PYDownloadDataManager;
 
 #define AVPlayerStatusKeyPath @"status"
 #define AVPlayerLoadedTimeRangesKeyPath @"loadedTimeRanges"
 
 @interface PYMoviePlayerController : UIViewController
 {
-    ASIHTTPRequest *videoRequest;
-    unsigned long long Recordull;
-    BOOL isPlay;
+    PYDownloadDataManager *_downloadManger;
+    unsigned long long _recordull;
+    BOOL _isPlay;
 }
 
 typedef NS_ENUM(NSInteger,  PYMoviePlayerStatus) {

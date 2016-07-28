@@ -315,6 +315,15 @@
     self.playerButton.hidden = NO;
     // 暂停
     [self pause];
+    
+    PYMoviePlayerController *playerController = (PYMoviePlayerController *)self.delegate;
+    // 获取封面图
+    if (!self.movieImage && ![playerController shouldAutoplay]) { // 没有封面图
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            // 获取当前的封面图
+            [self thumbnailImageRequest:[playerController currentPlaybackTime] URL:playerController.URL];
+        });
+    }
 }
 
 // 播放时间已获取

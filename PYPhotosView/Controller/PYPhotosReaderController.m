@@ -55,7 +55,10 @@
     if (!_pageControl) {
         _pageControl = [[UIPageControl alloc] init];
         _pageControl.py_width = self.view.py_width;
-        _pageControl.py_y = self.view.py_height - 10;
+        _pageControl.py_y = self.view.py_height - 30;
+        if (PYIOS8) { // 如果是iOS8,补上状态栏20的高度
+            _pageControl.py_y += 20;
+        }
     }
     _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9;
     self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
@@ -68,7 +71,10 @@
         UILabel *pageLabel = [[UILabel alloc] init];
         pageLabel.py_height = 44;
         pageLabel.py_width = self.view.py_width;
-        pageLabel.py_y = self.view.py_height - 34;
+        pageLabel.py_y = self.view.py_height - 54;
+        if (PYIOS8) { // 如果是iOS8,补上状态栏20的高度
+            pageLabel.py_y += 20;
+        }
         pageLabel.font = [UIFont boldSystemFontOfSize:16];
         pageLabel.textColor = [UIColor whiteColor];
         pageLabel.textAlignment = NSTextAlignmentCenter;

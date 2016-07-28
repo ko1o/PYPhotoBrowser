@@ -7,7 +7,7 @@
 #import "PYMoviePlayerController.h"
 #import "PYMoviePlayerView.h"
 #import "UIView+PYExtension.h"
-#import "ASIHTTPRequest.h"
+#import "PYDownloadDataManager.h"
 #import "MBProgressHUD.h"
 #import "PYConst.h"
 #import "PYPhotoView.h"
@@ -215,8 +215,8 @@
                 [weakSelf.player play];
             }];
             
-            [videoRequest clearDelegatesAndCancel];
-            videoRequest = nil;
+            [_downloadManger cancel];
+            _downloadManger = nil;
         }
     }
 }
@@ -231,8 +231,8 @@
         [fileMgr removeItemAtPath:self.movieCachePath error:nil];
         [fileMgr removeItemAtPath:self.movieTempPath error:nil];
         // 取消下载
-        [videoRequest clearDelegatesAndCancel];
-        videoRequest = nil;
+        [_downloadManger cancel];
+        _downloadManger = nil;
         [self.view removeFromSuperview];
     }
 }
@@ -256,42 +256,30 @@
     if ([fileManager fileExistsAtPath:self.movieCachePath]) { // 已缓存
         // 本地已经有缓存直接播放
         contentURL = [NSURL fileURLWithPath:self.movieCachePath];
-        videoRequest = nil;
+        NSLog(@"%@", self.movieCachePath);
+        _downloadManger = nil;
     } else if (!self.movie.skip){ // 未缓存
-        if (videoRequest) return; // 已经开始下载
+        if (_downloadManger) return; // 已经开始下载
         // 开始加载
         [MBProgressHUD py_showLoading:nil toView:self.view];
         
-        ASIHTTPRequest *request=[[ASIHTTPRequest alloc] initWithURL:contentURL];
-        
-        //下载完存储目录
-        [request setDownloadDestinationPath:self.movieCachePath];
-        //临时存储目录
-        [request setTemporaryFileDownloadPath:self.movieTempPath];
-        
-        [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
-            Recordull += size;
-            // 暂停
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setDouble:total forKey:@"file_length"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:contentURL];
+        PYDownloadDataManager *downloadManager = [[PYDownloadDataManager alloc] init];
+        _downloadManger = [downloadManager downloadFileWithRequest:request tempFilePatch:self.movieTempPath CacheFilePath:self.movieCachePath bytesReceivedBlock:^(unsigned long long totalBytesDownloaded, unsigned long long totalBytesExpectedToDownload) {
             // 播放
-            if (!isPlay && Recordull > 1 * 1024 * 1024) { // 下载了1MB
-                isPlay = !isPlay;
+            if (!_isPlay && totalBytesDownloaded > 1 * 1024 * 1024) { // 下载了1MB
+                _isPlay = !_isPlay;
                 // 播放(通过向本地服务器请求)
                 [self setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:12345/%@", urlPath]]];
                 // 播放
                 if (![self shouldAutoplay]) { // 不需要播放
-                    [videoRequest clearDelegatesAndCancel];
-                    videoRequest = nil;
-                    return ;
+                    [_downloadManger cancel];
+                    _downloadManger = nil;                    return ;
+                } else {
+                    [self.player play];
                 }
-                [self.player play];
             }
         }];
-        //断点续载
-        [request setAllowResumeForFileDownloads:YES];
-        [request startAsynchronous];
-        videoRequest = request;
     }
     
     [self setURL:contentURL];
@@ -312,6 +300,7 @@
             break;
     }
 }
+
 - (void)closeMoviePlayerView:(PYMoviePlayerView *)playerView
 {
     // 关闭播放
@@ -352,10 +341,12 @@
     } @catch (NSException *exception) {}
 
     [_player removeTimeObserver:self.timeObserver];
-    if (videoRequest) {
-        isPlay = !isPlay;
-        [videoRequest clearDelegatesAndCancel];
-        videoRequest = nil;
+    if (_downloadManger) {
+        [_downloadManger cancel];
+        _downloadManger = nil;
     }
+    
+    self.currentPlaybackTime = 0;
+    
 }
 @end

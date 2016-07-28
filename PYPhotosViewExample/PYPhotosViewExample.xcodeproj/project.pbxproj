@@ -31,15 +31,6 @@
 		6B7B2C3A1D1D22DA0012B152 /* PYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2C391D1D22DA0012B152 /* PYNavigationController.m */; };
 		6BA1B15B1D278C9B0010343C /* PYMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B1591D278C9B0010343C /* PYMoviePlayerView.m */; };
 		6BA1B1621D278D2F0010343C /* PYMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B1611D278D2F0010343C /* PYMoviePlayerController.m */; };
-		6BA1B2851D2A24530010343C /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B23E1D2A24530010343C /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B2861D2A24530010343C /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2411D2A24530010343C /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B2871D2A24530010343C /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2431D2A24530010343C /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B2881D2A24530010343C /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2451D2A24530010343C /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B2891D2A24530010343C /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2471D2A24530010343C /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B28A1D2A24530010343C /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2491D2A24530010343C /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B28B1D2A24530010343C /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B24D1D2A24530010343C /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B28C1D2A24530010343C /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B24F1D2A24530010343C /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6BA1B28D1D2A24530010343C /* SEAOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2521D2A24530010343C /* SEAOperationQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BA1B28E1D2A24530010343C /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2551D2A24530010343C /* ContextFilterLogFormatter.m */; };
 		6BA1B28F1D2A24530010343C /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2571D2A24530010343C /* DDAbstractDatabaseLogger.m */; };
 		6BA1B2901D2A24530010343C /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2591D2A24530010343C /* DDASLLogger.m */; };
@@ -62,7 +53,6 @@
 		6BA1B2A11D2A24530010343C /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B27C1D2A24530010343C /* HTTPRedirectResponse.m */; };
 		6BA1B2A21D2A24530010343C /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B27F1D2A24530010343C /* HTTPServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BA1B2A31D2A24530010343C /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2811D2A24530010343C /* WebSocket.m */; };
-		6BA1B2A41D2A24530010343C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2841D2A24530010343C /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BA1B2A61D2A25340010343C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA1B2A51D2A25340010343C /* libz.tbd */; };
 		6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2CE1D34B0D30010343C /* PYMovie.m */; };
 		6BA1B4641D4084910010343C /* PYPhotosView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BA1B4631D4084910010343C /* PYPhotosView.bundle */; };
@@ -84,6 +74,7 @@
 		6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EC1D004FB3007FE7E8 /* PYPhotoView.m */; };
 		6BC54BDA1D20314500580646 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BC54BD71D20314500580646 /* MBProgressHUD.bundle */; };
 		6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC54BD91D20314500580646 /* MBProgressHUD.m */; };
+		6BD8141C1D499E690012C7ED /* PYDownloadDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,28 +144,6 @@
 		6BA1B1591D278C9B0010343C /* PYMoviePlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMoviePlayerView.m; sourceTree = "<group>"; };
 		6BA1B1601D278D2F0010343C /* PYMoviePlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMoviePlayerController.h; sourceTree = "<group>"; };
 		6BA1B1611D278D2F0010343C /* PYMoviePlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMoviePlayerController.m; sourceTree = "<group>"; };
-		6BA1B23D1D2A24530010343C /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
-		6BA1B23E1D2A24530010343C /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
-		6BA1B23F1D2A24530010343C /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
-		6BA1B2401D2A24530010343C /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
-		6BA1B2411D2A24530010343C /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
-		6BA1B2421D2A24530010343C /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataDecompressor.h; sourceTree = "<group>"; };
-		6BA1B2431D2A24530010343C /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataDecompressor.m; sourceTree = "<group>"; };
-		6BA1B2441D2A24530010343C /* ASIDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDownloadCache.h; sourceTree = "<group>"; };
-		6BA1B2451D2A24530010343C /* ASIDownloadCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDownloadCache.m; sourceTree = "<group>"; };
-		6BA1B2461D2A24530010343C /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
-		6BA1B2471D2A24530010343C /* ASIFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIFormDataRequest.m; sourceTree = "<group>"; };
-		6BA1B2481D2A24530010343C /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequest.h; sourceTree = "<group>"; };
-		6BA1B2491D2A24530010343C /* ASIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequest.m; sourceTree = "<group>"; };
-		6BA1B24A1D2A24530010343C /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
-		6BA1B24B1D2A24530010343C /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
-		6BA1B24C1D2A24530010343C /* ASIInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIInputStream.h; sourceTree = "<group>"; };
-		6BA1B24D1D2A24530010343C /* ASIInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIInputStream.m; sourceTree = "<group>"; };
-		6BA1B24E1D2A24530010343C /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
-		6BA1B24F1D2A24530010343C /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
-		6BA1B2501D2A24530010343C /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
-		6BA1B2511D2A24530010343C /* SEAOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEAOperationQueue.h; sourceTree = "<group>"; };
-		6BA1B2521D2A24530010343C /* SEAOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEAOperationQueue.m; sourceTree = "<group>"; };
 		6BA1B2541D2A24530010343C /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
 		6BA1B2551D2A24530010343C /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
 		6BA1B2561D2A24530010343C /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
@@ -221,8 +190,6 @@
 		6BA1B27F1D2A24530010343C /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
 		6BA1B2801D2A24530010343C /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
 		6BA1B2811D2A24530010343C /* WebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket.m; sourceTree = "<group>"; };
-		6BA1B2831D2A24530010343C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		6BA1B2841D2A24530010343C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		6BA1B2A51D2A25340010343C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6BA1B2CD1D34B0D30010343C /* PYMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMovie.h; sourceTree = "<group>"; };
 		6BA1B2CE1D34B0D30010343C /* PYMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMovie.m; sourceTree = "<group>"; };
@@ -262,6 +229,8 @@
 		6BC54BD71D20314500580646 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		6BC54BD81D20314500580646 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6BC54BD91D20314500580646 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		6BD8141A1D499E690012C7ED /* PYDownloadDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PYDownloadDataManager.h; path = ../../PYPhotosViewExample/PYPhotosViewExample/Lib/PYDownloadDataManager.h; sourceTree = "<group>"; };
+		6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PYDownloadDataManager.m; path = ../../PYPhotosViewExample/PYPhotosViewExample/Lib/PYDownloadDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,9 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				6BA1B2A51D2A25340010343C /* libz.tbd */,
-				6BA1B23C1D2A24530010343C /* ASIHTTPRequest2 */,
 				6BA1B2531D2A24530010343C /* HttpServer */,
-				6BA1B2821D2A24530010343C /* Reachability2.0 */,
 				6BC54BD61D20314500580646 /* MBProgressHUD */,
 				6B7B2BC61D1C092A0012B152 /* SDWebImage */,
 			);
@@ -363,35 +330,6 @@
 				6B7B2BE71D1C092A0012B152 /* UIView+WebCacheOperation.m */,
 			);
 			path = SDWebImage;
-			sourceTree = "<group>";
-		};
-		6BA1B23C1D2A24530010343C /* ASIHTTPRequest2 */ = {
-			isa = PBXGroup;
-			children = (
-				6BA1B23D1D2A24530010343C /* ASIAuthenticationDialog.h */,
-				6BA1B23E1D2A24530010343C /* ASIAuthenticationDialog.m */,
-				6BA1B23F1D2A24530010343C /* ASICacheDelegate.h */,
-				6BA1B2401D2A24530010343C /* ASIDataCompressor.h */,
-				6BA1B2411D2A24530010343C /* ASIDataCompressor.m */,
-				6BA1B2421D2A24530010343C /* ASIDataDecompressor.h */,
-				6BA1B2431D2A24530010343C /* ASIDataDecompressor.m */,
-				6BA1B2441D2A24530010343C /* ASIDownloadCache.h */,
-				6BA1B2451D2A24530010343C /* ASIDownloadCache.m */,
-				6BA1B2461D2A24530010343C /* ASIFormDataRequest.h */,
-				6BA1B2471D2A24530010343C /* ASIFormDataRequest.m */,
-				6BA1B2481D2A24530010343C /* ASIHTTPRequest.h */,
-				6BA1B2491D2A24530010343C /* ASIHTTPRequest.m */,
-				6BA1B24A1D2A24530010343C /* ASIHTTPRequestConfig.h */,
-				6BA1B24B1D2A24530010343C /* ASIHTTPRequestDelegate.h */,
-				6BA1B24C1D2A24530010343C /* ASIInputStream.h */,
-				6BA1B24D1D2A24530010343C /* ASIInputStream.m */,
-				6BA1B24E1D2A24530010343C /* ASINetworkQueue.h */,
-				6BA1B24F1D2A24530010343C /* ASINetworkQueue.m */,
-				6BA1B2501D2A24530010343C /* ASIProgressDelegate.h */,
-				6BA1B2511D2A24530010343C /* SEAOperationQueue.h */,
-				6BA1B2521D2A24530010343C /* SEAOperationQueue.m */,
-			);
-			path = ASIHTTPRequest2;
 			sourceTree = "<group>";
 		};
 		6BA1B2531D2A24530010343C /* HttpServer */ = {
@@ -445,15 +383,6 @@
 				6BA1B2811D2A24530010343C /* WebSocket.m */,
 			);
 			path = HttpServer;
-			sourceTree = "<group>";
-		};
-		6BA1B2821D2A24530010343C /* Reachability2.0 */ = {
-			isa = PBXGroup;
-			children = (
-				6BA1B2831D2A24530010343C /* Reachability.h */,
-				6BA1B2841D2A24530010343C /* Reachability.m */,
-			);
-			path = Reachability2.0;
 			sourceTree = "<group>";
 		};
 		6BA282621D004F20007FE7E8 = {
@@ -525,12 +454,13 @@
 		6BA282A41D004FB3007FE7E8 /* PYPhotosView */ = {
 			isa = PBXGroup;
 			children = (
-				6BA1B4631D4084910010343C /* PYPhotosView.bundle */,
-				6BA282B31D004FB3007FE7E8 /* Lib */,
 				6BA282AC1D004FB3007FE7E8 /* Controller */,
 				6BA282DF1D004FB3007FE7E8 /* Model */,
-				6BA282E41D004FB3007FE7E8 /* Other */,
 				6BA282E81D004FB3007FE7E8 /* View */,
+				6BA282E41D004FB3007FE7E8 /* Other */,
+				6BA282B31D004FB3007FE7E8 /* Lib */,
+				6BD8141D1D49E37A0012C7ED /* Tool */,
+				6BA1B4631D4084910010343C /* PYPhotosView.bundle */,
 			);
 			name = PYPhotosView;
 			path = ../../PYPhotosView;
@@ -605,6 +535,15 @@
 				6BC54BD91D20314500580646 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		6BD8141D1D49E37A0012C7ED /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				6BD8141A1D499E690012C7ED /* PYDownloadDataManager.h */,
+				6BD8141B1D499E690012C7ED /* PYDownloadDataManager.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -745,7 +684,6 @@
 				6BA1B29C1D2A24530010343C /* HTTPDataResponse.m in Sources */,
 				6BA282731D004F20007FE7E8 /* AppDelegate.m in Sources */,
 				6BA282F11D004FB3007FE7E8 /* PYPhotosReaderController.m in Sources */,
-				6BA1B2A41D2A24530010343C /* Reachability.m in Sources */,
 				6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */,
 				6BA283071D004FB3007FE7E8 /* PYPhoto.m in Sources */,
 				6B7B2BF61D1C092A0012B152 /* UIImage+WebP.m in Sources */,
@@ -754,10 +692,8 @@
 				6BA1B2A31D2A24530010343C /* WebSocket.m in Sources */,
 				6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */,
 				6BA282701D004F20007FE7E8 /* main.m in Sources */,
-				6BA1B2851D2A24530010343C /* ASIAuthenticationDialog.m in Sources */,
 				6BA2830B1D004FB3007FE7E8 /* PYPhotosView.m in Sources */,
 				6BA1B2901D2A24530010343C /* DDASLLogger.m in Sources */,
-				6BA1B2871D2A24530010343C /* ASIDataDecompressor.m in Sources */,
 				6B7B2BEE1D1C092A0012B152 /* SDWebImageDecoder.m in Sources */,
 				6BA1B2991D2A24530010343C /* HTTPAsyncFileResponse.m in Sources */,
 				6BA1B2951D2A24530010343C /* DDRange.m in Sources */,
@@ -768,7 +704,6 @@
 				6B7B2B881D1BFC6A0012B152 /* MBProgressHUD+PY.m in Sources */,
 				6BA1B2911D2A24530010343C /* DDData.m in Sources */,
 				6BA1B2A01D2A24530010343C /* HTTPMessage.m in Sources */,
-				6BA1B28A1D2A24530010343C /* ASIHTTPRequest.m in Sources */,
 				6B7B2BF31D1C092A0012B152 /* UIButton+WebCache.m in Sources */,
 				6B7B2BF11D1C092A0012B152 /* SDWebImageManager.m in Sources */,
 				6BA282F01D004FB3007FE7E8 /* PYPhotosPreviewController.m in Sources */,
@@ -777,33 +712,28 @@
 				6BA1B29D1D2A24530010343C /* HTTPDynamicFileResponse.m in Sources */,
 				6BA1B29A1D2A24530010343C /* HTTPAuthenticationRequest.m in Sources */,
 				6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */,
-				6BA1B28C1D2A24530010343C /* ASINetworkQueue.m in Sources */,
 				6BA283091D004FB3007FE7E8 /* PYConst.m in Sources */,
+				6BD8141C1D499E690012C7ED /* PYDownloadDataManager.m in Sources */,
 				6B7B2C371D1CD8610012B152 /* PYPublishExampleViewController.m in Sources */,
 				6BA282F21D004FB3007FE7E8 /* PYPhotosViewController.m in Sources */,
 				6B7B2BF71D1C092A0012B152 /* UIImageView+HighlightedWebCache.m in Sources */,
 				6B7B2BEF1D1C092A0012B152 /* SDWebImageDownloader.m in Sources */,
-				6BA1B2891D2A24530010343C /* ASIFormDataRequest.m in Sources */,
 				6B7B2BF21D1C092A0012B152 /* SDWebImagePrefetcher.m in Sources */,
 				6BA1B28F1D2A24530010343C /* DDAbstractDatabaseLogger.m in Sources */,
 				6BA1B2981D2A24530010343C /* GCDAsyncSocket.m in Sources */,
-				6BA1B2861D2A24530010343C /* ASIDataCompressor.m in Sources */,
 				6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */,
 				6BA1B28E1D2A24530010343C /* ContextFilterLogFormatter.m in Sources */,
 				6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */,
 				6BA1B1621D278D2F0010343C /* PYMoviePlayerController.m in Sources */,
 				6B7B2C3A1D1D22DA0012B152 /* PYNavigationController.m in Sources */,
 				6BA1B2A21D2A24530010343C /* HTTPServer.m in Sources */,
-				6BA1B28D1D2A24530010343C /* SEAOperationQueue.m in Sources */,
 				6B7B2BEC1D1C092A0012B152 /* SDImageCache.m in Sources */,
 				6BA1B29F1D2A24530010343C /* HTTPFileResponse.m in Sources */,
 				6B7B2BF01D1C092A0012B152 /* SDWebImageDownloaderOperation.m in Sources */,
 				6B7B2B391D13E1810012B152 /* UIView+PYExtension.m in Sources */,
 				6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */,
-				6BA1B28B1D2A24530010343C /* ASIInputStream.m in Sources */,
 				6BA1B29E1D2A24530010343C /* HTTPErrorResponse.m in Sources */,
 				6B7B2BF51D1C092A0012B152 /* UIImage+MultiFormat.m in Sources */,
-				6BA1B2881D2A24530010343C /* ASIDownloadCache.m in Sources */,
 				6B7B2BF91D1C092A0012B152 /* UIView+WebCacheOperation.m in Sources */,
 				6B7B2BED1D1C092A0012B152 /* SDWebImageCompat.m in Sources */,
 				6BA1B2A11D2A24530010343C /* HTTPRedirectResponse.m in Sources */,
