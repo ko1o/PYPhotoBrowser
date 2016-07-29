@@ -64,11 +64,9 @@
 * 图片浏览依赖框架
 	- `MBProgressHUD`
 	- `SDWebImage`
-* 视频播放依赖框架/文件
-	- `ASIHTTPRequest2`
+* 视频播放依赖框架
 	- `HttpServer`
-	- `Reachability2.0`
-	- `libz.tbd`
+	
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotosView框架的主要类
 
@@ -148,7 +146,67 @@
 * 手动导入：
   - 将`PYPhotosView`文件夹中的所有文件拽入项目中
   - 导入主头文件`#import "PYPhotosView.h"`
-  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、ASIHTTPRequest2(用于视频播放、缓存)、HttpServer（用于视频播放、缓存）、Reachability2（用于视频播放、缓存）`，就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。如果用到视频播放需要导入系统文件`libz.tdb`。
+  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、HttpServer（用于视频播放、缓存）`，就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
+  
+ **视频播放使用注意：**
+ 
+ 需要在`AppDelegate.m`导入 `HTTPServer.h`、`DDLog.h`、`DDTTYLogger.h`头文件并实现以下这些方法（具体参考PYPhotosViewExample中的`AppDelegate.m`）文件
+ 
+ ```
+ 
+ - (void)startServer
+{
+    // Start the server (and check for problems)
+    NSError *error;
+    if([httpServer start:&error])
+    {
+        NSLog(@"Started HTTP Server on port %hu", [httpServer listeningPort]);
+    }
+    else
+    {
+        NSLog(@"Error starting HTTP Server: %@", error);
+    }
+}
+
+// 程序启动完毕调用
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // 创建本地服务器
+    httpServer = [[HTTPServer alloc] init];
+    // 设置通讯类型为tcp
+    [httpServer setType:@"_http._tcp."];
+    // 设置端口
+    [httpServer setPort:12345];
+    
+    // Serve files from our embedded Web folder
+    NSString *webPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/PYPhotosView/Temp"];
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:webPath])
+    {
+        [fileManager createDirectoryAtPath:webPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    [httpServer setDocumentRoot:webPath];
+    
+    [self startServer];
+    
+    return YES;
+}
+
+// 程序进入后台运行时调用
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [httpServer stop];
+}
+
+// 程序回到前台运行时调用
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self startServer];
+}
+ 
+ ```
   
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
@@ -219,6 +277,13 @@ NSMutableArray *imageUrls = [NSMutableArray array];
 ## <a id="自定义photosView"></a>自定义photosView
 
 ### 通过设置photosView的对象属性值即可修改
+
+* 设置布局类型（默认为流水布局）
+```objc
+// 设置布局为线性布局
+photosView.layoutType = PYPhotosViewLayoutTypeLine;
+
+```
 
 * 设置分页指示类型（默认为pageControll指示器）
 ```objc

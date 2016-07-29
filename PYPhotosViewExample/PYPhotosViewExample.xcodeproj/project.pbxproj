@@ -53,7 +53,6 @@
 		6BA1B2A11D2A24530010343C /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B27C1D2A24530010343C /* HTTPRedirectResponse.m */; };
 		6BA1B2A21D2A24530010343C /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B27F1D2A24530010343C /* HTTPServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BA1B2A31D2A24530010343C /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2811D2A24530010343C /* WebSocket.m */; };
-		6BA1B2A61D2A25340010343C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA1B2A51D2A25340010343C /* libz.tbd */; };
 		6BA1B2CF1D34B0D30010343C /* PYMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1B2CE1D34B0D30010343C /* PYMovie.m */; };
 		6BA1B4641D4084910010343C /* PYPhotosView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BA1B4631D4084910010343C /* PYPhotosView.bundle */; };
 		6BA1B4661D4090E30010343C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA1B4651D4090E30010343C /* Assets.xcassets */; };
@@ -190,7 +189,6 @@
 		6BA1B27F1D2A24530010343C /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
 		6BA1B2801D2A24530010343C /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
 		6BA1B2811D2A24530010343C /* WebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket.m; sourceTree = "<group>"; };
-		6BA1B2A51D2A25340010343C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6BA1B2CD1D34B0D30010343C /* PYMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMovie.h; sourceTree = "<group>"; };
 		6BA1B2CE1D34B0D30010343C /* PYMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMovie.m; sourceTree = "<group>"; };
 		6BA1B4631D4084910010343C /* PYPhotosView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PYPhotosView.bundle; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BA1B2A61D2A25340010343C /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +281,6 @@
 		6B7B2BC11D1BFE3E0012B152 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				6BA1B2A51D2A25340010343C /* libz.tbd */,
 				6BA1B2531D2A24530010343C /* HttpServer */,
 				6BC54BD61D20314500580646 /* MBProgressHUD */,
 				6B7B2BC61D1C092A0012B152 /* SDWebImage */,
@@ -881,6 +877,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = PYPhotosViewExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -896,6 +893,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = PYPhotosViewExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
