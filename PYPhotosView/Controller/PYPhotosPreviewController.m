@@ -30,6 +30,7 @@
     }
     return self;
 }
+
 + (instancetype)previewController
 {
     // 创建流水布局
@@ -54,11 +55,6 @@
         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
         self.isFirst = NO;
     }
-}
-
-- (void)dealloc
-{
-    NSLog(@"PYPhotosPreviewController  delloc");
 }
 
 - (void)viewDidLoad {

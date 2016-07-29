@@ -106,7 +106,12 @@
     photosPreviewVc.selectedPhotoView = photoView;
     PYNavigationController *nav = [[PYNavigationController alloc] initWithRootViewController:photosPreviewVc];
     [self.navigationController pushViewController:photosPreviewVc animated:YES];
-    [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:nav animated:YES completion:nil];
+    // 修复未发布点击不能预览BUG
+    UIViewController *presentFromVc = [UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController;
+    if (!presentFromVc) { // 如果为空，就使用根控制器
+        presentFromVc = [UIApplication sharedApplication].keyWindow.rootViewController;
+    }
+    [presentFromVc presentViewController:nav animated:YES completion:nil];
 }
 
 @end
