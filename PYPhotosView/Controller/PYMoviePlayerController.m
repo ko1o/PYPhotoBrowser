@@ -153,6 +153,7 @@
         self.photoView.frame = self.photoView.photoCell.bounds;
         self.photoView.playerController.playView.frame = self.photoView.photoCell.bounds;
         self.photoView.playerController.view.frame = self.photoView.frame;
+        self.photoView.photoCell.contentScrollView.contentSize = self.photoView.photoCell.py_size;
     } else {
         self.layer.bounds = CGRectMake(0, 0, PYScreenW, PYScreenW * self.photoView.photosView.py_width / self.photoView.photosView.photoHeight);
     }
