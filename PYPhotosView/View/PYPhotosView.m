@@ -186,18 +186,48 @@ static PYPhotosViewController *_handleController;
     [self layoutSubviews];
 }
 
+- (void)setPhotosUrl
+{
+    // 取出图片最多个数
+    NSInteger maxPhotosCount = self.thumbnailUrls.count > self.originalUrls.count ? self.thumbnailUrls.count : self.originalUrls.count;
+    NSMutableArray *photosM = [NSMutableArray arrayWithArray:self.photos];
+    for (NSInteger i = photosM.count; i < maxPhotosCount; i++)
+    {
+        // 创建模型
+        PYPhoto *photo = [[PYPhoto alloc] init];
+        // 添加模型
+        [photosM addObject:photo];
+    }
+    for (int i = 0; i < photosM.count; i++) {
+        PYPhoto *photo = photosM[i];
+        // 赋值
+        photo.original_pic = i < self.originalUrls.count ? self.originalUrls[i] : nil;
+        photo.thumbnail_pic = i < self.thumbnailUrls.count ? self.thumbnailUrls[i] : nil;
+    }
+    // 刷新
+    self.photos = photosM;
+}
+
+- (void)setOriginalUrls:(NSArray *)originalUrls
+{
+    _originalUrls = originalUrls;
+    
+    // 设置模型链接
+    [self setPhotosUrl];
+}
+
+- (void)setThumbnailUrls:(NSArray *)thumbnailUrls
+{
+    _thumbnailUrls = thumbnailUrls;
+    
+    // 设置模型链接
+    [self setPhotosUrl];
+}
+
 - (void)setPhotos:(NSArray *)photos
 {
-    NSMutableArray *photosM = [NSMutableArray array];
-    for (id photoUrl in photos) {
-        if ([photoUrl isKindOfClass:[NSString class]]) {  // 数组为字符串时，封装photos为模型
-            PYPhoto *photo = [PYPhoto photoWithUrl:photoUrl];
-            [photosM addObject:photo];
-        } else {
-            [photosM addObject:photoUrl];
-        }
-    }
-    _photos = photosM;
+    _photos = photos;
+    
     // 移除添加图片按钮
     [self.addImageButton removeFromSuperview];
     // 设置图片状态

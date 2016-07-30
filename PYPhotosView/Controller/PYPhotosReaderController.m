@@ -206,6 +206,9 @@
     // 移除self.collectionView的所有子控件
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
+    // 刷新图片
+    [self.beginView.photosView setPhotos:self.selectedPhotoView.photosView.photos];
+    
     if (self.beginView.isMovie) {
         // 停止播放视频
         [self.beginView.playerController.player pause];
@@ -256,23 +259,19 @@
     CGFloat width = PYScreenW;
     CGFloat height = PYScreenH;
     self.orientation = currentDevice.orientation;
-    switch (currentDevice.orientation) { // 正常竖屏状态
-        case UIDeviceOrientationPortraitUpsideDown:
-            NSLog(@"倒屏");
+    switch (currentDevice.orientation) { // 当前屏幕状态
+        case UIDeviceOrientationPortraitUpsideDown: // 倒屏
             rotateAngle = M_PI;
             break;
-        case UIDeviceOrientationPortrait:
-            NSLog(@"正常竖屏");
+        case UIDeviceOrientationPortrait: // 正常竖屏
             rotateAngle = 0;
             break;
-        case UIDeviceOrientationLandscapeLeft:
-            NSLog(@"横屏向左");
+        case UIDeviceOrientationLandscapeLeft: // 横屏向左
             rotateAngle = M_PI_2;
             width = PYScreenH;
             height= PYScreenW;
             break;
-        case UIDeviceOrientationLandscapeRight:
-            NSLog(@"横屏向右");
+        case UIDeviceOrientationLandscapeRight: // 横屏向右
             rotateAngle = -M_PI_2;
             width = PYScreenH;
             height= PYScreenW;
@@ -356,7 +355,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // 创建cell
     PYPhotoCell *cell = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
     // 取出模型
-    PYPhoto *photo = self.selectedPhotoView.photos[indexPath.item];
+    PYPhoto *photo = self.selectedPhotoView.photosView.photos[indexPath.item];
     // 设置数据
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;

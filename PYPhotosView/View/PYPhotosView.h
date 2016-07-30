@@ -31,6 +31,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  */
 - (void)photosView:(PYPhotosView *)photosView didAddImageClickedWithImages:(NSMutableArray *)images;
 
+
+
 @end
 
 @interface PYPhotosView : UIScrollView
@@ -38,8 +40,12 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 代理 */
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
-/** 网络图片相册 */
+/** 网络图片模型数组 */
 @property (nonatomic, strong) NSArray *photos;
+/** 网络图片地址数组（缩略图） */
+@property (nonatomic, strong) NSArray *thumbnailUrls;
+/** 网络图片地址数组（原图） */
+@property (nonatomic, strong) NSArray *originalUrls;
 /** 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) */
 @property (nonatomic, strong) NSMutableArray *images;
 /** 视频链接(视频来自网络) **/

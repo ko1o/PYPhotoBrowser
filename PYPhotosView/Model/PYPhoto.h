@@ -10,12 +10,20 @@
 
 @interface PYPhoto : NSObject
 
+/** 根据缩略图快速创建模型 */
++ (instancetype)photoWithThumbnailUrl:(NSString *)thumbnailUrl;
+/** 根据原图快速创建模型 */
++ (instancetype)photoWithOriginalUrl:(NSString *)originalUrl;
 
-+ (instancetype)photoWithUrl:(NSString *)url;
-
-/** thumbnail_pic 图片缩略图地址*/
+/** thumbnail_pic 图片缩略图地址 */
 @property (nonatomic, copy) NSString *thumbnail_pic;
+/** original_pic 图片原图地址 */
+@property (nonatomic, copy) NSString *original_pic;
 
+/** 缩略图 */
+@property (nonatomic, strong) UIImage *thumbnailImage;
+/** 原图 */
+@property (nonatomic, strong) UIImage *originalImage;
 /** 图片加载进度 */
 @property (nonatomic, assign) CGFloat progress;
 

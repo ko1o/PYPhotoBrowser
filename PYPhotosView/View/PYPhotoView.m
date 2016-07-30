@@ -217,9 +217,6 @@
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
-    
-    // 设置进度条
-    self.progressView.hidden = !self.isBig;
     if (height > PYPhotoCellH) { // 长图
         if (self.isBig) { // 预览状态
             self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellW * image.size.height / image.size.width);
@@ -509,6 +506,8 @@ static CGSize originalSize;
             NSNotification *notification = [[NSNotification alloc] initWithName:PYBigImageDidClikedNotification object:self.photosView userInfo:userInfo];
             [center postNotification:notification];
         } else { // 缩小
+            // 隐藏图片加载失败
+            self.loadFailureView.hidden = YES;
             // 移除进度条
             [self.progressView removeFromSuperview];
             // 不可以双击
@@ -534,8 +533,7 @@ static CGSize originalSize;
 {
     _photo = photo;
     
-    // 判断是否隐藏加载进度
-    self.progressView.hidden = !self.isBig;
+    self.progressView.hidden = YES;
     
     // 移除手势
     [self removeGestureRecognizers];
@@ -544,28 +542,57 @@ static CGSize originalSize;
     self.movie = nil;
     
     // 设置已经加载的进度
-    [self.progressView setProgress:self.photo.progress animated:NO];
-     NSURL *url = [NSURL URLWithString:photo.thumbnail_pic];
-    [self sd_setImageWithURL:url placeholderImage:PYPlaceholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        // 获取图片链接
-        NSString *imageUrl = [[self sd_imageURL] absoluteString];
-        for (PYPhoto *photo in self.photos) {
-            if ([photo.thumbnail_pic isEqualToString:imageUrl]) { // 找到模型,设置下载进度
-                photo.progress = 1.0 * receivedSize / expectedSize;
-            }
+    [self.progressView setProgress:photo.progress animated:NO];
+    
+    // 设置链接(默认设置为缩略图)
+    NSString *urlStr = photo.thumbnail_pic ? photo.thumbnail_pic : photo.original_pic;
+    UIImage *placeholdeerImage = PYPlaceholderImage;
+    if (self.isBig) { // 图片浏览（放大）, 原图具有优先级
+        // 获取缩略图
+        placeholdeerImage = self.photo.thumbnailImage ? self.photo.thumbnailImage : PYPlaceholderImage;
+        urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
+    } else {
+        if (self.photo.originalImage) { // 原图下载了
+            urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
         }
-        if ([imageUrl isEqualToString:self.photo.thumbnail_pic]) { // 图片为当前PYPhotoView的图片
-            [self.progressView setProgress:self.photo.progress animated:YES];
+    }
+    
+    NSURL *url = [NSURL URLWithString:urlStr];
+    [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        if (self.isBig) {
+            // 获取图片链接
+            NSString *imageUrl = [[self sd_imageURL] absoluteString];
+            for (PYPhoto *photo in self.photosView.photos) {
+                if ([imageUrl isEqualToString:photo.original_pic] || (!photo.original_pic &&
+                    [imageUrl isEqualToString:photo.thumbnail_pic])) { // 找到模型,设置下载进度
+                    CGFloat progress = 1.0 * receivedSize / expectedSize;
+                    if (progress > photo.progress) { // 大于模型进度
+                        
+                        photo.progress = progress;
+                    }
+                }
+            }
+            if ([imageUrl isEqualToString:self.photo.original_pic] || (!self.photo.original_pic &&
+                [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
+                self.progressView.hidden = NO;
+                [self.progressView setProgress:self.photo.progress animated:YES];
+            }
         }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         self.progressView.hidden = YES;
-        if (image && [[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic]) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
+        if (image && ([[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic] ||
+                      [[imageURL absoluteString] isEqualToString:self.photo.original_pic])) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
             // 允许手势
             [self addGestureRecognizers];
             // 记录原始大小
             self.photo.originalSize = CGSizeMake(self.py_width, self.py_width * image.size.height / image.size.width);
             // 记录未旋转的宽度或者旋转完成时的宽度
             self.photo.verticalWidth = self.photo.originalSize.width;
+            if (!self.isBig) {
+                self.photo.thumbnailImage = image;
+            } else {
+                self.photo.originalImage = image;
+            }
         }
         // 图片加载失败(是否隐藏)
         self.loadFailureView.hidden = !self.isBig || image;
