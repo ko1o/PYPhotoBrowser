@@ -235,11 +235,25 @@
         }
     }
     [super setImage:image];
-    
-    self.py_size = self.isBig ? CGSizeMake(PYPhotoCellW, height) : self.image.size;
+
+    CGFloat width = PYPhotoCellW;
+    originalSize = self.image.size;
+    if (PYPhotoCellW > PYPhotoCellH) { //  横屏
+        if (originalSize.width > originalSize.height * 2) { // 原始图宽大于高的两倍
+            width = PYPhotoCellW;
+            height = width * originalSize.height / originalSize.width;
+        } else {
+            height = PYPhotoCellH;
+            width = height * originalSize.width / originalSize.height;
+        }
+    }
+    self.py_size = self.isBig ? CGSizeMake(width, height) : self.image.size;
     // 设置scrollView的大小
     self.photoCell.contentScrollView.py_size = self.py_size;
     self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
+    self.photoCell.contentScrollView.contentSize = self.py_size;
+    // 进度条居中
+    self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
 - (void)setMovie:(PYMovie *)movie
@@ -533,7 +547,7 @@ static CGSize originalSize;
 {
     _photo = photo;
     
-    self.progressView.hidden = YES;
+    self.progressView.hidden = !self.isBig;
     
     // 移除手势
     [self removeGestureRecognizers];
@@ -566,8 +580,7 @@ static CGSize originalSize;
                 if ([imageUrl isEqualToString:photo.original_pic] || (!photo.original_pic &&
                     [imageUrl isEqualToString:photo.thumbnail_pic])) { // 找到模型,设置下载进度
                     CGFloat progress = 1.0 * receivedSize / expectedSize;
-                    if (progress > photo.progress) { // 大于模型进度
-                        
+                    if (progress >= photo.progress) { // 大于模型进度
                         photo.progress = progress;
                     }
                 }
@@ -592,6 +605,7 @@ static CGSize originalSize;
                 self.photo.thumbnailImage = image;
             } else {
                 self.photo.originalImage = image;
+                self.photo.progress = 1.0;
             }
         }
         // 图片加载失败(是否隐藏)

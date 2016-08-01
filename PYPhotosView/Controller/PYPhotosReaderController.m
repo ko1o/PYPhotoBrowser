@@ -245,6 +245,11 @@
 // 监听屏幕旋转
 - (void)deviceOrientationDidChange
 {
+//    for (PYPhoto *photo in self.selectedPhotoView.photosView.photos) {
+//        // 判断所有图片是否都加载完
+//        if (1.0 != photo.progress) return;
+//    }
+    
     // 获取当前设备
     UIDevice *currentDevice = [UIDevice currentDevice];
     // 设备方向位置，面朝上，面朝下

@@ -210,6 +210,8 @@ static PYPhotosViewController *_handleController;
 
 - (void)setOriginalUrls:(NSArray *)originalUrls
 {
+    if (originalUrls.count == 0) return;
+    
     _originalUrls = originalUrls;
     
     // 设置模型链接
@@ -218,6 +220,8 @@ static PYPhotosViewController *_handleController;
 
 - (void)setThumbnailUrls:(NSArray *)thumbnailUrls
 {
+    if (thumbnailUrls.count == 0) return;
+    
     _thumbnailUrls = thumbnailUrls;
     
     // 设置模型链接
@@ -226,6 +230,8 @@ static PYPhotosViewController *_handleController;
 
 - (void)setPhotos:(NSArray *)photos
 {
+    if (photos.count == 0) return;
+    
     _photos = photos;
     
     // 移除添加图片按钮
