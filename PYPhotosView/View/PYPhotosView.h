@@ -77,21 +77,23 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */
-+ (instancetype)photosViewWithPhotos:(NSArray *)photos;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls;
 /** images : 存储本地图片的数组 */
 + (instancetype)photosViewWithImages:(NSMutableArray *)images;
 
 /**
- * photos : 保存图片链接的数组
+ * thumbnailUrls : 保存图片(缩略图)链接的数组
+ * originalUrls : 保存图片(原图)链接的数组
  * type : 布局类型（默认为流水布局）
  */
-+ (instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls layoutType:(PYPhotosViewLayoutType)type;
 
 /** 
- * photos : 保存图片链接的数组
+ * thumbnailUrls : 保存图片(缩略图)链接的数组
+ * originalUrls : 保存图片(原图)链接的数组
  * maxCol : 每行最多显示图片的个数
  */
-+ (instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls photosMaxCol:(NSInteger)maxCol;
 
 /** 根据图片个数和图片状态自动计算出PYPhontosView的size */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;

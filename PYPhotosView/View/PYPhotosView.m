@@ -73,10 +73,12 @@ static PYPhotosViewController *_handleController;
     return [[self alloc] init];
 }
 
-+ (instancetype)photosViewWithPhotos:(NSArray *)photos
+
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls
 {
     PYPhotosView *photosView = [self photosView];
-    photosView.photos = photos;
+    photosView.thumbnailUrls = thumbnailUrls;
+    photosView.originalUrls = originalUrls;
     return photosView;
 }
 
@@ -87,16 +89,16 @@ static PYPhotosViewController *_handleController;
     return photosView;
 }
 
-+ (instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls layoutType:(PYPhotosViewLayoutType)type
 {
-    PYPhotosView *photosView = [self photosViewWithPhotos:photos];
+    PYPhotosView *photosView = [self photosViewWithThumbnailUrls:thumbnailUrls originalUrls:originalUrls];
     photosView.layoutType = type;
     return photosView;
 }
 
-+ (instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls photosMaxCol:(NSInteger)maxCol
 {
-    PYPhotosView *photosView = [self photosViewWithPhotos:photos];
+    PYPhotosView *photosView = [self photosViewWithThumbnailUrls:thumbnailUrls originalUrls:originalUrls];
     photosView.photosMaxCol = maxCol;
     return photosView;
 }
