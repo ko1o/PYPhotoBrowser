@@ -79,14 +79,20 @@
 /** 代理 */
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
-/** 网络图片相册 */
+/** 网络图片模型数组 */
 @property (nonatomic, strong) NSArray *photos;
+/** 网络图片地址数组（缩略图） */
+@property (nonatomic, strong) NSArray *thumbnailUrls;
+/** 网络图片地址数组（原图） */
+@property (nonatomic, strong) NSArray *originalUrls;
 /** 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) */
 @property (nonatomic, strong) NSMutableArray *images;
 /** 视频链接(视频来自网络) **/
 @property (nonatomic, copy) NSString *movieNetworkUrl;
 /** 本地视频地址(带有文件类型后缀) */
 @property (nonatomic, copy) NSString *movieLocalUrl;
+/** 视频模型 */
+@property (nonatomic, strong) PYMovie *movie;
 
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;
@@ -110,21 +116,23 @@
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */
-+ (instancetype)photosViewWithPhotos:(NSArray *)photos;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls;
 /** images : 存储本地图片的数组 */
 + (instancetype)photosViewWithImages:(NSMutableArray *)images;
 
 /**
- * photos : 保存图片链接的数组
+ * thumbnailUrls : 保存图片(缩略图)链接的数组
+ * originalUrls : 保存图片(原图)链接的数组
  * type : 布局类型（默认为流水布局）
  */
-+ (instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls layoutType:(PYPhotosViewLayoutType)type;
 
 /** 
- * photos : 保存图片链接的数组
+ * thumbnailUrls : 保存图片(缩略图)链接的数组
+ * originalUrls : 保存图片(原图)链接的数组
  * maxCol : 每行最多显示图片的个数
  */
-+ (instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls photosMaxCol:(NSInteger)maxCol;
 
 /** 根据图片个数和图片状态自动计算出PYPhontosView的size */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;
@@ -218,18 +226,34 @@
 
 ```objc
 
-// 1.1 创建图片链接数组
-NSMutableArray *imageUrls = [NSMutableArray array];
-   
-  for (int i = 0; i < 9; i++) {
-      // 1.2 图片链接
-      NSString *imageUrl = [NSString stringWithFormat:@"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg", i + 1];
-      // 1.3 添加图片链接
-      [imageUrls addObject:imageUrl];
-  }
+    // 1. 创建缩略图图片链接数组
+    NSMutableArray *thumbnailImageUrls = [NSMutableArray array];
+    // 添加图片(缩略图)链接
+    [thumbnailImageUrls addObject:@"http://ww3.sinaimg.cn/thumbnail/006ka0Iygw1f6bqm7zukpj30g60kzdi2.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/61b69811gw1f6bqb1bfd2j20b4095dfy.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/54477ddfgw1f6bqkbanqoj20ku0rsn4d.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww4.sinaimg.cn/thumbnail/006ka0Iygw1f6b8gpwr2tj30bc0bqmyz.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww2.sinaimg.cn/thumbnail/9c2b5f31jw1f6bqtinmpyj20dw0ae76e.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/536e7093jw1f6bqdj3lpjj20va134ana.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/75b1a75fjw1f6bqn35ij6j20ck0g8jtf.jpg"];
+    [thumbnailImageUrls addObject:@"http://ww2.sinaimg.cn/thumbnail/005NFHyQgw1f6bn8bha0eg308w0gib2d.gif"];
+    [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/86afb21egw1f6bq3lq0itj20gg0c2myt.jpg"];
+    
+    // 1.2 创建原图图片链接数组
+    NSMutableArray *originalImageUrls = [NSMutableArray array];
+    // 添加图片(原图)链接
+    [originalImageUrls addObject:@"http://ww3.sinaimg.cn/large/006ka0Iygw1f6bqm7zukpj30g60kzdi2.jpg"];
+    [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/61b69811gw1f6bqb1bfd2j20b4095dfy.jpg"];
+    [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/54477ddfgw1f6bqkbanqoj20ku0rsn4d.jpg"];
+    [originalImageUrls addObject:@"http://ww4.sinaimg.cn/large/006ka0Iygw1f6b8gpwr2tj30bc0bqmyz.jpg"];
+    [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/9c2b5f31jw1f6bqtinmpyj20dw0ae76e.jpg"];
+    [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/536e7093jw1f6bqdj3lpjj20va134ana.jpg"];
+    [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/75b1a75fjw1f6bqn35ij6j20ck0g8jtf.jpg"];
+    [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/005NFHyQgw1f6bn8bha0eg308w0gib2d.gif"];
+    [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/86afb21egw1f6bq3lq0itj20gg0c2myt.jpg"];
   
   // 2. 创建一个photosView
-  PYPhotosView *photosView = [PYPhotosView photosViewWithPhotos:imageUrls];
+  PYPhotosView *photosView = [PYPhotosView photosViewWithThumbnailUrls:thumbnailImageUrls originalUrls:originalImageUrls];
   
   // 3. 添加photosView
   [self.view addSubview:photosView];
