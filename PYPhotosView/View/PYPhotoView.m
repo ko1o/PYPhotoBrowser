@@ -547,7 +547,7 @@ static CGSize originalSize;
 {
     _photo = photo;
     
-    self.progressView.hidden = !self.isBig;
+    self.progressView.hidden = YES;
     
     // 移除手势
     [self removeGestureRecognizers];

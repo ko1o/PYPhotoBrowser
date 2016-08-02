@@ -12,7 +12,7 @@
 /** 图片模型 */
 @property (nonatomic, strong) PYPhoto *photo;
 /** 网络图片*/
-@property (nonatomic, strong) NSArray *photos;
+@property (nonatomic, copy) NSArray *photos;
 /** 本地相册图片 */
 @property (nonatomic, strong) NSMutableArray *images;
 /** 视频模型 */
