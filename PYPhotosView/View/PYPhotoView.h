@@ -2,7 +2,8 @@
 //  代码地址: http://code4app.com/thread-8612-1-1.html
 //  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
-//
+//  用于呈现一个图片/视频的视图（支持多种手势）
+
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
 @class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYMoviePlayerController, PYMovie;

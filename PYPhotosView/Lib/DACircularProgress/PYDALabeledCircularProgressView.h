@@ -4,7 +4,7 @@
 //
 //  Created by Josh Sklar on 4/8/14.
 //  Copyright (c) 2014 Shout Messenger. All rights reserved.
-//
+//  用于显示进度条的视图（带有文字）
 
 #import "PYDACircularProgressView.h"
 

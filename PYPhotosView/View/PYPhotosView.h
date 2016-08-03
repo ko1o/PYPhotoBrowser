@@ -2,7 +2,7 @@
 //  代码地址: http://code4app.com/thread-8612-1-1.html
 //  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
-//
+//  用于呈现一组图片、一个视频的视图（子控件为PYPhotoView的实例对象）
 
 #import <UIKit/UIKit.h>
 #import "PYConst.h"

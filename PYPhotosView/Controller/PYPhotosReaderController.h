@@ -2,7 +2,7 @@
 //  代码地址: http://code4app.com/thread-8612-1-1.html
 //  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
-//  预览图片的新弹出窗口控制器
+//  浏览图片的控制器（一般用于网络片浏览）
 
 #import <UIKit/UIKit.h>
 @class PYPhotoView, PYPhotosView;
