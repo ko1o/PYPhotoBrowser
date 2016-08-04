@@ -128,7 +128,6 @@
         NSLog(@"取消KVO失败");
     }
     
-    
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
@@ -162,6 +161,11 @@
 -(void)dealloc{
     //移除所有通知监控
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    @try {
+        [((PYMoviePlayerController *)self.delegate).player.currentItem removeObserver:self forKeyPath:AVPlayerStatusKeyPath];
+    } @catch (NSException *exception) {}
+    
 }
 
 // 单击手势

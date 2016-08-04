@@ -85,6 +85,11 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    @try { // 尝试移除通知
+        [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath];
+        [_player removeTimeObserver:self.timeObserver];
+    } @catch (NSException *exception) {}
 }
 
 - (void)viewDidLayoutSubviews
@@ -338,14 +343,12 @@
 {
     @try { // 尝试移除KVO
         [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath context:nil];
+        [_player removeTimeObserver:self.timeObserver];
     } @catch (NSException *exception) {}
-
-    [_player removeTimeObserver:self.timeObserver];
     if (_downloadManger) {
         [_downloadManger cancel];
         _downloadManger = nil;
     }
-    
     self.currentPlaybackTime = 0;
     
 }
