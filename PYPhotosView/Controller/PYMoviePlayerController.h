@@ -10,6 +10,7 @@
 
 #define AVPlayerStatusKeyPath @"status"
 #define AVPlayerLoadedTimeRangesKeyPath @"loadedTimeRanges"
+#define AVPlayerContext @"ThisIsMyKVOContextNotSuper"
 
 @interface PYMoviePlayerController : UIViewController
 {

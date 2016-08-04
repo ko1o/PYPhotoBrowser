@@ -122,11 +122,6 @@
     
     // 设置模型的最新播放时间
     playerController.movie.lastTime = [playerController currentPlaybackTime];
-    @try {
-        [playerController.player.currentItem removeObserver:self forKeyPath:AVPlayerStatusKeyPath context:nil];
-    } @catch (NSException *exception) {
-        NSLog(@"取消KVO失败");
-    }
     
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -162,9 +157,7 @@
     //移除所有通知监控
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    @try {
-        [((PYMoviePlayerController *)self.delegate).player.currentItem removeObserver:self forKeyPath:AVPlayerStatusKeyPath];
-    } @catch (NSException *exception) {}
+    [((PYMoviePlayerController *)self.delegate).player.currentItem removeObserver:self forKeyPath:AVPlayerStatusKeyPath context:AVPlayerContext];
     
 }
 

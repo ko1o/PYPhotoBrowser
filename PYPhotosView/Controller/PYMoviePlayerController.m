@@ -85,11 +85,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    @try { // 尝试移除通知
-        [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath];
-        [_player removeTimeObserver:self.timeObserver];
-    } @catch (NSException *exception) {}
+    [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath context:AVPlayerContext];
+    [_player removeTimeObserver:self.timeObserver];
 }
 
 - (void)viewDidLayoutSubviews
@@ -341,10 +338,6 @@
 // 视频播放结束
 - (void)movieFinished
 {
-    @try { // 尝试移除KVO
-        [_playerItem removeObserver:self forKeyPath:AVPlayerLoadedTimeRangesKeyPath context:nil];
-        [_player removeTimeObserver:self.timeObserver];
-    } @catch (NSException *exception) {}
     if (_downloadManger) {
         [_downloadManger cancel];
         _downloadManger = nil;

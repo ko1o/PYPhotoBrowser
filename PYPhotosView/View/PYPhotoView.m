@@ -601,6 +601,7 @@ static CGSize originalSize;
             self.photo.originalSize = CGSizeMake(self.py_width, self.py_width * image.size.height / image.size.width);
             // 记录未旋转的宽度或者旋转完成时的宽度
             self.photo.verticalWidth = self.photo.originalSize.width;
+
             if (!self.isBig) {
                 self.photo.thumbnailImage = image;
             } else {

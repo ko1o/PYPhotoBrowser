@@ -38,7 +38,7 @@
     [thumbnailImageUrls addObject:@"http://ww2.sinaimg.cn/thumbnail/9c2b5f31jw1f6bqtinmpyj20dw0ae76e.jpg"];
     [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/536e7093jw1f6bqdj3lpjj20va134ana.jpg"];
     [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/75b1a75fjw1f6bqn35ij6j20ck0g8jtf.jpg"];
-    [thumbnailImageUrls addObject:@"http://ww2.sinaimg.cn/thumbnail/005NFHyQgw1f6bn8bha0eg308w0gib2d.gif"];
+    [thumbnailImageUrls addObject:@"http://ww2.sinaimg.cn/thumbnail/005NFHyQgw1f6hz3s2fguj308f089753.jpg"];
     [thumbnailImageUrls addObject:@"http://ww1.sinaimg.cn/thumbnail/86afb21egw1f6bq3lq0itj20gg0c2myt.jpg"];
     
     // 1.2 创建图片原图链接数组
@@ -51,7 +51,7 @@
     [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/9c2b5f31jw1f6bqtinmpyj20dw0ae76e.jpg"];
     [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/536e7093jw1f6bqdj3lpjj20va134ana.jpg"];
     [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/75b1a75fjw1f6bqn35ij6j20ck0g8jtf.jpg"];
-    [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/005NFHyQgw1f6bn8bha0eg308w0gib2d.gif"];
+    [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/005NFHyQgw1f6hz3s2fguj308f089753.jpg"];
     [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/86afb21egw1f6bq3lq0itj20gg0c2myt.jpg"];
     
     // 2.1 创建一个流水布局photosView
