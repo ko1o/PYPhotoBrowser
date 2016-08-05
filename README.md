@@ -1,6 +1,6 @@
 # PYPhotoView
-- Framework with a simple method of rendering images and play video
-- 用法简单的呈现一组图片和视频播放的框架
+- Framework with a simple method of rendering images.
+- 用法简单的呈现一组图片的框架。
 
 ## Contents
 * Getting Started
@@ -27,10 +27,6 @@
 - **图片未发布（本地图片上传\发布\预览）**
 
   ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosViewWillcompose.gif)
-  
-- **视频播放**
-
-  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYMoviePlay.gif)
 
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
@@ -64,8 +60,6 @@
 * 图片浏览依赖框架
 	- `MBProgressHUD`
 	- `SDWebImage`
-* 视频播放依赖框架
-	- `HttpServer`
 	
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotosView框架的主要类
@@ -74,25 +68,20 @@
 ### PYPhotosView
 ```objc
 
+
 @interface PYPhotosView : UIScrollView
 
 /** 代理 */
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
 /** 网络图片模型数组 */
-@property (nonatomic, strong) NSArray *photos;
+@property (nonatomic, copy) NSArray *photos;
 /** 网络图片地址数组（缩略图） */
-@property (nonatomic, strong) NSArray *thumbnailUrls;
+@property (nonatomic, copy) NSArray *thumbnailUrls;
 /** 网络图片地址数组（原图） */
-@property (nonatomic, strong) NSArray *originalUrls;
+@property (nonatomic, copy) NSArray *originalUrls;
 /** 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) */
 @property (nonatomic, strong) NSMutableArray *images;
-/** 视频链接(视频来自网络) **/
-@property (nonatomic, copy) NSString *movieNetworkUrl;
-/** 本地视频地址(带有文件类型后缀) */
-@property (nonatomic, copy) NSString *movieLocalUrl;
-/** 视频模型 */
-@property (nonatomic, strong) PYMovie *movie;
 
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;
@@ -155,67 +144,7 @@
 * 手动导入：
   - 将`PYPhotosView`文件夹中的所有文件拽入项目中
   - 导入主头文件`#import "PYPhotosView.h"`
-  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、HttpServer（用于视频播放、缓存）`，就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
-  
- **视频播放使用注意：**
- 
- 需要在`AppDelegate.m`导入 `HTTPServer.h`、`DDLog.h`、`DDTTYLogger.h`头文件并实现以下这些方法（具体参考PYPhotosViewExample中的`AppDelegate.m`）文件
- 
- ```
- 
- - (void)startServer
-{
-    // Start the server (and check for problems)
-    NSError *error;
-    if([httpServer start:&error])
-    {
-        NSLog(@"Started HTTP Server on port %hu", [httpServer listeningPort]);
-    }
-    else
-    {
-        NSLog(@"Error starting HTTP Server: %@", error);
-    }
-}
-
-// 程序启动完毕调用
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    
-    // 创建本地服务器
-    httpServer = [[HTTPServer alloc] init];
-    // 设置通讯类型为tcp
-    [httpServer setType:@"_http._tcp."];
-    // 设置端口
-    [httpServer setPort:12345];
-    
-    // Serve files from our embedded Web folder
-    NSString *webPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/PYPhotosView/Temp"];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    if(![fileManager fileExistsAtPath:webPath])
-    {
-        [fileManager createDirectoryAtPath:webPath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    [httpServer setDocumentRoot:webPath];
-    
-    [self startServer];
-    
-    return YES;
-}
-
-// 程序进入后台运行时调用
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    [httpServer stop];
-}
-
-// 程序回到前台运行时调用
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    [self startServer];
-}
- 
- ```
+  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD、SDWebImage`就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
   
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
@@ -282,22 +211,6 @@
     [self.view addSubview:photosView];
 
 ```
-
-- **视频播放**
- 
- 示例代码
-```objc
-
-	// 1. 创建视频播放的photosView
-    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
-    
-    // 2. 设置视频的网络链接
-    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-    
-    // 3. 添加photosView
-    [self.view addSubview:moviePhotosView];
-
-```
  
 ## <a id="自定义photosView"></a>自定义photosView
 
@@ -341,7 +254,8 @@ photosView.photosMaxCol = 6;
 * 设置图片上传前，最多上传的张数（默认为9）
 
 ```objc
-photosView.imagesMaxCountWhenWillCompose = 15；
+// 设置图片最多上传的张数
+photosView.imagesMaxCountWhenWillCompose = 15;
 ```
 
 ## <a id="期待什么"></a>期待
