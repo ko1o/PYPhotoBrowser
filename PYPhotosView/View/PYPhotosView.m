@@ -10,7 +10,6 @@
 #import "PYConst.h"
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
-#import "PYMovie.h"
 
 @interface PYPhotosView()
 
@@ -30,15 +29,6 @@ static PYPhotosViewController *_handleController;
 @implementation PYPhotosView
 
 @dynamic delegate;
-
-#pragma mark - 懒加载
-- (PYMovie *)movie
-{
-    if (!_movie) {
-        _movie = [[PYMovie alloc] init];
-    }
-    return _movie;
-}
 
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame
@@ -73,7 +63,6 @@ static PYPhotosViewController *_handleController;
     return [[self alloc] init];
 }
 
-
 + (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls
 {
     PYPhotosView *photosView = [self photosView];
@@ -103,6 +92,12 @@ static PYPhotosViewController *_handleController;
     return photosView;
 }
 
+- (void)dealloc
+{
+    NSLog(@"PYPhotosVie ---- 销毁了");
+    _handleController = nil;
+}
+
 #pragma mark - setter方法
 - (void)setLayoutType:(PYPhotosViewLayoutType)layoutType
 {
@@ -123,69 +118,6 @@ static PYPhotosViewController *_handleController;
     if (self.photos.count) { // 有图片才刷新
         self.photos = self.photos;
     }
-}
-
-- (void)setMovieLocalUrl:(NSString *)movieLocalUrl
-{
-    if (!movieLocalUrl) return;
-    _movieLocalUrl = movieLocalUrl;
-    // 转成模型
-    self.movie.url = [NSURL fileURLWithPath:movieLocalUrl];
-    self.movieNetworkUrl = nil;
-    [self setMovieUrl];
-}
-
-- (void)setMovieNetworkUrl:(NSString *)movieNetworkUrl
-{
-    if (!movieNetworkUrl) return;
-    _movieNetworkUrl = movieNetworkUrl;
-    self.movie.url = [NSURL URLWithString:movieNetworkUrl];
-    // 转成模型
-    self.movieLocalUrl = nil;
-    [self setMovieUrl];
-}
-
-
-- (void)setMovieUrl
-{
-    // 移除添加图片按钮
-    [self.addImageButton removeFromSuperview];
-    // 设置图片状态
-    self.photosState = PYPhotosViewStateDidCompose;
-    
-    NSInteger photoCount = 1;
-    // 添加相应的图片
-    while (self.subviews.count < photoCount) { // UIImageView不够，需要创建
-        PYPhotoView *photoView = [[PYPhotoView alloc] init];
-        photoView.photosView = self;
-        [self addSubview:photoView];
-    }
-    
-    // 设置视频
-    for(int i = 0; i < self.subviews.count; i++)
-    {
-        PYPhotoView *photoView = self.subviews[i];
-        // 设置标记
-        photoView.tag = i;
-        if (i < photoCount) {
-            photoView.hidden = NO;
-            // 设置视频模型
-            photoView.movie = self.movie;
-        }else{
-            photoView.hidden = YES;
-        }
-    }
-    
-    // 设置contentSize和 self.size
-    // 取出size
-    CGSize size = [self sizeWithPhotoCount:photoCount photosState:self.photosState];
-    self.contentSize = size;
-    self.contentOffset = CGPointZero;
-    CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
-    self.py_size = CGSizeMake(width, size.height);
-    
-    // 刷新
-    [self layoutSubviews];
 }
 
 - (void)setPhotosUrl
@@ -354,7 +286,6 @@ static PYPhotosViewController *_handleController;
 }
 
 #pragma mark - handle image
-
 /** 点击添加图片调用此方法 */
 - (void)addImageDidClicked
 {
@@ -421,7 +352,6 @@ static PYPhotosViewController *_handleController;
     // 取消内边距
     self.contentInset = UIEdgeInsetsZero;
     NSInteger photosCount = self.photos.count > 0 ?  self.photos.count : self.images.count;
-    photosCount  = (self.movieLocalUrl.length > 0 || self.movieNetworkUrl.length > 0) ?  1 : photosCount;
     
     NSInteger maxCol = self.photosMaxCol;
     

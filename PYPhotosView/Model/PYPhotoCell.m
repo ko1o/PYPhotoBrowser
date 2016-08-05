@@ -11,7 +11,6 @@
 #import "PYConst.h"
 #import "UIImageView+WebCache.h"
 #import "PYDALabeledCircularProgressView.h"
-#import "PYMovie.h"
 
 @implementation PYPhotoCell
 
@@ -31,6 +30,7 @@
         imageView.isBig = YES;
         [self.contentScrollView addSubview:imageView];
         self.photoView = imageView;
+        NSLog(@"创建cell");
     }
     return self;
 }
@@ -41,22 +41,6 @@
     
     // 绑定photoCell
     photoView.photoCell = self;
-}
-
-// 设置视频
-- (void)setMovie:(PYMovie *)movie
-{
-    _movie = movie;
-    // 设置图片状态
-    self.photoView.photosView.photosState = PYPhotosViewStateDidCompose;
-    self.photoView.movie = movie;
-    self.photo.originalSize = self.photoView.py_size;
-    self.photo.verticalWidth = self.photo.originalSize.width;
-    // 放大图片
-    // 设置scrollView的大小
-    self.contentScrollView.py_size = self.photoView.py_size;
-    self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
-    self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
 }
 
 // 设置图片（图片来源自网络）
@@ -121,6 +105,10 @@
     self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
+- (void)dealloc
+{
+    NSLog(@"PYCell -- 销毁 了");
+}
 
 static NSString * const reuseIdentifier = @"Cell";
 

@@ -54,7 +54,7 @@
     [originalImageUrls addObject:@"http://ww2.sinaimg.cn/large/005NFHyQgw1f6hz3s2fguj308f089753.jpg"];
     [originalImageUrls addObject:@"http://ww1.sinaimg.cn/large/86afb21egw1f6bq3lq0itj20gg0c2myt.jpg"];
     
-    // 2.1 创建一个流水布局photosView
+    // 2.1 创建一个流水布局photosView(默认为流水布局)
     PYPhotosView *flowPhotosView = [PYPhotosView photosView];
     // 设置缩略图数组
     flowPhotosView.thumbnailUrls = thumbnailImageUrls;
@@ -65,17 +65,16 @@
     flowPhotosView.py_centerX = self.view.py_centerX;
     flowPhotosView.py_y = 20 + 64;
     
-    // 2.3 创建一个视频的photosView
-    PYPhotosView *moviePhotosView = [PYPhotosView photosView];
-    moviePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + 2 * PYMargin;
-    moviePhotosView.py_x = PYMargin;
-    moviePhotosView.photoWidth = PYScreenW - 2 * PYMargin;
-    moviePhotosView.photoHeight = 200;
-//    moviePhotosView.movieNetworkUrl = @"https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.mov";
-    moviePhotosView.movieNetworkUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-    // 3. 添加photosView
+    // 2.2创建线性布局
+    PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:thumbnailImageUrls originalUrls:originalImageUrls layoutType:PYPhotosViewLayoutTypeLine];
+    // 设置Frame
+    linePhotosView.py_y = CGRectGetMaxY(flowPhotosView.frame) + PYMargin * 2;
+    linePhotosView.py_x = PYMargin;
+    linePhotosView.py_width = self.view.py_width - linePhotosView.py_x * 2;
+    
+    // 3. 添加到指定视图中
     [self.view addSubview:flowPhotosView];
-    [self.view addSubview:moviePhotosView];
+    [self.view addSubview:linePhotosView];
 }
 
 #pragma mark publishDidCicked 

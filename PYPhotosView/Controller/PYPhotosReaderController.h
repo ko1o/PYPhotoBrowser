@@ -18,6 +18,6 @@
 @property (nonatomic, weak) PYPhotoView *selectedPhotoView;
 
 /** 复制的view*/
-@property (nonatomic, strong) PYPhotoView *beginView;
+@property (nonatomic, weak) PYPhotoView *beginView;
 
 @end

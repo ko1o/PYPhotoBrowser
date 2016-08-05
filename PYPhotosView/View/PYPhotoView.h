@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
-@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYMoviePlayerController, PYMovie;
+@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView;
 
 @interface PYPhotoView : UIImageView
 
@@ -16,8 +16,6 @@
 @property (nonatomic, copy) NSArray *photos;
 /** 本地相册图片 */
 @property (nonatomic, strong) NSMutableArray *images;
-/** 视频模型 */
-@property (nonatomic, strong) PYMovie *movie;
 
 /** 是否放大状态 */
 @property (nonatomic, assign) BOOL isBig;
@@ -40,9 +38,6 @@
 @property (nonatomic, weak) PYPhotoCell *photoCell;
 /** 加载进度view */
 @property (weak, nonatomic) PYDALabeledCircularProgressView *progressView;
-
-/** 视频播放器 */
-@property (nonatomic, strong) PYMoviePlayerController *playerController;
 
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch;
 - (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation;

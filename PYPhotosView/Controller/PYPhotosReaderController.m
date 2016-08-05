@@ -12,16 +12,11 @@
 #import "PYConst.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "UIImageView+WebCache.h"
-#import "PYMoviePlayerView.h"
-#import "PYMoviePlayerController.h"
-#import "PYMovie.h"
 
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
 
 @interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
-/** photoView */
-@property (nonatomic, strong) PYPhotoView *photoView;
 
 /** 所放大的window */
 @property (nonatomic, strong) UIWindow *window;
@@ -53,7 +48,8 @@
 - (UIPageControl *)pageControl
 {
     if (!_pageControl) {
-        _pageControl = [[UIPageControl alloc] init];
+        UIPageControl *pageControl = [[UIPageControl alloc] init];
+        _pageControl = pageControl;
         _pageControl.py_width = self.view.py_width;
         _pageControl.py_y = self.view.py_height - 30;
         if (PYIOS8) { // 如果是iOS8,补上状态栏20的高度
@@ -136,7 +132,8 @@
     window.backgroundColor = [UIColor blackColor];
     
     // 转移到窗口上
-    PYPhotoView *copyView = [[PYPhotoView alloc] initWithImage:self.selectedPhotoView.image];
+    PYPhotoView *copyView = [[PYPhotoView alloc] init];
+    copyView.image = self.selectedPhotoView.image;
     // 转移坐标系
     copyView.frame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:window];
     [window addSubview:copyView];
@@ -170,11 +167,16 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self deviceOrientationDidChange]; // 判断当前屏幕方向
         });
-        
     }];
     
     // 显示pageControll
     self.pageControl.hidden = NO;
+}
+
+- (void)dealloc
+{
+    [self.window.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.window = nil;
 }
 
 // 隐藏图片
@@ -209,22 +211,6 @@
     // 刷新图片
     [self.beginView.photosView setPhotos:self.selectedPhotoView.photosView.photos];
     
-    if (self.beginView.isMovie) {
-        // 停止播放视频
-        [self.beginView.playerController.player pause];
-        // 隐藏大窗口视频的playView，显示小窗口视频的播放按钮
-        self.beginView.playerController.playView.hidden = YES;
-        self.selectedPhotoView.playerController.playButtonView.hidden = NO;
-        // 设置当前播放时间
-        self.selectedPhotoView.movie.url = self.beginView.playerController.movie.url;
-        self.selectedPhotoView.movie.lastTime = self.beginView.playerController.movie.lastTime;
-        self.selectedPhotoView.movie.skip = self.beginView.playerController.movie.skip;
-        self.selectedPhotoView.playerController.skip = self.beginView.playerController.skip;
-        [self.selectedPhotoView.playerController setCurrentPlaybackTime:self.selectedPhotoView.movie.lastTime completionHandler:^(BOOL finished) {
-            [self.selectedPhotoView.playerController.player pause];
-        }];
-    }
-    
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
         self.scaling = YES;
@@ -245,11 +231,6 @@
 // 监听屏幕旋转
 - (void)deviceOrientationDidChange
 {
-//    for (PYPhoto *photo in self.selectedPhotoView.photosView.photos) {
-//        // 判断所有图片是否都加载完
-//        if (1.0 != photo.progress) return;
-//    }
-    
     // 获取当前设备
     UIDevice *currentDevice = [UIDevice currentDevice];
     // 设备方向位置，面朝上，面朝下
@@ -331,13 +312,6 @@
         NSInteger photosCount = self.selectedPhotoView.isMovie ? 1 : self.selectedPhotoView.photos.count;
         self.collectionView.contentSize = CGSizeMake(self.collectionView.py_width * photosCount, self.collectionView.py_height);
         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self.selectedPhotoView.isMovie) {
-                PYPhotoView *photoView = self.selectedPhotoView.windowView;
-                // 横屏或者竖屏
-                photoView.playerController.fullScreen = ABS(rotateAngle) == M_PI_2;
-            }
-        });
     } completion:^(BOOL finished) {
         self.rotating = NO;
         self.window.userInteractionEnabled = YES;
@@ -364,11 +338,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // 设置数据
     // 先设置photosView 再设置photo
     cell.photoView.photosView = self.selectedPhotoView.photosView;
-    if (self.selectedPhotoView.isMovie) {
-        cell.movie = self.selectedPhotoView.movie;
-    } else {
-        cell.photo = photo;
-    }
+    cell.photo = photo;
     self.selectedPhotoView.windowView = cell.photoView;
     // 返回cell
     return cell;

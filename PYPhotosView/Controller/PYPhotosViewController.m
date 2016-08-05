@@ -92,6 +92,7 @@
     self.photosReader.selectedPhotoView.windowView = selectedCell.photoView;
     
     [self.photosReader hiddenPhoto];
+    self.photosReader = nil;
 }
 
 // 图片预览（未发布）

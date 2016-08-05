@@ -13,20 +13,17 @@
 #import "PYPhotoCell.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "MBProgressHUD+PY.h"
-#import "PYMoviePlayerView.h"
-#import "PYMoviePlayerController.h"
-#import "PYMovie.h"
 
 // cell的宽
-#define PYPhotoCellW (self.photoCell.py_width > 0 ? self.photoCell.py_width : PYScreenW)
+#define PYPhotoCellW (_photoCell.py_width > 0 ? _photoCell.py_width : PYScreenW)
 // cell的高
-#define PYPhotoCellH (self.photoCell.py_height > 0 ? self.photoCell.py_height : PYScreenH)
+#define PYPhotoCellH (_photoCell.py_height > 0 ? _photoCell.py_height : PYScreenH)
 
 // 旋转角为PI的整数倍
-#define PYHorizontal (ABS(self.rotation) < 0.01 || ABS(self.rotation - M_PI) < 0.01 || ABS(self.rotation - M_PI * 2) < 0.01)
+#define PYHorizontal (ABS(_rotation) < 0.01 || ABS(_rotation - M_PI) < 0.01 || ABS(_rotation - M_PI * 2) < 0.01)
 
 // 旋转角为90°或者270°
-#define PYVertical (ABS(self.rotation - M_PI_2) < 0.01 || ABS(self.rotation - M_PI_2 * 3) < 0.01)
+#define PYVertical (ABS(_rotation - M_PI_2) < 0.01 || ABS(_rotation - M_PI_2 * 3) < 0.01)
 
 @interface PYPhotoView ()<UIActionSheetDelegate, UIGestureRecognizerDelegate>
 /** 单击手势 */
@@ -107,23 +104,18 @@
         self.autoresizingMask = UIViewAutoresizingNone;
         // 设置图片为默认图片
         self.image = PYPlaceholderImage;
+        
+        NSLog(@"创建photoView");
     }
     return self;
 }
 
-- (PYMoviePlayerController *)playerController
-{
-    if (!_playerController) {
-        _playerController = [[PYMoviePlayerController alloc] init];
-    }
-    return _playerController;
-}
-
 - (void)dealloc
 {
-    self.playerController = nil;
     // 移除通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    NSLog(@"PYPhotoView 销毁了");
 }
 
 // 监听transform
@@ -256,53 +248,6 @@
     self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
-- (void)setMovie:(PYMovie *)movie
-{
-    if (!movie) return;
-    
-    _movie = movie;
-    NSURL *contentUrl = movie.url;
-    // 链接非法
-    if (contentUrl.lastPathComponent.length == 0 || ![[UIApplication sharedApplication] canOpenURL:contentUrl]) {
-        self.loadFailureView.hidden = NO;
-        self.userInteractionEnabled = NO;
-        return;
-    }
-    // 链接合法
-    dispatch_async(dispatch_get_global_queue(0, 0) , ^{
-       //  判断是否是视频连接
-        AVAsset *asset = [AVURLAsset URLAssetWithURL:contentUrl options:nil];
-        NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-        BOOL hasVideoTrack = [tracks count] > 0;
-        if (!hasVideoTrack) {
-            dispatch_async(dispatch_get_main_queue(), ^{ // 刷新界面
-                self.loadFailureView.hidden = NO;
-                self.userInteractionEnabled = NO;
-                self.playerController.noVideo = YES;
-                self.playerController = nil;
-            });
-        }
-    });
-
-    self.userInteractionEnabled = YES;
-    self.photo = NULL;
-    self.isMovie = YES;
-    // 将模型传给phtosView
-    self.playerController.movie = movie;
-    self.photosView.movie = self.playerController.movie;
-    self.playerController.photoView = self;
-    [self addSubview:self.playerController.view];
-    if (self.isBig) { // 大图
-        self.py_size = CGSizeMake(PYScreenW, PYScreenH);
-    } else {
-        self.py_size = self.photo.originalSize;
-    }
-    
-    self.playerController.playView.hidden = !self.isBig;
-    self.playerController.view.userInteractionEnabled = self.isBig;
-    self.playerController.shouldAutoplay = self.isBig;
-}
-
 // 如果有旋转，需要修改锚点
 - (void)setNewAnchorPoint:(CGPoint)anchorPoint getureRecognizer:(UIGestureRecognizer *)gr
 {
@@ -378,12 +323,14 @@ static CGSize originalSize;
         } else if (angle < M_PI * 7 / 4) { // 旋转角度在225°~315°之间
             angle = M_PI_2 * 3 ;
         }
+        
+        __weak typeof(self) _weakSelf = self;
         // 默认为0.25秒
         [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.transform = CGAffineTransformMakeRotation(angle * factor);
-            self.rotation = acosf(self.transform.a);
-            if (ABS(asinf(self.transform.b) + M_PI_2) < 0.01) { // 旋转270°
-                self.rotation += M_PI;
+            _weakSelf.transform = CGAffineTransformMakeRotation(angle * factor);
+            _weakSelf.rotation = acosf(_weakSelf.transform.a);
+            if (ABS(asinf(_weakSelf.transform.b) + M_PI_2) < 0.01) { // 旋转270°
+                _weakSelf.rotation += M_PI;
             }
             // 判断最终旋转角度
             if (PYHorizontal) { // 旋转角为PI的倍数
@@ -391,15 +338,15 @@ static CGSize originalSize;
                 width = originalSize.width > PYPhotoCellW ? PYPhotoCellW : originalSize.width;
             }
             
-            self.photo.verticalWidth = width;
-            self.py_origin = CGPointZero;
-            self.py_size = CGSizeMake(width, height);
-            contentScrollView.py_size = CGSizeMake(self.py_width > PYPhotoCellW ? PYPhotoCellW : self.py_width, self.py_height > PYPhotoCellH ? PYPhotoCellH : self.py_height);
-            contentScrollView.contentSize = self.py_size;
+            _weakSelf.photo.verticalWidth = width;
+            _weakSelf.py_origin = CGPointZero;
+            _weakSelf.py_size = CGSizeMake(width, height);
+            contentScrollView.py_size = CGSizeMake(_weakSelf.py_width > PYPhotoCellW ? PYPhotoCellW : _weakSelf.py_width, _weakSelf.py_height > PYPhotoCellH ? PYPhotoCellH : _weakSelf.py_height);
+            contentScrollView.contentSize = _weakSelf.py_size;
             contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
             contentScrollView.contentOffset = CGPointZero;
         } completion:^(BOOL finished) {
-            self.rotationGesture = NO;
+            _weakSelf.rotationGesture = NO;
         }];
     }
     // 复位（如果不复位，会导致乱转）
@@ -450,15 +397,16 @@ static CGSize originalSize;
                 }
             }
         }
-      
+        
+        __weak typeof(self) _weakSelf = self;
         // 复位
         [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.transform = CGAffineTransformScale(self.transform, scale, scale);
+            _weakSelf.transform = CGAffineTransformScale(_weakSelf.transform, scale, scale);
         } completion:^(BOOL finished) {
             // 恢复锚点
-            [self py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+            [_weakSelf py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:_weakSelf];
             // 记录放大的倍数
-            self.scale = self.py_width / self.photo.verticalWidth;
+            _weakSelf.scale = _weakSelf.py_width / _weakSelf.photo.verticalWidth;
         }];
     }
 }
@@ -486,13 +434,14 @@ static CGSize originalSize;
     CGFloat scale = 2.0;
     if ((self.py_width - self.photo.verticalWidth) > 0.01) scale = self.photo.verticalWidth / self.py_width;
     
+    __weak typeof(self) _weakSelf = self;
     [UIView animateWithDuration:0.25  delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        self.transform = CGAffineTransformScale(self.transform, scale, scale);
+        _weakSelf.transform = CGAffineTransformScale(_weakSelf.transform, scale, scale);
     } completion:^(BOOL finished) {
         // 恢复锚点
-        [self py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+        [_weakSelf py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:_weakSelf];
         // 记录放大倍数
-        self.scale = self.py_width / self.photo.verticalWidth;
+        _weakSelf.scale = _weakSelf.py_width / _weakSelf.photo.verticalWidth;
     }];
 }
 
@@ -502,14 +451,6 @@ static CGSize originalSize;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
-        if (self.isMovie) { // 设置视频封面
-            self.contentMode = UIViewContentModeScaleToFill;
-            // 封面图还没加载完 不允许点击
-            if (!self.playerController.playView.movieImage) return;
-            // 设置封面图
-            self.image = self.playerController.playView.movieImage;
-            self.py_size = CGSizeMake(self.photosView.photoWidth, self.photosView.photoHeight);
-        }
         if (!self.isBig) { // 放大
             // 遍历所有photoFrame记录原始frame
             for (PYPhotoView *photoView in self.photosView.subviews) {
@@ -552,9 +493,6 @@ static CGSize originalSize;
     // 移除手势
     [self removeGestureRecognizers];
     
-    // 视频为空
-    self.movie = nil;
-    
     // 设置已经加载的进度
     [self.progressView setProgress:photo.progress animated:NO];
     
@@ -570,13 +508,13 @@ static CGSize originalSize;
             urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
         }
     }
-    
+    __weak typeof(self) _weakSelf = self;
     NSURL *url = [NSURL URLWithString:urlStr];
     [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        if (self.isBig) {
+        if (_weakSelf.isBig) {
             // 获取图片链接
-            NSString *imageUrl = [[self sd_imageURL] absoluteString];
-            for (PYPhoto *photo in self.photosView.photos) {
+            NSString *imageUrl = [[_weakSelf sd_imageURL] absoluteString];
+            for (PYPhoto *photo in _weakSelf.photosView.photos) {
                 if ([imageUrl isEqualToString:photo.original_pic] || (!photo.original_pic &&
                     [imageUrl isEqualToString:photo.thumbnail_pic])) { // 找到模型,设置下载进度
                     CGFloat progress = 1.0 * receivedSize / expectedSize;
@@ -585,32 +523,32 @@ static CGSize originalSize;
                     }
                 }
             }
-            if ([imageUrl isEqualToString:self.photo.original_pic] || (!self.photo.original_pic &&
-                [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
-                self.progressView.hidden = NO;
-                [self.progressView setProgress:self.photo.progress animated:YES];
+            if ([imageUrl isEqualToString:_weakSelf.photo.original_pic] || (!_weakSelf.photo.original_pic &&
+                [imageUrl isEqualToString:_weakSelf.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
+                _weakSelf.progressView.hidden = NO;
+                [_weakSelf.progressView setProgress:_weakSelf.photo.progress animated:YES];
             }
         }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        self.progressView.hidden = YES;
-        if (image && ([[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic] ||
-                      [[imageURL absoluteString] isEqualToString:self.photo.original_pic])) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
+        _weakSelf.progressView.hidden = YES;
+        if (image && ([[imageURL absoluteString] isEqualToString:_weakSelf.photo.thumbnail_pic] ||
+                      [[imageURL absoluteString] isEqualToString:_weakSelf.photo.original_pic])) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
             // 允许手势
-            [self addGestureRecognizers];
+            [_weakSelf addGestureRecognizers];
             // 记录原始大小
-            self.photo.originalSize = CGSizeMake(self.py_width, self.py_width * image.size.height / image.size.width);
+            _weakSelf.photo.originalSize = CGSizeMake(_weakSelf.py_width, _weakSelf.py_width * image.size.height / image.size.width);
             // 记录未旋转的宽度或者旋转完成时的宽度
-            self.photo.verticalWidth = self.photo.originalSize.width;
+            _weakSelf.photo.verticalWidth = _weakSelf.photo.originalSize.width;
 
-            if (!self.isBig) {
-                self.photo.thumbnailImage = image;
+            if (!_weakSelf.isBig) {
+                _weakSelf.photo.thumbnailImage = image;
             } else {
-                self.photo.originalImage = image;
-                self.photo.progress = 1.0;
+                _weakSelf.photo.originalImage = image;
+                _weakSelf.photo.progress = 1.0;
             }
         }
         // 图片加载失败(是否隐藏)
-        self.loadFailureView.hidden = !self.isBig || image;
+        _weakSelf.loadFailureView.hidden = !_weakSelf.isBig || image;
     }];
 }
 
@@ -654,14 +592,6 @@ static CGSize originalSize;
     // 设置加载进程和加载错误图片位置
     self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
     self.loadFailureView.center = self.progressView.center;
-    if (self.isMovie) { // 含有视频
-        // 设置视频播放范围
-        self.playerController.view.frame = self.playerController.playView.frame = self.bounds;
-        // 设置播放按钮的位置
-        self.playerController.playButtonView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
-        // 设置视频时间label的位置
-        self.playerController.durationLabel.py_origin = CGPointMake(PYMargin, self.py_height - self.playerController.durationLabel.py_height - PYMargin);
-    }
 }
 
 // 监听滚动，判断cell是否在屏幕上，初始化cell
@@ -688,6 +618,7 @@ static CGSize originalSize;
         contentScrollView.scrollEnabled = NO;
     }
 }
+
 
 #pragma mark - PYAcitonSheetDeleagate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -5,7 +5,7 @@
 //  用于图片浏览/预览时的cell
 
 #import <UIKit/UIKit.h>
-@class PYPhoto,PYPhotoView,PYPhotosView, PYMovie;
+@class PYPhoto,PYPhotoView,PYPhotosView;
 
 @interface PYPhotoCell : UICollectionViewCell
 
@@ -13,11 +13,8 @@
 @property (nonatomic, strong) PYPhoto *photo;
 /** 本地相册图片 */
 @property (nonatomic, strong) UIImage *image;
-/** 视频模型 */
-@property (nonatomic, strong) PYMovie *movie;
-
 /** cell上的photoView */
-@property (nonatomic, strong) PYPhotoView *photoView;
+@property (nonatomic, weak) PYPhotoView *photoView;
 /** 存储cell的collectionView */
 @property (nonatomic, weak) UICollectionView *collectionView;
 /** 放在最底下的contentScrollView(所有子控件都添加在这里) */
