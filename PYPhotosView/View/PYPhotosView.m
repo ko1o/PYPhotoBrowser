@@ -17,7 +17,7 @@
 @property (nonatomic, assign) CGSize photoSize;
 
 /** 添加图片按钮*/
-@property (nonatomic, strong) UIButton *addImageButton;
+@property (nonatomic, weak) UIButton *addImageButton;
 
 /** 记录scrollerView的x值 */
 @property (nonatomic, assign) CGFloat originalX;
@@ -94,7 +94,6 @@ static PYPhotosViewController *_handleController;
 
 - (void)dealloc
 {
-    NSLog(@"PYPhotosVie ---- 销毁了");
     _handleController = nil;
 }
 

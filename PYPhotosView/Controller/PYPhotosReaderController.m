@@ -144,7 +144,7 @@
     // 获取选中的图片的大小
     CGSize imageSize = self.selectedPhotoView.image.size;
     // 设置个数
-    self.pageControl.numberOfPages = self.selectedPhotoView.photos.count > 1 ? self.selectedPhotoView.photos.count : 0 ;
+    self.pageControl.numberOfPages = self.selectedPhotoView.photos.count > 1 ? self.selectedPhotoView.photos.count : 0;
     self.pageControl.currentPage = self.selectedPhotoView.tag;
     
     // 添加控制器View
@@ -176,7 +176,11 @@
 - (void)dealloc
 {
     [self.window.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.window = nil;
+    for (PYPhotoView *photoView in self.selectedPhotoView.photosView.subviews) {
+        photoView.windowView = nil; // 清空窗口的photoView
+    }
+    // 清除选中photoView的窗口view
+    self.selectedPhotoView.windowView = nil;
 }
 
 // 隐藏图片

@@ -30,7 +30,6 @@
         imageView.isBig = YES;
         [self.contentScrollView addSubview:imageView];
         self.photoView = imageView;
-        NSLog(@"创建cell");
     }
     return self;
 }
@@ -103,11 +102,6 @@
     // 设置scrollView的大小
     self.contentScrollView.py_size = self.photoView.py_size;
     self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
-}
-
-- (void)dealloc
-{
-    NSLog(@"PYCell -- 销毁 了");
 }
 
 static NSString * const reuseIdentifier = @"Cell";
