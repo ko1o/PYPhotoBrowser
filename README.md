@@ -1,5 +1,4 @@
 # PYPhotoView
-===============
 [![Build Status](https://travis-ci.org/iphone5solo/PYPhotoBrowser.svg?branch=master)](https://travis-ci.org/iphone5solo/PYPhotoBrowser)
 [![Pod Version](http://img.shields.io/cocoapods/v/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
