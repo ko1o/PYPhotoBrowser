@@ -1,5 +1,5 @@
-language:objective-c
+osx_image: xcode7
+language: objective-c
+xcode_workspace: PYPhotosViewExample/PYPhotosViewExample.xcodeproj
+xcode_schemes: PYPhotosViewExample
 
-xcode_project:PYPhotosViewExample.xcodeproj
-xcode_scheme:PYPhotosViewExampleTests
- 
