@@ -1,0 +1,11 @@
+language:objective-c
+
+xcode_project:PYPhotosViewExample.xcodeproj
+xcode_scheme:PYPhotosViewExampleTests
+
+osx_image:xcode7.3
+ 
+script:
+
+    - pod spec lint --use-libraries --allow-warnings
+    - pod trunk push --use-libraries --allow-warnings
