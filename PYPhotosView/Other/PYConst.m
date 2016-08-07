@@ -12,6 +12,8 @@ const CGFloat PYPreviewPhotoSpacing = 30;   // 预览图片时，图片的间距
 const CGFloat PYPreviewPhotoMaxScale = 2;  // 预览图片时，图片最大放大倍数
 const CGFloat PYImagesMaxCountWhenWillCompose = 9; // 在发布状态时，最多可以上传的图片张数
 
+NSString *const PYPhotoBrowseViewKey = @"PYPhotoBrowseViewKey";
+
 NSString *const PYBigImageDidClikedNotification = @"PYBigImageDidClikedNotification";
 
 NSString *const PYSmallgImageDidClikedNotification = @"PYSmallImageDidClikedNotification";

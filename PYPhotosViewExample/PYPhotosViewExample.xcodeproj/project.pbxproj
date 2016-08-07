@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */; };
 		6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */; };
+		6B5593AF1D56D7E900F0304B /* PYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */; };
 		6B7B2B391D13E1810012B152 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */; };
 		6B7B2B881D1BFC6A0012B152 /* MBProgressHUD+PY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */; };
 		6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BC81D1C092A0012B152 /* MKAnnotationView+WebCache.m */; };
@@ -72,6 +73,8 @@
 		6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDACircularProgressView.m; sourceTree = "<group>"; };
 		6B4904AE1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDALabeledCircularProgressView.h; sourceTree = "<group>"; };
 		6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		6B5593AD1D56D7E900F0304B /* PYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowseView.h; sourceTree = "<group>"; };
+		6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoBrowseView.m; sourceTree = "<group>"; };
 		6B7B2B371D13E1810012B152 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
 		6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
 		6B7B2B861D1BFC6A0012B152 /* MBProgressHUD+PY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PY.h"; sourceTree = "<group>"; };
@@ -372,6 +375,8 @@
 		6BA282E81D004FB3007FE7E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B5593AD1D56D7E900F0304B /* PYPhotoBrowseView.h */,
+				6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */,
 				6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */,
 				6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */,
 				6BA282E91D004FB3007FE7E8 /* PYPhotosView.h */,
@@ -557,6 +562,7 @@
 				6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */,
 				6B7B2BF51D1C092A0012B152 /* UIImage+MultiFormat.m in Sources */,
 				6B7B2BF91D1C092A0012B152 /* UIView+WebCacheOperation.m in Sources */,
+				6B5593AF1D56D7E900F0304B /* PYPhotoBrowseView.m in Sources */,
 				6B7B2BED1D1C092A0012B152 /* SDWebImageCompat.m in Sources */,
 				6BA282A31D004F86007FE7E8 /* PYExampleViewController.m in Sources */,
 			);

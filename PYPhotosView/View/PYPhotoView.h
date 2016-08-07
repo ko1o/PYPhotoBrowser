@@ -6,9 +6,19 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
-@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView;
+@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYPhotoView;
+
+@protocol PYPhotoViewDelegate <NSObject>
+
+@optional
+- (void)didSingleClick:(PYPhotoView *)photoView; // 单击
+- (void)didLongPress:(PYPhotoView *)photoView;   // 长按
+
+@end
 
 @interface PYPhotoView : UIImageView
+
+@property (nonatomic, weak) id<PYPhotoViewDelegate> delegate;
 
 /** 图片模型 */
 @property (nonatomic, strong) PYPhoto *photo;

@@ -5,13 +5,13 @@
 //  浏览图片的控制器（一般用于网络片浏览）
 
 #import <UIKit/UIKit.h>
-@class PYPhotoView, PYPhotosView;
+@class PYPhotoView, PYPhotosView, PYPhotoBrowseView;
 
 @interface PYPhotosReaderController : UICollectionViewController
 
 + (instancetype)readerController;
 
-- (void)showPhotosToWindow:(UIWindow *)window;
+- (void)showPhotosToWindow:(PYPhotoBrowseView *)window;
 - (void)hiddenPhoto;
 
 /** 选中的照片的view*/

@@ -44,6 +44,7 @@ UIKIT_EXTERN const CGFloat PYImagesMaxCountWhenWillCompose; // 在发布状态�
 #define PYIOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0 && [[UIDevice currentDevice].systemVersion floatValue] < 9.0
 #define PYIOS9 [[UIDevice currentDevice].systemVersion floatValue] >= 9.0 && [[UIDevice currentDevice].systemVersion floatValue] < 10.0
 
+UIKIT_EXTERN NSString *const PYPhotoBrowseViewKey; // 自定义时，取出PYPhotoBrowseView的Key
 
 /** ---------------自定义通知------------- */
 UIKIT_EXTERN NSString *const PYBigImageDidClikedNotification;       // 大图被点击（缩小）

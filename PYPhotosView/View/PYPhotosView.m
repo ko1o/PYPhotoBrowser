@@ -17,7 +17,7 @@
 @property (nonatomic, assign) CGSize photoSize;
 
 /** 添加图片按钮*/
-@property (nonatomic, weak) UIButton *addImageButton;
+@property (nonatomic, strong) UIButton *addImageButton;
 
 /** 记录scrollerView的x值 */
 @property (nonatomic, assign) CGFloat originalX;
@@ -25,6 +25,7 @@
 @end
 
 static PYPhotosViewController *_handleController;
+static NSInteger _photosViewCount;
 
 @implementation PYPhotosView
 
@@ -36,6 +37,7 @@ static PYPhotosViewController *_handleController;
     if (self = [super initWithFrame:frame]) {
         // 只用一个控制器
         if (!_handleController) _handleController = [[PYPhotosViewController alloc] init];
+        _photosViewCount++;
     }
     return self;
 }
@@ -94,7 +96,10 @@ static PYPhotosViewController *_handleController;
 
 - (void)dealloc
 {
-    _handleController = nil;
+    _photosViewCount--;
+    if (0 == _photosViewCount) { // 没有photosView了 可以销毁了
+        _handleController = nil;
+    }
 }
 
 #pragma mark - setter方法

@@ -11,6 +11,7 @@
 #import "PYPhotoView.h"
 #import "PYPhotoCell.h"
 #import "PYNavigationController.h"
+#import "PYPhotoBrowseView.h"
 
 @interface PYPhotosViewController ()
 /** 图片查看控制机器 */
@@ -74,7 +75,10 @@
     self.photosReader = photosReader;
     
     // 打开一个新的窗口
-    UIWindow *lastWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
+    PYPhotoBrowseView *lastWindow = userInfo[PYPhotoBrowseViewKey];
+    if (!lastWindow) {
+        lastWindow = [[PYPhotoBrowseView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
+    }
     // 设置窗口级别(最高级)
     lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上

@@ -13,6 +13,7 @@
 #import "PYPhotoCell.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "MBProgressHUD+PY.h"
+#import "PYPhotoBrowseView.h"
 
 // cell的宽
 #define PYPhotoCellW (_photoCell.py_width > 0 ? _photoCell.py_width : PYScreenW)
@@ -320,7 +321,6 @@ static CGSize originalSize;
             angle = M_PI_2 * 3 ;
         }
         
-        __weak typeof(self) self = self;
         // 默认为0.25秒
         [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.transform = CGAffineTransformMakeRotation(angle * factor);
@@ -410,6 +410,13 @@ static CGSize originalSize;
 - (void)imageDidLongPress:(UITapGestureRecognizer *)longPress
 {
     if (longPress.state == UIGestureRecognizerStateBegan) {  // 长按结束
+        if ([self.delegate respondsToSelector:@selector(didLongPress:)])
+        {
+            [self.delegate didLongPress:self];
+            PYPhotoBrowseView *browseView = (PYPhotoBrowseView *)self.delegate;
+            if(browseView.images) return;
+        }
+        
         // 跳出提示
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存到相册", @"发送给朋友", nil];
         sheet.delegate = self;
@@ -442,6 +449,11 @@ static CGSize originalSize;
 // 单击手势
 - (void)imageDidClicked:(UITapGestureRecognizer *)sender
 {
+    if ([self.delegate respondsToSelector:@selector(didSingleClick:)]) { // 自定义 自己管理点击事件
+        [self.delegate didSingleClick:self];
+        return;
+    }
+    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     if (self.photosView.photosState == PYPhotosViewStateDidCompose) { // 已发布
@@ -489,6 +501,13 @@ static CGSize originalSize;
     
     // 设置已经加载的进度
     [self.progressView setProgress:photo.progress animated:NO];
+    
+    if (photo.originalImage) {
+        self.image = photo.originalImage;
+        // 允许手势
+        [self addGestureRecognizers];
+        return;
+    }
     
     // 设置链接(默认设置为缩略图)
     NSString *urlStr = photo.thumbnail_pic ? photo.thumbnail_pic : photo.original_pic;

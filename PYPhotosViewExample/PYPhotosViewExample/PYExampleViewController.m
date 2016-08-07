@@ -8,10 +8,7 @@
 #import "AppDelegate.h"
 #import "PYPhotosView.h"
 #import "PYPublishExampleViewController.h"
-
-@interface PYExampleViewController ()
-
-@end
+#import "PYPhotoBrowseView.h"
 
 @implementation PYExampleViewController
 

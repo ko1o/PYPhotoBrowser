@@ -12,6 +12,7 @@
 #import "PYConst.h"
 #import "PYDALabeledCircularProgressView.h"
 #import "UIImageView+WebCache.h"
+#import "PYPhotoBrowseView.h"
 
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
@@ -19,7 +20,7 @@
 @interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
 
 /** 所放大的window */
-@property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, strong) PYPhotoBrowseView *window;
 
 /** 分页计数器 */
 @property (nonatomic, strong) UIPageControl *pageControl;
@@ -122,8 +123,12 @@
 }
 
 // 呈现在某一个window上
-- (void)showPhotosToWindow:(UIWindow *)window
+- (void)showPhotosToWindow:(PYPhotoBrowseView *)window
 {
+    if ([window.delegate respondsToSelector:@selector(photoBrowseView:willShowWithImages:index:)]) {
+        [window.delegate photoBrowseView:window willShowWithImages:window.images index:window.currentIndex];
+    }
+    
     // 监听屏幕旋转通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];;
     
@@ -136,6 +141,9 @@
     copyView.image = self.selectedPhotoView.image;
     // 转移坐标系
     copyView.frame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:window];
+    if ([self.window.dataSource respondsToSelector:@selector(frameFormWindow)]) {
+       copyView.frame = [self.window.dataSource frameFormWindow];
+    }
     [window addSubview:copyView];
     self.window = window;
     self.beginView = copyView;
@@ -150,6 +158,7 @@
     // 添加控制器View
     self.collectionView.alpha = 0.0;
     
+
     [UIView animateWithDuration:0.5 animations:^{
         self.scaling = YES;
         // 放大图片
@@ -167,6 +176,9 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self deviceOrientationDidChange]; // 判断当前屏幕方向
         });
+        if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didShowWithImages:index:)]) {
+            [self.window.delegate photoBrowseView:self.window didShowWithImages:self.window.images index:self.pageControl.currentPage];
+        }
     }];
     
     // 显示pageControll
@@ -176,16 +188,23 @@
 - (void)dealloc
 {
     [self.window.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (PYPhotoView *photoView in self.selectedPhotoView.photosView.subviews) {
-        photoView.windowView = nil; // 清空窗口的photoView
+    
+    if (self.selectedPhotoView.photosView.photosState == PYPhotosViewStateDidCompose) {
+        for (PYPhotoView *photoView in self.selectedPhotoView.photosView.subviews) {
+            photoView.windowView = nil; // 清空窗口的photoView
+        }
+        // 清除选中photoView的窗口view
+        self.selectedPhotoView.windowView = nil;
     }
-    // 清除选中photoView的窗口view
-    self.selectedPhotoView.windowView = nil;
 }
 
 // 隐藏图片
 - (void)hiddenPhoto
 {
+    if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:willHiddenWithImages:index:)]) {
+        [self.window.delegate photoBrowseView:self.window willHiddenWithImages:self.window.images index:self.pageControl.currentPage];
+    }
+    
     // 移除屏幕旋转通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -208,6 +227,9 @@
     // 计算原始窗口的frame
     // 转移坐标系
      CGRect beginFrame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:self.window];
+    if ([self.window.dataSource respondsToSelector:@selector(frameToWindow)]) {
+        beginFrame = [self.window.dataSource frameToWindow];
+    }
 
     // 移除self.collectionView的所有子控件
     [self.collectionView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -229,6 +251,10 @@
         self.collectionView.hidden = YES;
         // 移除窗口
         self.window.hidden = YES;
+        [self.window hidden];
+        if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didHiddenWithImages:index:)]) {
+            [self.window.delegate photoBrowseView:self.window didHiddenWithImages:self.window.images index:self.pageControl.currentPage];
+        }
     }];
 }
 
@@ -344,6 +370,7 @@ static NSString * const reuseIdentifier = @"Cell";
     cell.photoView.photosView = self.selectedPhotoView.photosView;
     cell.photo = photo;
     self.selectedPhotoView.windowView = cell.photoView;
+    cell.photoView.delegate = self.window;
     // 返回cell
     return cell;
 }
