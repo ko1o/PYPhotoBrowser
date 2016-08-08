@@ -31,8 +31,6 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  */
 - (void)photosView:(PYPhotosView *)photosView didAddImageClickedWithImages:(NSMutableArray *)images;
 
-
-
 @end
 
 @interface PYPhotosView : UIScrollView

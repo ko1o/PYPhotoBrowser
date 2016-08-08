@@ -1,17 +1,13 @@
-//
-//  PYPhotoBrowseView.m
-//  PYPhotosViewExample
-//
-//  Created by 谢培艺 on 16/8/7.
+//  代码地址: https://github.com/iphone5solo/PYPhotosView
+//  代码地址: http://code4app.com/thread-8612-1-1.html
+//  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //
-
 
 #import "PYPhotoBrowseView.h"
 #import "PYPhotosView.h"
 #import "PYPhoto.h"
 #import "PYPhotoView.h"
-
 
 @interface PYPhotoBrowseView ()
 
@@ -39,8 +35,6 @@
     
     PYPhotosView *photosView = [PYPhotosView photosView];
     self.photosView = photosView;
-    // 用户自己控制
-//    photosView.controlSelf = YES;
     
     NSMutableArray *photosM = [NSMutableArray array];
     for (int i = 0; i < self.images.count; i++)
@@ -89,7 +83,7 @@
     }
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    // suoxiao
+    // 缩小
     userInfo[PYSmallgImageDidClikedNotification] = photoView;
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:self.photosView userInfo:userInfo];
     [center postNotification:notification];

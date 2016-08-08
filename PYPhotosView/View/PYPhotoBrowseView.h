@@ -1,10 +1,8 @@
-//
-//  PYPhotoBrowseView.h
-//  PYPhotosViewExample
-//
-//  Created by 谢培艺 on 16/8/7.
+//  代码地址: https://github.com/iphone5solo/PYPhotosView
+//  代码地址: http://code4app.com/thread-8612-1-1.html
+//  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
-//
+//  图片浏览时的Window,用于图片浏览时自定义（用户自己控制显示/隐藏）
 
 #import <UIKit/UIKit.h>
 @class PYPhotoBrowseView;
@@ -13,34 +11,29 @@
 @protocol PYPhotoBrowseViewDelegate <NSObject>
 
 @optional
-/**
- * 添加图片按钮选中时调用此方法
- * images : 当前存在的图片（未发布）数组
- */
-- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didAddImageClickedWithImages:(NSMutableArray *)images;
 
 /**
- * 图片浏览将要显示时
+ * 图片浏览将要显示时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willShowWithImages:(NSArray *)images index:(NSInteger)index;
 /**
- * 图片浏览已经显示时
+ * 图片浏览已经显示时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didShowWithImages:(NSArray *)images index:(NSInteger)index;
 /**
- * 图片浏览将要隐藏时
+ * 图片浏览将要隐藏时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willHiddenWithImages:(NSArray *)images index:(NSInteger)index;
 /**
- * 图片浏览已经隐藏时
+ * 图片浏览已经隐藏时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didHiddenWithImages:(NSArray *)images index:(NSInteger)index;
 /**
- * 图片单击时
+ * 图片单击时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index;
 /**
- * 图片长按时
+ * 图片长按时调用
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didLongPressImage:(UIImage *)image index:(NSInteger)index;
 
@@ -49,7 +42,7 @@
 @protocol PYPhotoBrowseViewDataSource <NSObject>
 
 @required
-/** 返回将要浏览的图片数组 */
+/** 返回将要浏览的图片（UIImage）数组 */
 - (NSArray *)imagesForBrowse;
 
 @optional
