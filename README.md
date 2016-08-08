@@ -1,4 +1,4 @@
-# PYPhotoView
+# PYPhotoBrowser
 [![Build Status](https://travis-ci.org/iphone5solo/PYPhotoBrowser.svg?branch=master)](https://travis-ci.org/iphone5solo/PYPhotoBrowser)
 [![Pod Version](http://img.shields.io/cocoapods/v/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
@@ -67,10 +67,10 @@
 	- `SDWebImage`
 	
 
-## <a id="PYPhotosView框架的主要类"></a>PYPhotosView框架的主要类
+## <a id="PYPhotosView框架的主要类"></a>PYPhotoBrowser框架的主要类
 
 
-### PYPhotosView
+### PYPhotosView（快速使用）
 ```objc
 
 
@@ -141,6 +141,88 @@
 
 
 ```
+
+###PYPhotoBrowseView（自定义）
+
+```objc
+
+@protocol PYPhotoBrowseViewDelegate <NSObject>
+
+@optional
+
+/**
+ * 图片浏览将要显示时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willShowWithImages:(NSArray *)images index:(NSInteger)index;
+/**
+ * 图片浏览已经显示时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didShowWithImages:(NSArray *)images index:(NSInteger)index;
+/**
+ * 图片浏览将要隐藏时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willHiddenWithImages:(NSArray *)images index:(NSInteger)index;
+/**
+ * 图片浏览已经隐藏时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didHiddenWithImages:(NSArray *)images index:(NSInteger)index;
+/**
+ * 图片单击时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index;
+/**
+ * 图片长按时调用
+ */
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didLongPressImage:(UIImage *)image index:(NSInteger)index;
+
+@end
+
+@protocol PYPhotoBrowseViewDataSource <NSObject>
+
+@required
+/** 返回将要浏览的图片（UIImage）数组 */
+- (NSArray *)imagesForBrowse;
+
+@optional
+/** 返回默认显示图片的索引(默认为0) */
+- (NSInteger)currentIndex;
+
+/** 默认显示图片相对于主窗口的位置 */
+- (CGRect)frameFormWindow;
+
+/** 消失回到相对于住窗口的指定位置 */
+- (CGRect)frameToWindow;
+
+@end
+
+
+@interface PYPhotoBrowseView  : UIWindow <PYPhotoViewDelegate>
+
+/** 代理 */
+@property (nonatomic, weak) id<PYPhotoBrowseViewDelegate> delegate;
+/** 数据源代理 */
+@property (nonatomic, weak) id<PYPhotoBrowseViewDataSource> dataSource;
+
+/** 用来浏览的图片（UIImage）数组 */
+@property (nonatomic, copy) NSArray *images;
+
+/** 用来记录当前下标 */
+@property (nonatomic, assign) NSInteger currentIndex;
+
+/**
+ * 浏览图片
+ */
+- (void)show;
+
+/**
+ * 隐藏
+ */
+- (void)hidden;
+
+@end
+
+```
+
 
 ## <a id="如何使用PYPhotosView"></a>如何使用PYPhotosView
 * 使用Cocoapods:
@@ -216,6 +298,65 @@
     [self.view addSubview:photosView];
 
 ```
+
+- **自定义图片浏览（使用PYPhotoBrowseView类）**
+
+	示例代码：
+	
+```objc
+
+    // 1.创建自己定义的browseView
+    PYPhotoBrowseView *browseView = [[PYPhotoBrowseView alloc] init];
+    
+    // 2.设置数据源和代理并实现数据源和代理方法
+    browseView.dataSource = self;
+    browseView.delegate = self;
+    
+    // 3.显示（浏览）
+    [browseView show];
+    
+    
+    // 实现数据源方法
+	#pragma mark - PYPhotoBrowseViewDataSource
+	// 返回将要浏览的图片(UIImage)数组
+	- (NSArray *)imagesForBrowse
+	{
+    	NSMutableArray *imagesM = [NSMutableArray array];
+    	for (int i = 0; i < 6 + 1; i++) {
+        [imagesM addObject:[UIImage imageNamed:[NSString 	stringWithFormat:@"%02d", i + 1]]];
+   		}
+   	 return imagesM;
+	}
+
+	// 返回默认显示图片的下标(默认为0)
+	- (NSInteger)currentIndex
+	{
+	    return 2;
+	}
+	
+	// 返回从窗口的哪个位置开始显示（注意：frame是相当于window）
+	- (CGRect)frameFormWindow
+	{
+	    return CGRectZero;
+	}
+	
+	// 返回消失到窗口的哪个位置（注意：frame是相当于window）
+	- (CGRect)frameToWindow
+	{
+	    return CGRectMake(100, 300, 200, 200);
+	}
+	
+	// 实现代理方法
+	#pragma mark PYPhotoBrowseViewDelegate
+	- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index
+	{
+	    NSLog(@"图片单击时调用");
+	    // 关闭浏览
+	    [photoBrowseView hidden];
+	}
+
+```
+
  
 ## <a id="自定义photosView"></a>自定义photosView
 
@@ -265,7 +406,7 @@ photosView.imagesMaxCountWhenWillCompose = 15;
 
 ## <a id="期待什么"></a>期待
 
-- 如果您在使用过程中有任何问题，欢迎直接加我QQ:499491531联系，很乐意为您解答任何相关问题
+- 如果您在使用过程中有任何问题，欢迎直接加我QQ:499491531联系，很乐意为您解答任何相关问题!
 - 与其给我点star，不如向我狠狠地抛来一个BUG！
-- 如果感兴趣的小伙伴想要参与这个项目的维护，可以及时联系我。
-- 最后，不要再调侃`PY`了，我们都纯洁一点好不好！！！
+- 如果感兴趣的小伙伴想要参与这个项目的维护，可以随时联系我或者直接pull request！
+- 如果您想要更多的接口来自定义，欢迎issue me！我会根据大家的需求提供更多的接口！
