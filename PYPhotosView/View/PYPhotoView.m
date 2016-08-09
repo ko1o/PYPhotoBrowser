@@ -129,14 +129,14 @@
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
         contentScrollView.py_height = self.py_height < PYPhotoCellH ? self.py_height : PYPhotoCellH;
         contentScrollView.py_width = self.py_width < PYPhotoCellW ? self.py_width : PYPhotoCellW;
-        contentScrollView.contentSize = self.py_size;
+        // 注意：应该先设置contentInset再设置contentSize
         contentScrollView.contentInset = UIEdgeInsetsMake(-self.py_y, -self.py_x, self.py_y, self.py_x);
+        contentScrollView.contentSize = self.py_size;
         contentScrollView.scrollEnabled = YES;
         contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
     } else {
         self.photoCell.contentScrollView.scrollEnabled = NO;
     }
-    
 }
 
 // 添加指定的手势
@@ -356,7 +356,6 @@ static CGSize originalSize;
     CGPoint anchorPoint = [self py_setAnchorPointBaseOnGestureRecognizer:pinch];
     // 设置新的锚点
     [self setNewAnchorPoint:anchorPoint getureRecognizer:pinch];
-    
     // 记录手势
     self.state = pinch.state;
     self.rotationGesture = NO;
