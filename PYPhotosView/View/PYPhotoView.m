@@ -35,6 +35,8 @@
 
 /** 原始锚点 */
 @property (nonatomic, assign) CGPoint originAnchorPoint;
+/** 手势是否是第一次改变 */
+@property (nonatomic, assign) BOOL gestureChangeFirst;
 
 /** 记录加载链接 */
 @property (nonatomic, strong) NSURL *lastUrl;
@@ -119,19 +121,25 @@
 - (void)setTransform:(CGAffineTransform)transform
 {
     [super setTransform:transform];
-    
     // 如果手势没结束、没有放大、旋转手势，返回
     if (self.isRotationGesture) return;
     
     // 判断是否放大
     if (self.py_width >= (PYPhotoCellW - 0.01) || self.py_height >= (PYPhotoCellH - 0.01)) { // 超出屏幕
+        self.py_x = 0.0;
+        self.py_y = 0.0;
         // 修改contentScrollView的属性
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
         contentScrollView.py_height = self.py_height < PYPhotoCellH ? self.py_height : PYPhotoCellH;
         contentScrollView.py_width = self.py_width < PYPhotoCellW ? self.py_width : PYPhotoCellW;
-        // 注意：应该先设置contentInset再设置contentSize
-        contentScrollView.contentInset = UIEdgeInsetsMake(-self.py_y, -self.py_x, self.py_y, self.py_x);
+        // 注意：应该先设置contentSize再设置contentInset
         contentScrollView.contentSize = self.py_size;
+        // 获取锚点
+        CGPoint anchorPoint = self.layer.anchorPoint;
+        contentScrollView.contentOffset = CGPointMake((self.py_width - contentScrollView.py_width) * anchorPoint.x, (self.py_height - contentScrollView.py_height) * anchorPoint.y);
+        if (ABS(self.py_x) > 0.000001 && ABS(self.py_y) > 0.000001) { // 设置内边距（注意：当内边距大于contentSize会出现不良后果）
+            contentScrollView.contentInset = UIEdgeInsetsMake(-self.py_y, -self.py_x, self.py_y, self.py_x);
+        }
         contentScrollView.scrollEnabled = YES;
         contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
     } else {
@@ -254,7 +262,7 @@
     if ([[gr view] isKindOfClass:[PYPhotoCell class]]) { // 点击PYPhotoCell
         // 修改锚点
         if (ABS(angle - M_PI_2) <= 0.01) { // 旋转角为90°
-            anchorPoint = CGPointMake(anchorPoint.y , 1 - anchorPoint.x);
+            anchorPoint = CGPointMake(anchorPoint.y, 1 - anchorPoint.x);
         } else if (ABS(angle - M_PI_2 * 3) <= 0.01) { // 旋转角为270°
             anchorPoint = CGPointMake(1 - anchorPoint.y,  anchorPoint.x);
         } else if (ABS(angle - M_PI) <= 0.01) { // 旋转角为180°
@@ -352,24 +360,31 @@ static CGSize originalSize;
 // 捏合手势
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch
 {
-    // 获取锚点
-    CGPoint anchorPoint = [self py_setAnchorPointBaseOnGestureRecognizer:pinch];
-    // 设置新的锚点
-    [self setNewAnchorPoint:anchorPoint getureRecognizer:pinch];
+    if (pinch.state == UIGestureRecognizerStateBegan ||
+        (pinch.state == UIGestureRecognizerStateChanged && self.gestureChangeFirst)) {
+        if (pinch.state == UIGestureRecognizerStateChanged) {
+            self.gestureChangeFirst = NO;
+        }
+        // 获取锚点
+        CGPoint anchorPoint = [self py_setAnchorPointBaseOnGestureRecognizer:pinch];
+        // 设置新的锚点
+        [self setNewAnchorPoint:anchorPoint getureRecognizer:pinch];
+        // 保存锚点
+        self.originAnchorPoint = self.layer.anchorPoint;
+    }
+    // 保持锚点一致
+    self.layer.anchorPoint = self.originAnchorPoint;
     // 记录手势
     self.state = pinch.state;
     self.rotationGesture = NO;
-
     self.transform = CGAffineTransformScale(self.transform, pinch.scale, pinch.scale);
     // 复位
     pinch.scale = 1;
-    
     if (pinch.state == UIGestureRecognizerStateEnded
         || pinch.state == UIGestureRecognizerStateFailed
         || pinch.state == UIGestureRecognizerStateCancelled) { // 手势结束\取消\失败
         // 判断是否缩小
         CGFloat scale = 1;
-        
         if (PYHorizontal) { // 旋转角为PI的整数倍 并且竖屏
             if (self.py_width <= self.photo.verticalWidth) { // 缩小了(旋转0°、180°、360°)
                 // 放大
@@ -399,6 +414,8 @@ static CGSize originalSize;
         } completion:^(BOOL finished) {
             // 恢复锚点
             [self py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+            self.originAnchorPoint = self.layer.anchorPoint;
+            self.gestureChangeFirst = YES;
             // 记录放大的倍数
             self.scale = self.py_width / self.photo.verticalWidth;
         }];
@@ -440,6 +457,7 @@ static CGSize originalSize;
     } completion:^(BOOL finished) {
         // 恢复锚点
         [self py_setAnchorPoint:CGPointMake(0.5, 0.5) forView:self];
+        self.originAnchorPoint = self.layer.anchorPoint;
         // 记录放大倍数
         self.scale = self.py_width / self.photo.verticalWidth;
     }];
@@ -595,7 +613,6 @@ static CGSize originalSize;
             contentScrollView.frame = PYPhotoCellW > PYPhotoCellH ? CGRectMake(0, 0, PYScreenH, PYScreenW) : CGRectMake(0, 0, PYScreenW, PYScreenH);
         } else {
             self.photoCell.contentScrollView.contentSize = self.py_size;
-            self.photoCell.contentScrollView.scrollEnabled = NO;
         }
     }
     
@@ -612,9 +629,8 @@ static CGSize originalSize;
     // 取出参数
     NSDictionary *info = noti.userInfo;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
-    // 刷新进度条的进度
     
-    if (((self.photoCell.py_x >= scrollView.contentOffset.x + scrollView.py_width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.py_width >= PYPhotoCellW || self.photoCell.contentScrollView.transform.a)) { // 不在屏幕上并且有缩放或者旋转，就要初始化
+    if (!CGAffineTransformEqualToTransform(self.transform, CGAffineTransformIdentity) && ((self.photoCell.py_x >= scrollView.contentOffset.x + scrollView.py_width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.py_width >= PYPhotoCellW || self.photoCell.contentScrollView.transform.a)) { //self.transform不为初始化状态并且不在屏幕上并且有缩放或者旋转，就要初始化
         [self.progressView setProgress:0.0 animated:NO];
         self.rotation = 0.0;
         self.scale = 1.0;
