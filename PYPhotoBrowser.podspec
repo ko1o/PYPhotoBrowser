@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
     s.dependency "SDWebImage"
     s.dependency "MBProgressHUD"
     s.dependency "DACircularProgress"
-    s.source       = {:git => 'git@github.com:iphone5solo/PYPhotoBrowser.git', :tag => '0.4.1'}
+    s.source       = {:git => 'https://github.com/iphone5solo/PYPhotoBrowser.git', :tag => '0.4.1'}
     s.source_files = 'PYPhotoBrowser/**/*.{h,m}'
     s.resource     = 'PYPhotoBrowser/PYPhotosView.bundle'
     s.requires_arc = true
