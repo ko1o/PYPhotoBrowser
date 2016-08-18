@@ -1,8 +1,8 @@
 # PYPhotoBrowser
 [![Build Status](https://travis-ci.org/iphone5solo/PYPhotoBrowser.svg?branch=master)](https://travis-ci.org/iphone5solo/PYPhotoBrowser)
-[![Pod Version](http://img.shields.io/cocoapods/v/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
-[![Pod Platform](http://img.shields.io/cocoapods/p/PYPhotosView.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotosView/)
-[![Pod License](http://img.shields.io/cocoapods/l/PYPhotosView.svg?style=flat)](https://opensource.org/licenses/MIT)
+[![Pod Version](http://img.shields.io/cocoapods/v/PYPhotoBrowser.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotoBrowser/)
+[![Pod Platform](http://img.shields.io/cocoapods/p/PYPhotoBrowser.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotoBrowser/)
+[![Pod License](http://img.shields.io/cocoapods/l/PYPhotoBrowser.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 - Framework with a simple method of rendering images.
 - 用法简单的呈现一组图片的框架。
