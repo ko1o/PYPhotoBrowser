@@ -33,8 +33,10 @@
 /** photoCell的单击手势 */
 @property (nonatomic, weak) UIGestureRecognizer *photoCellSingleTap;
 
-/** 原始锚点 */
-@property (nonatomic, assign) CGPoint originAnchorPoint;
+/** contentScrollView的模拟锚点 */
+@property (nonatomic, assign) CGPoint scrollViewAnchorPoint;
+/** PYPhotoCell的模拟锚点 */
+@property (nonatomic, assign) CGPoint photoCellAnchorPoint;
 
 /** 记录加载链接 */
 @property (nonatomic, strong) NSURL *lastUrl;
@@ -84,7 +86,7 @@
         self.loadFailureView = loadFailureView;
         
         // 设置原始锚点
-        self.originAnchorPoint = self.layer.anchorPoint;
+        self.scrollViewAnchorPoint = self.layer.anchorPoint;
         
         // 默认放大倍数和旋转角度
         self.scale = 1.0;
@@ -115,11 +117,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setOriginAnchorPoint:(CGPoint)originAnchorPoint
+- (void)setscrollViewAnchorPoint:(CGPoint)scrollViewAnchorPoint
 {
     // 当锚点异常时不赋值
-    if (originAnchorPoint.x < 0.01 || originAnchorPoint.y < 0.01) return;
-    _originAnchorPoint = originAnchorPoint;
+    if (scrollViewAnchorPoint.x < 0.01 || scrollViewAnchorPoint.y < 0.01) return;
+    _scrollViewAnchorPoint = scrollViewAnchorPoint;
 }
 
 // 监听transform
@@ -137,11 +139,22 @@
     contentScrollView.py_height = self.py_height < PYPhotoCellH ? self.py_height : PYPhotoCellH;
     contentScrollView.py_width = self.py_width < PYPhotoCellW ? self.py_width : PYPhotoCellW;
     contentScrollView.contentSize = self.py_size;
-    contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
-    // 获取锚点（模拟锚点、并非真实锚点）
-    CGPoint anchorPoint = self.originAnchorPoint;
+    contentScrollView.backgroundColor = [UIColor greenColor];
     // 根基模拟锚点调整偏移量
-    contentScrollView.contentOffset = CGPointMake((contentScrollView.contentSize.width - contentScrollView.py_width) * anchorPoint.x, (contentScrollView.contentSize.height - contentScrollView.py_height) * anchorPoint.y);
+    CGFloat offsetX = contentScrollView.contentSize.width * self.scrollViewAnchorPoint.x - contentScrollView.py_width * self.photoCellAnchorPoint.x;
+    CGFloat offsetY = contentScrollView.contentSize.height * self.scrollViewAnchorPoint.y - contentScrollView.py_height * self.photoCellAnchorPoint.y;
+    if (ABS(offsetX) + contentScrollView.py_width > contentScrollView.contentSize.width) { // 偏移量超出范围
+        offsetX = offsetX > 0 ? contentScrollView.contentSize.width - contentScrollView.py_width : contentScrollView.py_width - contentScrollView.contentSize.width;
+    }
+    if (ABS(offsetY) + contentScrollView.py_height > contentScrollView.contentSize.height) {  // 偏移量超出范围
+        offsetY = offsetY > 0 ? contentScrollView.contentSize.height - contentScrollView.py_height :
+        contentScrollView.py_height - contentScrollView.contentSize.height;
+    }
+    // 最后调整
+    offsetX = offsetX < 0 ? 0 : offsetX;
+    offsetY = offsetY < 0 ? 0 : offsetY;
+    contentScrollView.contentOffset = CGPointMake(offsetX, offsetY);
+    contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
 }
 
 // 添加指定的手势
@@ -367,7 +380,7 @@ static CGSize originalSize;
         // 获取锚点
         CGPoint anchorPoint = [self setAnchorPointBaseOnGestureRecognizer:pinch];
         // 设置新的锚点
-        self.originAnchorPoint = [self setNewAnchorPoint:anchorPoint getureRecognizer:pinch];
+        self.scrollViewAnchorPoint = [self setNewAnchorPoint:anchorPoint getureRecognizer:pinch];
         // 当对图片放大到最大最次放大时，缩放因子就会变小
         CGFloat scaleFactor = 1.0;
         if (self.py_width > PYPhotoCellW * PYPreviewPhotoMaxScale && pinch.scale > 1.0) {
@@ -443,7 +456,7 @@ static CGSize originalSize;
     // 设置锚点
     CGPoint anchorPoint = [self setAnchorPointBaseOnGestureRecognizer:singleTap];
     // 设置新锚点
-    self.originAnchorPoint = [self setNewAnchorPoint:anchorPoint getureRecognizer:singleTap];
+    self.scrollViewAnchorPoint = [self setNewAnchorPoint:anchorPoint getureRecognizer:singleTap];
 
     // 放大倍数（默认为放大）
     CGFloat scale = PYPreviewPhotoMaxScale;
@@ -634,7 +647,7 @@ static CGSize originalSize;
         self.py_width = PYPhotoCellW;
         UIScrollView *contentScrollView = self.photoCell.contentScrollView;
         contentScrollView.contentSize = self.py_size;
-        contentScrollView.py_size = self.py_size;
+//        contentScrollView.py_size = self.py_size;
         contentScrollView.contentOffset = CGPointZero;
         contentScrollView.contentInset = UIEdgeInsetsZero;
         contentScrollView.transform = CGAffineTransformIdentity;
@@ -653,12 +666,19 @@ static CGSize originalSize;
     if ([gr isKindOfClass:[UIPinchGestureRecognizer class]]) { // 捏合手势
         if (gr.numberOfTouches == 2) {
             // 当触摸开始时，获取两个触摸点
-            // 获取滚动视图
+            // 获取滚动视图上的触摸点
             UIScrollView *scrollView = (UIScrollView *)[self superview];
             CGPoint point1 = [gr locationOfTouch:0 inView:scrollView];
             CGPoint point2 = [gr locationOfTouch:1 inView:scrollView];
             anchorPoint.x = (point1.x + point2.x) / 2.0 / scrollView.contentSize.width;
             anchorPoint.y = (point1.y + point2.y) / 2.0 / scrollView.contentSize.height;
+            // 获取cell上的触摸点
+            CGPoint cellAnchorPoint;
+            CGPoint screenPoint1 = [gr locationOfTouch:0 inView:gr.view];
+            CGPoint screenPoint2 = [gr locationOfTouch:1 inView:gr.view];
+            cellAnchorPoint.x = (screenPoint1.x + screenPoint2.x) / 2.0 / gr.view.py_width;
+            cellAnchorPoint.y = (screenPoint1.y + screenPoint2.y) / 2.0 / gr.view.py_height;
+            self.photoCellAnchorPoint = cellAnchorPoint;
         }
     } else if ([gr isKindOfClass:[UITapGestureRecognizer class]]) { // 点击手势
         // 获取触摸点
@@ -675,6 +695,7 @@ static CGSize originalSize;
         // 如果旋转了
         anchorPoint.x = point.x / width;
         anchorPoint.y = point.y / height;
+        self.photoCellAnchorPoint = anchorPoint;
     };
     return anchorPoint;
 }
