@@ -11,7 +11,7 @@
 #import "PYConst.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotoCell.h"
-#import "PYDALabeledCircularProgressView.h"
+#import "PYProgressView.h"
 #import "MBProgressHUD+PY.h"
 #import "PYPhotoBrowseView.h"
 
@@ -46,9 +46,6 @@
 /** 手势状态 */
 @property (nonatomic, assign) UIGestureRecognizerState state;
 
-/** 加载失败显示图片 */
-@property (nonatomic, weak) UIImageView *loadFailureView;
-
 /** 删除图片 */
 @property (nonatomic, weak) UIImageView *deleteImageView;
 
@@ -72,7 +69,7 @@
         [center addObserver:self selector:@selector(collectionViewDidScroll:) name:PYCollectionViewDidScrollNotification object:nil];
         
         // 添加进度条
-        PYDALabeledCircularProgressView *progressView = [[PYDALabeledCircularProgressView alloc] init];
+        PYProgressView *progressView = [[PYProgressView alloc] init];
         progressView.py_size = CGSizeMake(100, 100);
         progressView.hidden = YES;
         [self addSubview:progressView];
@@ -452,6 +449,7 @@ static CGSize originalSize;
 // 单击手势
 - (void)imageDidClicked:(UITapGestureRecognizer *)sender
 {
+    
     if ([self.delegate respondsToSelector:@selector(didSingleClick:)]) { // 自定义 自己管理点击事件
         [self.delegate didSingleClick:self];
         return;
@@ -470,8 +468,9 @@ static CGSize originalSize;
             NSNotification *notification = [[NSNotification alloc] initWithName:PYBigImageDidClikedNotification object:self.photosView userInfo:userInfo];
             [center postNotification:notification];
         } else { // 缩小
-            // 隐藏图片加载失败
+            // 隐藏图片加载失败/加载进度
             self.loadFailureView.hidden = YES;
+            self.progressView.hidden = YES;
             // 移除进度条
             [self.progressView removeFromSuperview];
             // 不可以双击
@@ -503,7 +502,7 @@ static CGSize originalSize;
     [self removeGestureRecognizers];
     
     // 设置已经加载的进度
-    [self.progressView setProgress:photo.progress animated:NO];
+    [self.progressView py_setProgress:photo.progress animated:NO];
     
     if (photo.originalImage) {
         self.image = photo.originalImage;
@@ -542,7 +541,7 @@ static CGSize originalSize;
             if ([imageUrl isEqualToString:self.photo.original_pic] || (!self.photo.original_pic &&
                 [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
                 self.progressView.hidden = NO;
-                [self.progressView setProgress:self.photo.progress animated:YES];
+                [self.progressView py_setProgress:self.photo.progress animated:YES];
             }
         }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -619,7 +618,7 @@ static CGSize originalSize;
     UIScrollView *scrollView = info[PYCollectionViewDidScrollNotification];
     
     if (!CGAffineTransformEqualToTransform(self.transform, CGAffineTransformIdentity) && ((self.photoCell.py_x >= scrollView.contentOffset.x + scrollView.py_width) || (CGRectGetMaxX(self.photoCell.frame) < scrollView.contentOffset.x)) && (self.py_width >= PYPhotoCellW || self.photoCell.contentScrollView.transform.a)) { //self.transform不为初始化状态并且不在屏幕上并且有缩放或者旋转，就要初始化
-        [self.progressView setProgress:0.0 animated:NO];
+        [self.progressView py_setProgress:0.0 animated:NO];
         self.rotation = 0.0;
         self.scale = 1.0;
         self.transform = CGAffineTransformIdentity;

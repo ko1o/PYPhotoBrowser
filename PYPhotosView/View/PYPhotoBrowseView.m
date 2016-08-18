@@ -8,7 +8,7 @@
 #import "PYPhotosView.h"
 #import "PYPhoto.h"
 #import "PYPhotoView.h"
-
+#import "PYProgressView.h"
 @interface PYPhotoBrowseView ()
 
 /** 存储每一个photoView */
@@ -87,7 +87,11 @@
     userInfo[PYSmallgImageDidClikedNotification] = photoView;
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:self.photosView userInfo:userInfo];
     [center postNotification:notification];
-
+    
+    // 隐藏图片加载失败/加载进度
+    photoView.loadFailureView.hidden = YES;
+    // 移除进度条
+    [photoView.progressView removeFromSuperview];
 }
 
 - (void)didLongPress:(PYPhotoView *)photoView

@@ -1,12 +1,12 @@
 //
-//  PYDACircularProgressView.m
+//  DACircularProgressView.m
 //  DACircularProgress
 //
 //  Created by Daniel Amitay on 2/6/12.
 //  Copyright (c) 2012 Daniel Amitay. All rights reserved.
 //
 
-#import "PYDACircularProgressView.h"
+#import "DACircularProgressView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -123,16 +123,16 @@
 
 @end
 
-@interface PYDACircularProgressView ()
+@interface DACircularProgressView ()
 
 @end
 
-@implementation PYDACircularProgressView
+@implementation DACircularProgressView
 
 + (void) initialize
 {
-    if (self == [PYDACircularProgressView class]) {
-        PYDACircularProgressView *circularProgressViewAppearance = [PYDACircularProgressView appearance];
+    if (self == [DACircularProgressView class]) {
+        DACircularProgressView *circularProgressViewAppearance = [DACircularProgressView appearance];
         [circularProgressViewAppearance setTrackTintColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3f]];
         [circularProgressViewAppearance setProgressTintColor:[UIColor whiteColor]];
         [circularProgressViewAppearance setInnerTintColor:nil];
@@ -163,6 +163,7 @@
 
 - (void)didMoveToWindow
 {
+    [super didMoveToWindow];
     CGFloat windowContentsScale = self.window.screen.scale;
     self.circularProgressLayer.contentsScale = windowContentsScale;
     [self.circularProgressLayer setNeedsDisplay];

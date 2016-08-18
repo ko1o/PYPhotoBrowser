@@ -1,14 +1,14 @@
 //
-//  PYDACircularProgressView.h
+//  DACircularProgressView.h
 //  DACircularProgress
 //
 //  Created by Daniel Amitay on 2/6/12.
 //  Copyright (c) 2012 Daniel Amitay. All rights reserved.
-//  用于显示进度条的视图（不带有文字）
+//
 
 #import <UIKit/UIKit.h>
 
-@interface PYDACircularProgressView : UIView
+@interface DACircularProgressView : UIView
 
 @property(nonatomic, strong) UIColor *trackTintColor UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) UIColor *progressTintColor UI_APPEARANCE_SELECTOR;

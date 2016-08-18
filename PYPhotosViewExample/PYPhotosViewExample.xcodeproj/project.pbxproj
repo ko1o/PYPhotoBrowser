@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */; };
-		6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */; };
+		6B3F3EFC1D65D86B004AFBB3 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3EF91D65D86B004AFBB3 /* DACircularProgressView.m */; };
+		6B3F3EFD1D65D86B004AFBB3 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3EFB1D65D86B004AFBB3 /* DALabeledCircularProgressView.m */; };
+		6B3F3F031D65D988004AFBB3 /* MBProgressHUD+PY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3F001D65D988004AFBB3 /* MBProgressHUD+PY.m */; };
+		6B3F3F041D65D988004AFBB3 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3F021D65D988004AFBB3 /* UIView+PYExtension.m */; };
+		6B3F3F0A1D65E705004AFBB3 /* PYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3F091D65E705004AFBB3 /* PYProgressView.m */; };
+		6B3F3F0D1D65E71E004AFBB3 /* PYPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F3F0C1D65E71E004AFBB3 /* PYPhotoCell.m */; };
 		6B5593AF1D56D7E900F0304B /* PYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */; };
-		6B7B2B391D13E1810012B152 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */; };
-		6B7B2B881D1BFC6A0012B152 /* MBProgressHUD+PY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */; };
 		6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BC81D1C092A0012B152 /* MKAnnotationView+WebCache.m */; };
 		6B7B2BEB1D1C092A0012B152 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BCA1D1C092A0012B152 /* NSData+ImageContentType.m */; };
 		6B7B2BEC1D1C092A0012B152 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B2BCC1D1C092A0012B152 /* SDImageCache.m */; };
@@ -43,7 +45,6 @@
 		6BA282F11D004FB3007FE7E8 /* PYPhotosReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282B01D004FB3007FE7E8 /* PYPhotosReaderController.m */; };
 		6BA282F21D004FB3007FE7E8 /* PYPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282B21D004FB3007FE7E8 /* PYPhotosViewController.m */; };
 		6BA283071D004FB3007FE7E8 /* PYPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282E11D004FB3007FE7E8 /* PYPhoto.m */; };
-		6BA283081D004FB3007FE7E8 /* PYPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */; };
 		6BA283091D004FB3007FE7E8 /* PYConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282E61D004FB3007FE7E8 /* PYConst.m */; };
 		6BA2830B1D004FB3007FE7E8 /* PYPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EA1D004FB3007FE7E8 /* PYPhotosView.m */; };
 		6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA282EC1D004FB3007FE7E8 /* PYPhotoView.m */; };
@@ -69,16 +70,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6B4904AC1D05DA1F00A0A88C /* PYDACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDACircularProgressView.h; sourceTree = "<group>"; };
-		6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDACircularProgressView.m; sourceTree = "<group>"; };
-		6B4904AE1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDALabeledCircularProgressView.h; sourceTree = "<group>"; };
-		6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		6B3F3EF81D65D86B004AFBB3 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		6B3F3EF91D65D86B004AFBB3 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		6B3F3EFA1D65D86B004AFBB3 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		6B3F3EFB1D65D86B004AFBB3 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		6B3F3EFF1D65D988004AFBB3 /* MBProgressHUD+PY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PY.h"; sourceTree = "<group>"; };
+		6B3F3F001D65D988004AFBB3 /* MBProgressHUD+PY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PY.m"; sourceTree = "<group>"; };
+		6B3F3F011D65D988004AFBB3 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
+		6B3F3F021D65D988004AFBB3 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
+		6B3F3F081D65E705004AFBB3 /* PYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYProgressView.h; sourceTree = "<group>"; };
+		6B3F3F091D65E705004AFBB3 /* PYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYProgressView.m; sourceTree = "<group>"; };
+		6B3F3F0B1D65E71E004AFBB3 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoCell.h; sourceTree = "<group>"; };
+		6B3F3F0C1D65E71E004AFBB3 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoCell.m; sourceTree = "<group>"; };
 		6B5593AD1D56D7E900F0304B /* PYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowseView.h; sourceTree = "<group>"; };
 		6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoBrowseView.m; sourceTree = "<group>"; };
-		6B7B2B371D13E1810012B152 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
-		6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
-		6B7B2B861D1BFC6A0012B152 /* MBProgressHUD+PY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PY.h"; sourceTree = "<group>"; };
-		6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PY.m"; sourceTree = "<group>"; };
 		6B7B2BC71D1C092A0012B152 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		6B7B2BC81D1C092A0012B152 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		6B7B2BC91D1C092A0012B152 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -141,8 +146,6 @@
 		6BA282B21D004FB3007FE7E8 /* PYPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosViewController.m; sourceTree = "<group>"; };
 		6BA282E01D004FB3007FE7E8 /* PYPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhoto.h; sourceTree = "<group>"; };
 		6BA282E11D004FB3007FE7E8 /* PYPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhoto.m; sourceTree = "<group>"; };
-		6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PYPhotoCell.h; path = ../Model/PYPhotoCell.h; sourceTree = "<group>"; };
-		6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PYPhotoCell.m; path = ../Model/PYPhotoCell.m; sourceTree = "<group>"; };
 		6BA282E51D004FB3007FE7E8 /* PYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYConst.h; sourceTree = "<group>"; };
 		6BA282E61D004FB3007FE7E8 /* PYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYConst.m; sourceTree = "<group>"; };
 		6BA282E91D004FB3007FE7E8 /* PYPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosView.h; sourceTree = "<group>"; };
@@ -179,24 +182,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B4904AB1D05DA1F00A0A88C /* DACircularProgress */ = {
+		6B3F3EF71D65D86B004AFBB3 /* DACircularProgress */ = {
 			isa = PBXGroup;
 			children = (
-				6B4904AC1D05DA1F00A0A88C /* PYDACircularProgressView.h */,
-				6B4904AD1D05DA1F00A0A88C /* PYDACircularProgressView.m */,
-				6B4904AE1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.h */,
-				6B4904AF1D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m */,
+				6B3F3EF81D65D86B004AFBB3 /* DACircularProgressView.h */,
+				6B3F3EF91D65D86B004AFBB3 /* DACircularProgressView.m */,
+				6B3F3EFA1D65D86B004AFBB3 /* DALabeledCircularProgressView.h */,
+				6B3F3EFB1D65D86B004AFBB3 /* DALabeledCircularProgressView.m */,
 			);
 			path = DACircularProgress;
 			sourceTree = "<group>";
 		};
-		6B7B2B361D13E1810012B152 /* Category */ = {
+		6B3F3EFE1D65D988004AFBB3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				6B7B2B861D1BFC6A0012B152 /* MBProgressHUD+PY.h */,
-				6B7B2B871D1BFC6A0012B152 /* MBProgressHUD+PY.m */,
-				6B7B2B371D13E1810012B152 /* UIView+PYExtension.h */,
-				6B7B2B381D13E1810012B152 /* UIView+PYExtension.m */,
+				6B3F3EFF1D65D988004AFBB3 /* MBProgressHUD+PY.h */,
+				6B3F3F001D65D988004AFBB3 /* MBProgressHUD+PY.m */,
+				6B3F3F011D65D988004AFBB3 /* UIView+PYExtension.h */,
+				6B3F3F021D65D988004AFBB3 /* UIView+PYExtension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 		6B7B2BC11D1BFE3E0012B152 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				6B3F3EF71D65D86B004AFBB3 /* DACircularProgress */,
 				6BC54BD61D20314500580646 /* MBProgressHUD */,
 				6B7B2BC61D1C092A0012B152 /* SDWebImage */,
 			);
@@ -319,11 +323,11 @@
 		6BA282A41D004FB3007FE7E8 /* PYPhotosView */ = {
 			isa = PBXGroup;
 			children = (
+				6B3F3EFE1D65D988004AFBB3 /* Category */,
 				6BA282AC1D004FB3007FE7E8 /* Controller */,
 				6BA282DF1D004FB3007FE7E8 /* Model */,
 				6BA282E81D004FB3007FE7E8 /* View */,
 				6BA282E41D004FB3007FE7E8 /* Other */,
-				6BA282B31D004FB3007FE7E8 /* Lib */,
 				6BA1B4631D4084910010343C /* PYPhotosView.bundle */,
 			);
 			name = PYPhotosView;
@@ -345,15 +349,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		6BA282B31D004FB3007FE7E8 /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-				6B7B2B361D13E1810012B152 /* Category */,
-				6B4904AB1D05DA1F00A0A88C /* DACircularProgress */,
-			);
-			path = Lib;
-			sourceTree = "<group>";
-		};
 		6BA282DF1D004FB3007FE7E8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +363,8 @@
 			children = (
 				6BA282E51D004FB3007FE7E8 /* PYConst.h */,
 				6BA282E61D004FB3007FE7E8 /* PYConst.m */,
+				6B3F3F081D65E705004AFBB3 /* PYProgressView.h */,
+				6B3F3F091D65E705004AFBB3 /* PYProgressView.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -377,8 +374,8 @@
 			children = (
 				6B5593AD1D56D7E900F0304B /* PYPhotoBrowseView.h */,
 				6B5593AE1D56D7E900F0304B /* PYPhotoBrowseView.m */,
-				6BA282E21D004FB3007FE7E8 /* PYPhotoCell.h */,
-				6BA282E31D004FB3007FE7E8 /* PYPhotoCell.m */,
+				6B3F3F0B1D65E71E004AFBB3 /* PYPhotoCell.h */,
+				6B3F3F0C1D65E71E004AFBB3 /* PYPhotoCell.m */,
 				6BA282E91D004FB3007FE7E8 /* PYPhotosView.h */,
 				6BA282EA1D004FB3007FE7E8 /* PYPhotosView.m */,
 				6BA282EB1D004FB3007FE7E8 /* PYPhotoView.h */,
@@ -530,35 +527,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B3F3F0A1D65E705004AFBB3 /* PYProgressView.m in Sources */,
 				6B7B2BF41D1C092A0012B152 /* UIImage+GIF.m in Sources */,
 				6BA282731D004F20007FE7E8 /* AppDelegate.m in Sources */,
 				6BA282F11D004FB3007FE7E8 /* PYPhotosReaderController.m in Sources */,
 				6BA2830C1D004FB3007FE7E8 /* PYPhotoView.m in Sources */,
 				6BA283071D004FB3007FE7E8 /* PYPhoto.m in Sources */,
 				6B7B2BF61D1C092A0012B152 /* UIImage+WebP.m in Sources */,
+				6B3F3F0D1D65E71E004AFBB3 /* PYPhotoCell.m in Sources */,
 				6B7B2BEB1D1C092A0012B152 /* NSData+ImageContentType.m in Sources */,
 				6BC54BDB1D20314500580646 /* MBProgressHUD.m in Sources */,
 				6BA282701D004F20007FE7E8 /* main.m in Sources */,
+				6B3F3F041D65D988004AFBB3 /* UIView+PYExtension.m in Sources */,
 				6BA2830B1D004FB3007FE7E8 /* PYPhotosView.m in Sources */,
 				6B7B2BEE1D1C092A0012B152 /* SDWebImageDecoder.m in Sources */,
-				6B7B2B881D1BFC6A0012B152 /* MBProgressHUD+PY.m in Sources */,
 				6B7B2BF31D1C092A0012B152 /* UIButton+WebCache.m in Sources */,
 				6B7B2BF11D1C092A0012B152 /* SDWebImageManager.m in Sources */,
 				6BA282F01D004FB3007FE7E8 /* PYPhotosPreviewController.m in Sources */,
 				6B7B2BF81D1C092A0012B152 /* UIImageView+WebCache.m in Sources */,
-				6BA283081D004FB3007FE7E8 /* PYPhotoCell.m in Sources */,
-				6B4904B11D05DA1F00A0A88C /* PYDALabeledCircularProgressView.m in Sources */,
 				6BA283091D004FB3007FE7E8 /* PYConst.m in Sources */,
 				6B7B2C371D1CD8610012B152 /* PYPublishExampleViewController.m in Sources */,
 				6BA282F21D004FB3007FE7E8 /* PYPhotosViewController.m in Sources */,
 				6B7B2BF71D1C092A0012B152 /* UIImageView+HighlightedWebCache.m in Sources */,
+				6B3F3F031D65D988004AFBB3 /* MBProgressHUD+PY.m in Sources */,
 				6B7B2BEF1D1C092A0012B152 /* SDWebImageDownloader.m in Sources */,
+				6B3F3EFD1D65D86B004AFBB3 /* DALabeledCircularProgressView.m in Sources */,
 				6B7B2BF21D1C092A0012B152 /* SDWebImagePrefetcher.m in Sources */,
-				6B4904B01D05DA1F00A0A88C /* PYDACircularProgressView.m in Sources */,
 				6B7B2C3A1D1D22DA0012B152 /* PYNavigationController.m in Sources */,
 				6B7B2BEC1D1C092A0012B152 /* SDImageCache.m in Sources */,
 				6B7B2BF01D1C092A0012B152 /* SDWebImageDownloaderOperation.m in Sources */,
-				6B7B2B391D13E1810012B152 /* UIView+PYExtension.m in Sources */,
+				6B3F3EFC1D65D86B004AFBB3 /* DACircularProgressView.m in Sources */,
 				6B7B2BEA1D1C092A0012B152 /* MKAnnotationView+WebCache.m in Sources */,
 				6B7B2BF51D1C092A0012B152 /* UIImage+MultiFormat.m in Sources */,
 				6B7B2BF91D1C092A0012B152 /* UIView+WebCacheOperation.m in Sources */,

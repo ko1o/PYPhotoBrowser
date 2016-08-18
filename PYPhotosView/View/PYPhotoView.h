@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
-@class PYPhoto, PYPhotoCell, PYPhotosView, PYDALabeledCircularProgressView, PYPhotoView;
+@class PYPhoto, PYPhotoCell, PYPhotosView, PYProgressView, PYPhotoView;
 
 @protocol PYPhotoViewDelegate <NSObject>
 
@@ -47,7 +47,9 @@
 /** 每个photoView的photoCell */
 @property (nonatomic, weak) PYPhotoCell *photoCell;
 /** 加载进度view */
-@property (weak, nonatomic) PYDALabeledCircularProgressView *progressView;
+@property (weak, nonatomic) PYProgressView *progressView;
+/** 加载失败显示图片 */
+@property (nonatomic, weak) UIImageView *loadFailureView;
 
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch;
 - (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation;

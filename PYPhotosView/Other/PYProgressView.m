@@ -1,32 +1,12 @@
-//
-//  PYDALabeledCircularProgressView.m
-//  DACircularProgressExample
-//
-//  Created by Josh Sklar on 4/8/14.
-//  Copyright (c) 2014 Shout Messenger. All rights reserved.
-//
+//  代码地址: https://github.com/iphone5solo/PYPhotosView
+//  代码地址: http://code4app.com/thread-8612-1-1.html
+//  Created by CoderKo1o.
+//  Copyright © 2016年 iphone5solo. All rights reserved.
+//  
 
-#import "PYDALabeledCircularProgressView.h"
+#import "PYProgressView.h"
 
-@implementation PYDALabeledCircularProgressView
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self initializeLabel];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self initializeLabel];
-    }
-    return self;
-}
+@implementation PYProgressView
 
 - (instancetype)init
 {
@@ -36,7 +16,7 @@
     return self;
 }
 
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated
+- (void)py_setProgress:(CGFloat)progress animated:(BOOL)animated
 {
     [super setProgress:progress animated:animated];
     

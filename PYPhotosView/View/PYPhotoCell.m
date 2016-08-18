@@ -10,7 +10,7 @@
 #import "PYPhotosView.h"
 #import "PYConst.h"
 #import "UIImageView+WebCache.h"
-#import "PYDALabeledCircularProgressView.h"
+#import "PYProgressView.h"
 
 @implementation PYPhotoCell
 
