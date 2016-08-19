@@ -65,6 +65,7 @@
 * 图片浏览依赖框架
 	- `MBProgressHUD`
 	- `SDWebImage`
+	- `DACircularProgress`
 	
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotoBrowser框架的主要类
@@ -224,14 +225,14 @@
 ```
 
 
-## <a id="如何使用PYPhotosView"></a>如何使用PYPhotosView
+## <a id="如何使用PYPhotosView"></a>如何使用PYPhotoBrowser
 * 使用Cocoapods:
-  - `pod "PYPhotosView"`
-  - 导入主头文件`#import <PYPhotosView.h>`
+  - `pod "PYPhotoBrowser"`
+  - 导入主头文件`#import <PYPhotoBrowser.h>`
 * 手动导入：
-  - 将`PYPhotosView`文件夹中的所有文件拽入项目中
-  - 导入主头文件`#import "PYPhotosView.h"`
-  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD、SDWebImage`就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
+  - 将`PYPhotoBrowser`文件夹中的所有文件拽入项目中
+  - 导入主头文件`#import "PYPhotoBrowser.h"`
+  - `使用注意:`如果项目本来就有依赖的第三方框架：`MBProgressHUD、SDWebImage、DACircularProgress`就不必重复导入, 如果没有，选择`Dependency`文件夹中，项目不存在的框架拽入项目。
   
   
 ### <a id="具体使用（详情见示例程序PYPhotosViewExample）"></a>具体使用（详情见示例程序PYPhotosViewExample）
