@@ -10,6 +10,7 @@
 #import "PYConst.h"
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
+#import "PYPhotosPreviewController.h"
 
 @interface PYPhotosView()
 
@@ -21,6 +22,7 @@
 
 /** 记录scrollerView的x值 */
 @property (nonatomic, assign) CGFloat originalX;
+
 
 @end
 

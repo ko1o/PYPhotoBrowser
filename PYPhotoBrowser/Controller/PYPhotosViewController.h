@@ -5,7 +5,7 @@
 //  处理photosView事件的控制器
 
 #import <UIKit/UIKit.h>
-@class PYPhotosView;
+@class PYPhotosView, PYPhotosPreviewController;
 
 @interface PYPhotosViewController : UIViewController
 

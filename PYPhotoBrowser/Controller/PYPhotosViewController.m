@@ -12,15 +12,17 @@
 #import "PYPhotoCell.h"
 #import "PYNavigationController.h"
 #import "PYPhotoBrowseView.h"
+#import "PYPhotosView.h"
 
 @interface PYPhotosViewController ()
-/** 图片查看控制机器 */
+
+/** 图片浏览控制器 */
 @property (nonatomic, strong) PYPhotosReaderController *photosReader;
-/** 图片查看控制机器 */
-@property (nonatomic, strong) PYPhotosPreviewController *photosPreview;
-/** 相册图片*/
+/** 图片预览控制器 */
+@property (nonatomic, strong) PYPhotosPreviewController *photosPreviewController;
+/** 相册图片 */
 @property (nonatomic, strong) NSMutableArray *images;
-/** 从相册中选择的图片*/
+/** 从相册中选择的图片 */
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
 @end
@@ -107,7 +109,7 @@
     PYPhotoView *photoView = userInfo[PYPreviewImagesDidChangedNotification];
     // 创建图片浏览器
     PYPhotosPreviewController *photosPreviewVc = [PYPhotosPreviewController previewController];
-    self.photosPreview = photosPreviewVc;
+    self.photosPreviewController = photosPreviewVc;
     photosPreviewVc.selectedPhotoView = photoView;
     PYNavigationController *nav = [[PYNavigationController alloc] initWithRootViewController:photosPreviewVc];
     [self.navigationController pushViewController:photosPreviewVc animated:YES];
@@ -117,6 +119,13 @@
         presentFromVc = [UIApplication sharedApplication].keyWindow.rootViewController;
     }
     [presentFromVc presentViewController:nav animated:YES completion:nil];
+    
+    // 获取当前photosView
+    PYPhotosView *photosView = photoView.photosView;
+    // 调用代理方法
+    if ([photosView.delegate respondsToSelector:@selector(photosView:didPreviewImagesWithPreviewControlelr:)]) {
+        [photosView.delegate photosView:photosView didPreviewImagesWithPreviewControlelr:self.photosPreviewController];
+    }
 }
 
 @end

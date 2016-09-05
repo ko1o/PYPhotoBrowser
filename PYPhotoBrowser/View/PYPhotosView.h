@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PYConst.h"
-@class PYPhotoView,PYPhotosView;
+@class PYPhotoView, PYPhotosView, PYPhotosPreviewController;
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -30,6 +30,12 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  * images : 当前存在的图片（未发布）数组
  */
 - (void)photosView:(PYPhotosView *)photosView didAddImageClickedWithImages:(NSMutableArray *)images;
+
+/** 
+ * 图片未发布时进入浏览图片时调用此方法
+ * previewControlelr : 预览图片时的控制器
+ */
+- (void)photosView:(PYPhotosView *)photosView didPreviewImagesWithPreviewControlelr:(PYPhotosPreviewController *)previewControlelr;
 
 @end
 

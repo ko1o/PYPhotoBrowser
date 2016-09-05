@@ -6,6 +6,7 @@
 
 #import "PYPublishExampleViewController.h"
 #import "PYPhotosView.h"
+#import "PYPhotosPreviewController.h"
 
 @interface PYPublishExampleViewController () <PYPhotosViewDelegate>
 
@@ -73,6 +74,13 @@
     // 刷新
     [photosView reloadDataWithImages:images];
     NSLog(@"添加图片 --- 添加后有%zd张图片", photosView.images.count);
+}
+
+// 进入预览图片时调用, 可以在此获得预览控制器，实现对导航栏的自定义
+- (void)photosView:(PYPhotosView *)photosView didPreviewImagesWithPreviewControlelr:(PYPhotosPreviewController *)previewControlelr
+{
+    NSLog(@"进入预览图片");
+    previewControlelr.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"😀" style:UIBarButtonItemStyleDone target:previewControlelr action:@selector(close)];
 }
 
 @end

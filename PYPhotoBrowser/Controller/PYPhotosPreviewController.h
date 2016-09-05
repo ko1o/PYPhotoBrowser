@@ -20,4 +20,10 @@
 
 + (instancetype)previewController;
 
+/** 删除一张图片 */
+- (void)deleteImage;
+
+/** 关闭控制器 */
+- (void)close;
+
 @end

@@ -9,6 +9,7 @@
 #import "PYPhotosView.h"
 #import "PYPhotoCell.h"
 #import "PYConst.h"
+
 @interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, assign) BOOL isFirst;
@@ -42,8 +43,12 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     // 创建预览控制器
     PYPhotosPreviewController *readerVc = [[PYPhotosPreviewController alloc] initWithCollectionViewLayout:layout];
-    // 用来判断是否偏移
-    readerVc.isFirst = YES;
+    
+    
+    readerVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    readerVc.navigationController.navigationBar.backIndicatorImage = nil;
+    readerVc.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
+    readerVc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashDidClicked)];
     
     return readerVc;
 }
@@ -60,13 +65,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
-    self.navigationController.navigationBar.backIndicatorImage = nil;
-    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashDidClicked)];
-    
     NSString *title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1, self.selectedPhotoView.images.count];
     self.title = title;
+    // 用来判断是否偏移
+    self.isFirst = YES;
     
     // 监听通知
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -108,6 +110,11 @@
     });
 }
 
+- (void)close
+{
+    [self backAction];
+}
+
 - (void)backAction
 {
     // 刷新发布上的photosView
@@ -125,36 +132,42 @@
     [sheet showInView:self.view];
 }
 
+// 删除图片
+- (void)deleteImage
+{
+    NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
+    // 取出可见cell
+    // 判断即将显示哪一张
+    NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
+    PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    
+    // 移除数组中的某个元素
+    [self.selectedPhotoView.photosView.images removeObjectAtIndex:page];
+    // 移除cell
+    [currentCell removeFromSuperview];
+    // 刷新cell
+    [self.collectionView reloadData];
+    
+    NSUInteger currentPage = self.selectedPhotoView.tag;
+    currentPage = self.selectedPhotoView.tag <= 1 ? 1 : self.selectedPhotoView.tag;
+    // 往前移一张
+    self.collectionView.contentOffset = CGPointMake((currentPage - 1) * self.collectionView.py_width, 0);
+    // 刷新标题
+    self.title = [NSString stringWithFormat:@"%zd/%zd", currentPage,self.selectedPhotoView.photosView.images.count];
+    
+    if (self.selectedPhotoView.photosView.images.count == 0) {
+        // 来到这里，证明
+        [self backAction];
+    };
+}
+
 #pragma mark - <UIActionSheetDelegate>
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) { // 删除
         [MBProgressHUD py_showSuccess:@"已删除" toView:self.view];// 计算页数
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
-            // 取出可见cell
-            // 判断即将显示哪一张
-            NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
-            PYPhotoCell *currentCell = (PYPhotoCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
-            
-            // 移除数组中的某个元素
-            [self.selectedPhotoView.photosView.images removeObjectAtIndex:page];
-            // 移除cell
-            [currentCell removeFromSuperview];
-            // 刷新cell
-            [self.collectionView reloadData];
-            
-            NSUInteger currentPage = self.selectedPhotoView.tag;
-            currentPage = self.selectedPhotoView.tag <= 1 ? 1 : self.selectedPhotoView.tag;
-            // 往前移一张
-            self.collectionView.contentOffset = CGPointMake((currentPage - 1) * self.collectionView.py_width, 0);
-            // 刷新标题
-            self.title = [NSString stringWithFormat:@"%zd/%zd", currentPage,self.selectedPhotoView.photosView.images.count];
-            
-            if (self.selectedPhotoView.photosView.images.count == 0) {
-                // 来到这里，证明
-                [self backAction];
-            };
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 删除图片
+            [self deleteImage];
         });
     }
 }
@@ -197,6 +210,7 @@
 {
     return PYScreenSize;
 }
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsZero;
