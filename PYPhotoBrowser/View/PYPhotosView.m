@@ -23,7 +23,6 @@
 /** 记录scrollerView的x值 */
 @property (nonatomic, assign) CGFloat originalX;
 
-
 @end
 
 static PYPhotosViewController *_handleController;
@@ -209,6 +208,8 @@ static NSInteger _photosViewCount;
     CGSize size = [self sizeWithPhotoCount:self.photos.count photosState:self.photosState];
     self.contentSize = size;
     self.contentOffset = CGPointZero;
+    // 如果photosView的size有值 则不用重复赋值
+    if (!CGSizeEqualToSize(self.py_size, CGSizeZero)) return;
     CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
     self.py_size = CGSizeMake(width, size.height);
 }
@@ -327,19 +328,21 @@ static NSInteger _photosViewCount;
 /** 根据图片个数和图片状态自动计算出大小 */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state
 {
+    
+    
     NSInteger maxCount = 0; // 每行最多个数
     NSInteger cols = 0; // 列数
     NSInteger rows = 0; // 行数
     CGFloat photosViewW = 0;
     CGFloat photosViewH = 0;
-    // 根据图片个数设置图片
-    maxCount = self.photosMaxCol;
+    // 根据图片个数设置图片(最少一个)
+    maxCount = self.photosMaxCol > 0 ? self.photosMaxCol : 1;
     if (state == PYPhotosViewStateDidCompose) { // 已经发布
         if (self.photos.count > 0 && self.layoutType == PYPhotosViewLayoutTypeFlow) {
            maxCount = count == 4 ? 2 : maxCount;
         }
         // 设置图片
-    }else if (state == PYPhotosViewStateWillCompose){ // 未发布
+    } else if (state == PYPhotosViewStateWillCompose){ // 未发布
         if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
     
@@ -355,6 +358,7 @@ static NSInteger _photosViewCount;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
     // 取消内边距
     self.contentInset = UIEdgeInsetsZero;
     NSInteger photosCount = self.photos.count > 0 ?  self.photos.count : self.images.count;
