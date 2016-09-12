@@ -80,7 +80,6 @@
 - (void)photosView:(PYPhotosView *)photosView didPreviewImagesWithPreviewControlelr:(PYPhotosPreviewController *)previewControlelr
 {
     NSLog(@"进入预览图片");
-    previewControlelr.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"😀" style:UIBarButtonItemStyleDone target:previewControlelr action:@selector(close)];
 }
 
 @end
