@@ -72,6 +72,9 @@
     userInfo[PYSmallgImageDidClikedNotification] = selectedPhotoView;
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:self.photosView userInfo:userInfo];
     [center postNotification:notification];
+    
+    // 图片浏览关闭后隐藏window
+    self.hidden = YES;
 }
 
 #pragma mark - PYPhotoViewDelegate

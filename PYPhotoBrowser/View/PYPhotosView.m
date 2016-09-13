@@ -328,8 +328,6 @@ static NSInteger _photosViewCount;
 /** 根据图片个数和图片状态自动计算出大小 */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state
 {
-    
-    
     NSInteger maxCount = 0; // 每行最多个数
     NSInteger cols = 0; // 列数
     NSInteger rows = 0; // 行数
