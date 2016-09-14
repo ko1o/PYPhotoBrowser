@@ -129,19 +129,16 @@ static NSInteger _photosViewCount;
 {
     // 取出图片最多个数
     NSInteger maxPhotosCount = self.thumbnailUrls.count > self.originalUrls.count ? self.thumbnailUrls.count : self.originalUrls.count;
-    NSMutableArray *photosM = [NSMutableArray arrayWithArray:self.photos];
-    for (NSInteger i = photosM.count; i < maxPhotosCount; i++)
+    NSMutableArray *photosM = [NSMutableArray array];
+    for (NSInteger i = 0; i < maxPhotosCount; i++)
     {
         // 创建模型
         PYPhoto *photo = [[PYPhoto alloc] init];
-        // 添加模型
-        [photosM addObject:photo];
-    }
-    for (int i = 0; i < photosM.count; i++) {
-        PYPhoto *photo = photosM[i];
         // 赋值
         photo.original_pic = i < self.originalUrls.count ? self.originalUrls[i] : nil;
         photo.thumbnail_pic = i < self.thumbnailUrls.count ? self.thumbnailUrls[i] : nil;
+        // 添加模型
+        [photosM addObject:photo];
     }
     // 刷新
     self.photos = photosM;
