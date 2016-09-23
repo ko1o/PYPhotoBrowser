@@ -10,6 +10,7 @@
 ## Contents
 * Getting Started
   * [Renderings【效果图】](#效果图)
+  * [Who is using PYPhotoBrowser【哪些app使用PYPhotoBrowser】](#哪些app使用)
   * [Status 【支持哪些状态】](#支持哪些状态)
   * [Layouts【支持哪些布局】](#支持哪些布局)
   * [Gestures【支持哪些手势】](#支持哪些手势)
@@ -29,9 +30,15 @@
 
   ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.gif)
 
+
 - **图片未发布（本地图片上传\发布\预览）**
 
   ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosViewWillcompose.gif)
+
+## <a id="哪些app使用"></a>哪些app使用PYPhotoBrowser（陆续更新）
+
+[香脉](https://itunes.apple.com/cn/app/xiang-mai/id1148870886?mt=8)
+[汕医移动办公](https://itunes.apple.com/cn/app/shan-yi-yi-dong-ban-gong/id1148395189?mt=8)
 
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
@@ -411,3 +418,4 @@ photosView.imagesMaxCountWhenWillCompose = 15;
 - 与其给我点star，不如向我狠狠地抛来一个BUG！
 - 如果感兴趣的小伙伴想要参与这个项目的维护，可以随时联系我或者直接pull request！
 - 如果您想要更多的接口来自定义，欢迎issue me！我会根据大家的需求提供更多的接口！
+- 如果您在上线的app中使用到该第三方，欢迎联系我，让我可以及时统计、更新！
