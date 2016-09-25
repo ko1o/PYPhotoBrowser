@@ -28,12 +28,12 @@
 ## <a id="效果图"></a>效果图
 - **图片已发布（网络图片浏览、流水布局)**
 
-  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.gif)
+  ![(img)](http://oe1ml9cxe.bkt.clouddn.com/PYPhotosView.gif)
 
 
 - **图片未发布（本地图片上传\发布\预览）**
 
-  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosViewWillcompose.gif)
+  ![(img)](http://oe1ml9cxe.bkt.clouddn.com/PYPhotosViewWillcompose.gif)
 
 ## <a id="哪些app使用"></a>哪些app使用PYPhotoBrowser（陆续更新）
 
@@ -43,12 +43,12 @@
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
 
-![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/imagestatedidcompose.png)
+![(img)](http://oe1ml9cxe.bkt.clouddn.com/imagestatedidcompose.png)
 
 
 - **未发布（本地图片上传\发布\预览）**
 
-  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/imgaestatewillcompose.png)
+  ![(img)](http://oe1ml9cxe.bkt.clouddn.com/imgaestatewillcompose.png)
 
 ## <a id="支持哪些布局"></a>支持哪些布局
 - `流水布局` 、 `线性布局`
@@ -61,12 +61,12 @@
 - 主要用于社交app,用于呈现一组图片
 - 以下是各个流行社交app的部分截图
 
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0225.PNG)
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0226.PNG)
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0227.PNG)
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0228.PNG)
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0229.PNG)
-![(img1)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/IMG_0230.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0225.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0226.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0227.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0228.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0229.PNG)
+![(img1)](http://oe1ml9cxe.bkt.clouddn.com/IMG_0230.PNG)
 
 ## <a id="依赖哪些第三方框架"></a>依赖哪些第三方框架
 * 图片浏览依赖框架
