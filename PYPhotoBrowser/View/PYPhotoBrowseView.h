@@ -41,11 +41,13 @@
 
 @protocol PYPhotoBrowseViewDataSource <NSObject>
 
-@required
+@optional
 /** 返回将要浏览的图片（UIImage）数组 */
 - (NSArray *)imagesForBrowse;
 
-@optional
+/** 返回将要浏览的图片链接(NSString)数组, 如果实现了- (NSArray *)imagesForBrowse;方法，则忽略此方法 */
+- (NSArray *)imagesURLForBrowse;
+
 /** 返回默认显示图片的索引(默认为0) */
 - (NSInteger)currentIndex;
 
@@ -67,6 +69,9 @@
 
 /** 用来浏览的图片（UIImage）数组 */
 @property (nonatomic, copy) NSArray *images;
+
+/** 用来浏览的图片链接（NSString）数组*/
+@property (nonatomic, copy) NSArray *imagesURL;
 
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;

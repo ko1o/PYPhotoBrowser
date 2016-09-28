@@ -27,7 +27,10 @@
     // 加载数据源方法
     if ([self.dataSource respondsToSelector:@selector(imagesForBrowse)]) {
         self.images = [self.dataSource imagesForBrowse];
+    } else if ([self.dataSource respondsToSelector:@selector(imagesURLForBrowse)]) {
+        self.imagesURL = [self.dataSource imagesURLForBrowse];
     }
+    
    
     if ([self.dataSource respondsToSelector:@selector(currentIndex)]) {
         self.currentIndex = [self.dataSource currentIndex];
@@ -37,12 +40,19 @@
     self.photosView = photosView;
     
     NSMutableArray *photosM = [NSMutableArray array];
-    for (int i = 0; i < self.images.count; i++)
+    
+    // 获取图片个数
+    NSInteger imagesCount = self.images.count > 0 ? self.images.count : self.imagesURL.count;
+    for (int i = 0; i < imagesCount; i++)
     {
         // 创建模型
         PYPhoto *photo = [[PYPhoto alloc] init];
         // 设置图片
-        photo.originalImage = self.images[i];
+        if (self.images.count > 0) { // 传入的是UIImage数组
+            photo.originalImage = self.images[i];
+        } else { // 传入的是NSString数组
+            photo.original_pic = self.imagesURL[i];
+        }
         // 添加模型
         [photosM addObject:photo];
     }

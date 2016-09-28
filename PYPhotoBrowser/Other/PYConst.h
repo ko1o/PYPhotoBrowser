@@ -36,9 +36,13 @@ UIKIT_EXTERN const CGFloat PYImagesMaxCountWhenWillCompose; // 在发布状态�
 #define PYRandomColor  PYColor(arc4random_uniform(256),arc4random_uniform(256),arc4random_uniform(256))
 
 // 屏幕宽高
-#define PYScreenW [UIScreen mainScreen].bounds.size.width
-#define PYScreenH [UIScreen mainScreen].bounds.size.height
-#define PYScreenSize [UIScreen mainScreen].bounds.size
+// 屏幕宽高(注意：由于不同iOS系统下，设备横竖屏时屏幕的高度和宽度有的是变化的有的是不变的)
+#define PYRealyScreenW [UIScreen mainScreen].bounds.size.width
+#define PYRealyScreenH [UIScreen mainScreen].bounds.size.height
+// 屏幕宽高（这里获取的是正常竖屏的屏幕宽高（宽永远小于高度））
+#define PYScreenW (PYRealyScreenW < PYRealyScreenH ? PYRealyScreenW : PYRealyScreenH)
+#define PYScreenH (PYRealyScreenW > PYRealyScreenH ? PYRealyScreenW : PYRealyScreenH)
+#define PYScreenSize CGSizeMake(PYScreenW, PYScreenH)
 
 // 判断当前系统版本
 #define PYIOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0 && [[UIDevice currentDevice].systemVersion floatValue] < 9.0
