@@ -73,6 +73,17 @@
     [center postNotification:notification];
 }
 
+- (void)setSourceImgageViews:(NSArray *)sourceImgageViews
+{
+    _sourceImgageViews = [sourceImgageViews copy];
+    // 获取图片
+    NSMutableArray *images = [NSMutableArray array];
+    for (UIImageView *imgView in sourceImgageViews) {
+        [images addObject:imgView.image];
+    }
+    self.images = images;
+}
+
 - (void)hidden
 {
     self.photosView = nil;

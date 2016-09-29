@@ -73,6 +73,9 @@
 /** 用来浏览的图片链接（NSString）数组*/
 @property (nonatomic, copy) NSArray *imagesURL;
 
+/** 用来浏览的图片的控件（UIImageView）数组 */
+@property (nonatomic, copy) NSArray *sourceImgageViews;
+
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;
 

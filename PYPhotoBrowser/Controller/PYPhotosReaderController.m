@@ -129,6 +129,9 @@
         [window.delegate photoBrowseView:window willShowWithImages:window.images index:window.currentIndex];
     }
     
+    // 设置window
+    self.window = window;
+    
     // 监听屏幕旋转通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];;
     
@@ -141,11 +144,16 @@
     copyView.image = self.selectedPhotoView.image;
     // 转移坐标系
     copyView.frame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:window];
+    if (self.window.sourceImgageViews.count > 0) { // 用户已提供图片源
+        // 获取图片源
+        UIImageView *imgView = self.window.sourceImgageViews[self.window.currentIndex];
+        // 设置坐标
+        copyView.frame = [[imgView superview] convertRect:imgView.frame toView:window];
+    }
     if ([self.window.dataSource respondsToSelector:@selector(frameFormWindow)]) {
        copyView.frame = [self.window.dataSource frameFormWindow];
     }
     [window addSubview:copyView];
-    self.window = window;
     self.beginView = copyView;
     
     // 变大
@@ -226,7 +234,13 @@
     [self.window addSubview:self.beginView];
     // 计算原始窗口的frame
     // 转移坐标系
-     CGRect beginFrame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:self.window];
+    CGRect beginFrame = [[self.selectedPhotoView superview] convertRect:self.selectedPhotoView.orignalFrame toView:self.window];
+    if (self.window.sourceImgageViews.count > 0) { // 使用快速浏览图片功能
+        // 取出当前图片的imageView
+        UIImageView *imageView = self.window.sourceImgageViews[self.pageControl.currentPage];
+        beginFrame = [[imageView superview] convertRect:imageView.frame toView:self.window];
+    }
+    
     if ([self.window.dataSource respondsToSelector:@selector(frameToWindow)]) {
         beginFrame = [self.window.dataSource frameToWindow];
     }
