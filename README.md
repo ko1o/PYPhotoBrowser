@@ -214,6 +214,13 @@
 /** 用来浏览的图片（UIImage）数组 */
 @property (nonatomic, copy) NSArray *images;
 
+
+/** 用来浏览的图片链接（NSString）数组*/
+@property (nonatomic, copy) NSArray *imagesURL;
+
+/** 用来浏览的图片的控件（UIImageView）数组 */
+@property (nonatomic, copy) NSArray *sourceImgageViews;
+
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;
 
@@ -307,61 +314,22 @@
 
 ```
 
-- **自定义图片浏览（使用PYPhotoBrowseView类）**
+- **仅使用图片浏览功能（使用PYPhotoBrowseView类）**
 
 	示例代码：
 	
 ```objc
 
-    // 1.创建自己定义的browseView
-    PYPhotoBrowseView *browseView = [[PYPhotoBrowseView alloc] init];
+    // 1. 创建photoBroseView对象
+    PYPhotoBrowseView *photoBroseView = [[PYPhotoBrowseView alloc] init];
     
-    // 2.设置数据源和代理并实现数据源和代理方法
-    browseView.dataSource = self;
-    browseView.delegate = self;
+    // 2.1 设置图片源(UIImageView)数组
+    photoBroseView.sourceImgageViews = imageViews;
+    // 2.2 设置初始化图片下标（即当前点击第几张图片）
+    photoBroseView.currentIndex = 2;
     
-    // 3.显示（浏览）
-    [browseView show];
-    
-    
-    // 实现数据源方法
-	#pragma mark - PYPhotoBrowseViewDataSource
-	// 返回将要浏览的图片(UIImage)数组
-	- (NSArray *)imagesForBrowse
-	{
-    	NSMutableArray *imagesM = [NSMutableArray array];
-    	for (int i = 0; i < 6 + 1; i++) {
-        [imagesM addObject:[UIImage imageNamed:[NSString 	stringWithFormat:@"%02d", i + 1]]];
-   		}
-   	 return imagesM;
-	}
-
-	// 返回默认显示图片的下标(默认为0)
-	- (NSInteger)currentIndex
-	{
-	    return 2;
-	}
-	
-	// 返回从窗口的哪个位置开始显示（注意：frame是相当于window）
-	- (CGRect)frameFormWindow
-	{
-	    return CGRectZero;
-	}
-	
-	// 返回消失到窗口的哪个位置（注意：frame是相当于window）
-	- (CGRect)frameToWindow
-	{
-	    return CGRectMake(100, 300, 200, 200);
-	}
-	
-	// 实现代理方法
-	#pragma mark PYPhotoBrowseViewDelegate
-	- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index
-	{
-	    NSLog(@"图片单击时调用");
-	    // 关闭浏览
-	    [photoBrowseView hidden];
-	}
+    // 3.显示(浏览)
+    [photoBroseView show];
 
 ```
 
