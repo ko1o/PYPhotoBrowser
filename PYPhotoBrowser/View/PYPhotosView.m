@@ -205,9 +205,7 @@ static NSInteger _photosViewCount;
     CGSize size = [self sizeWithPhotoCount:self.photos.count photosState:self.photosState];
     self.contentSize = size;
     self.contentOffset = CGPointZero;
-    // 如果photosView的size有值 则不用重复赋值
-    if (!CGSizeEqualToSize(self.py_size, CGSizeZero)) return;
-    CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
+    CGFloat width = size.width + self.py_x > PYScreenW ? PYScreenW - self.py_x : size.width;
     self.py_size = CGSizeMake(width, size.height);
 }
 
@@ -256,7 +254,7 @@ static NSInteger _photosViewCount;
     // 取出size
     CGSize size = [self sizeWithPhotoCount:self.images.count photosState:self.photosState];
     self.contentSize = size;
-    CGFloat width = size.width + self.originalX > PYScreenW ? PYScreenW - self.originalX : size.width;
+    CGFloat width = size.width + self.py_x > PYScreenW ? PYScreenW - self.py_x : size.width;
     self.py_size = CGSizeMake(width, size.height);
     
     // 刷新
@@ -267,6 +265,14 @@ static NSInteger _photosViewCount;
 {
     _photoWidth = photoWidth;
     
+    // 刷新self的size
+    if (self.photosState == PYPhotosViewStateWillCompose) { // 未发布
+        self.images = self.images;
+    } else if (self.photosState == PYPhotosViewStateDidCompose) { // 已发布
+        self.photos = self.photos;
+    }
+    
+    // 刷新布局
     [self layoutSubviews];
 }
 
@@ -274,6 +280,14 @@ static NSInteger _photosViewCount;
 {
     _photoHeight = photoHeight;
     
+    // 刷新self的size
+    if (self.photosState == PYPhotosViewStateWillCompose) { // 未发布
+        self.images = self.images;
+    } else if (self.photosState == PYPhotosViewStateDidCompose) { // 已发布
+        self.photos = self.photos;
+    }
+    
+    // 刷新布局
     [self layoutSubviews];
 }
 
