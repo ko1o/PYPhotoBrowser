@@ -120,8 +120,10 @@ static NSInteger _photosViewCount;
     _photosMaxCol = photosMaxCol;
     
     // 刷新
-    if (self.photos.count) { // 有图片才刷新
+    if (self.photos.count) { // 已发布状态，有图片才刷新
         self.photos = self.photos;
+    } else if (self.images.count) { // 未发布状态，刷新布局
+        self.images = self.images;
     }
 }
 
