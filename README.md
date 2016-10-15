@@ -4,8 +4,8 @@
 [![Pod Platform](http://img.shields.io/cocoapods/p/PYPhotoBrowser.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotoBrowser/)
 [![Pod License](http://img.shields.io/cocoapods/l/PYPhotoBrowser.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-- Framework with a simple method of rendering images.
-- 用法简单的呈现一组图片的框架。
+- An easy way to browse photo(image) for iOS.
+- iOS 中使用简单的图片浏览器。
 
 ## Contents
 * Getting Started
@@ -382,8 +382,8 @@ photosView.imagesMaxCountWhenWillCompose = 15;
 
 ## <a id="期待什么"></a>期待
 
-- 如果您在使用过程中有任何问题，欢迎直接加我QQ:499491531联系，很乐意为您解答任何相关问题!
+- 如果您在使用过程中有任何问题，欢迎issue me! 很乐意为您解答任何相关问题!
 - 与其给我点star，不如向我狠狠地抛来一个BUG！
-- 如果感兴趣的小伙伴想要参与这个项目的维护，可以随时联系我或者直接pull request！
-- 如果您想要更多的接口来自定义，欢迎issue me！我会根据大家的需求提供更多的接口！
-- 如果您在上线的app中使用到该第三方，欢迎联系我，让我可以及时统计、更新！
+- 如果想要参与这个项目的维护，可以直接pull request！
+- 如果您想要更多的接口来自定义或者建议/意见，欢迎issue me！我会根据大家的需求提供更多的接口！
+- 如果您在上线的app中使用到该第三方，欢迎issue me，让我可以及时统计、更新！
