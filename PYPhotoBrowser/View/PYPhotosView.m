@@ -104,6 +104,14 @@ static NSInteger _photosViewCount;
 }
 
 #pragma mark - setter方法
+- (void)setImagesMaxCountWhenWillCompose:(NSInteger)imagesMaxCountWhenWillCompose
+{
+    _imagesMaxCountWhenWillCompose = imagesMaxCountWhenWillCompose;
+    
+    // 刷新图片个数
+    self.images = self.images;
+}
+
 - (void)setLayoutType:(PYPhotosViewLayoutType)layoutType
 {
     _layoutType = layoutType;
