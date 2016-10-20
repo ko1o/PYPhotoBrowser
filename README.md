@@ -1,3 +1,4 @@
+![img](http://oe1ml9cxe.bkt.clouddn.com/log.svg)
 # PYPhotoBrowser
 [![Build Status](https://travis-ci.org/iphone5solo/PYPhotoBrowser.svg?branch=master)](https://travis-ci.org/iphone5solo/PYPhotoBrowser)
 [![Pod Version](http://img.shields.io/cocoapods/v/PYPhotoBrowser.svg?style=flat)](http://cocoadocs.org/docsets/PYPhotoBrowser/)
