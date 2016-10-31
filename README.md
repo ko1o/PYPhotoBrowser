@@ -40,6 +40,7 @@
 
 [香脉](https://itunes.apple.com/cn/app/xiang-mai/id1148870886?mt=8)
 [汕医移动办公](https://itunes.apple.com/cn/app/shan-yi-yi-dong-ban-gong/id1148395189?mt=8)
+[爱牛股](https://itunes.apple.com/cn/app/ai-niu-gu-da-shu-ju-zhen-gu/id1158645929?mt=8)
 
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
@@ -343,7 +344,6 @@
 ```objc
 // 设置布局为线性布局
 photosView.layoutType = PYPhotosViewLayoutTypeLine;
-
 ```
 
 * 设置分页指示类型（默认为pageControll指示器）
