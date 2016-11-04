@@ -72,6 +72,9 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 当图片上传前，最多上传的张数，默认为9 */
 @property (nonatomic, assign) NSInteger imagesMaxCountWhenWillCompose;
 
+/** 当屏幕旋转时，是否自动旋转图片 默认为YES */
+@property (nonatomic, assign) BOOL autoRotateImage;
+
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */

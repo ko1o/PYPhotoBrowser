@@ -166,7 +166,6 @@
     // 添加控制器View
     self.collectionView.alpha = 0.0;
     
-
     [UIView animateWithDuration:0.5 animations:^{
         self.scaling = YES;
         // 放大图片
@@ -282,7 +281,8 @@
         currentDevice.orientation == UIDeviceOrientationFaceUp ||
         currentDevice.orientation == UIDeviceOrientationFaceDown ||
         currentDevice.orientation == self.orientation ||
-        self.isRotationg) return;
+        self.isRotationg ||
+        self.selectedPhotoView.photosView.autoRotateImage == NO) return;
     
     // 获取旋转角度
     CGFloat rotateAngle = 0;

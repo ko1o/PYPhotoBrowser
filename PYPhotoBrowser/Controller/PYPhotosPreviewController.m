@@ -44,7 +44,6 @@
     // 创建预览控制器
     PYPhotosPreviewController *readerVc = [[PYPhotosPreviewController alloc] initWithCollectionViewLayout:layout];
     
-    
     readerVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:readerVc action:@selector(backAction)];
     readerVc.navigationController.navigationBar.backIndicatorImage = nil;
     readerVc.navigationController.navigationBar.backgroundColor = [UIColor blackColor];

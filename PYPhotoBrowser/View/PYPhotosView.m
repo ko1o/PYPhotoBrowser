@@ -54,6 +54,7 @@ static NSInteger _photosViewCount;
         self.imagesMaxCountWhenWillCompose = PYImagesMaxCountWhenWillCompose;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
+        self.autoRotateImage = YES;
         self.pageType = PYPhotosViewPageTypeControll;
         self.x = 0;
         self.pagingEnabled = NO;
