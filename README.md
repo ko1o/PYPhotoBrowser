@@ -41,6 +41,7 @@
 [香脉](https://itunes.apple.com/cn/app/xiang-mai/id1148870886?mt=8)
 [汕医移动办公](https://itunes.apple.com/cn/app/shan-yi-yi-dong-ban-gong/id1148395189?mt=8)
 [爱牛股](https://itunes.apple.com/cn/app/ai-niu-gu-da-shu-ju-zhen-gu/id1158645929?mt=8)
+[惠心名刀](https://itunes.apple.com/cn/app/hui-xin-ming-dao/id1154410531?mt=8)
 
 ## <a id="支持哪些状态"></a>支持哪些状态
 - **已发布（网络图片浏览）**
@@ -380,6 +381,13 @@ photosView.photosMaxCol = 6;
 // 设置图片最多上传的张数
 photosView.imagesMaxCountWhenWillCompose = 15;
 ```
+* 设置当屏幕旋转时，图片是否自适应调整（默认为YES）
+
+```objc
+// 关闭当屏幕旋转时，图片的自适应
+photosView.autoRotateImage = NO;
+```
+
 
 ## <a id="期待什么"></a>期待
 
