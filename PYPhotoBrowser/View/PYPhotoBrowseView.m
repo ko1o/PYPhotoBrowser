@@ -30,7 +30,6 @@
     } else if ([self.dataSource respondsToSelector:@selector(imagesURLForBrowse)]) {
         self.imagesURL = [self.dataSource imagesURLForBrowse];
     }
-    
    
     if ([self.dataSource respondsToSelector:@selector(currentIndex)]) {
         self.currentIndex = [self.dataSource currentIndex];

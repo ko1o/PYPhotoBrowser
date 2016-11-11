@@ -629,6 +629,8 @@ static CGSize originalSize;
         contentScrollView.py_size = self.py_size;
         contentScrollView.contentOffset = CGPointZero;
         contentScrollView.contentInset = UIEdgeInsetsZero;
+        contentScrollView.py_x = 0;
+        contentScrollView.py_y = (PYRealyScreenH - contentScrollView.py_height) * 0.5;
         contentScrollView.transform = CGAffineTransformIdentity;
     }
 }

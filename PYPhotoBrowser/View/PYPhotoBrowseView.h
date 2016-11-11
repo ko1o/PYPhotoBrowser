@@ -67,7 +67,10 @@
 /** 数据源代理 */
 @property (nonatomic, weak) id<PYPhotoBrowseViewDataSource> dataSource;
 
-/** 用来浏览的图片（UIImage）数组 */
+/** 用来浏览的图片（UIImage）数组
+ * 建议传入的UIImage是已下载的。如果是异步下载，请使用imagesURL
+ * 如果设置了这个属性imagesURL失效
+ */
 @property (nonatomic, copy) NSArray *images;
 
 /** 用来浏览的图片链接（NSString）数组*/
