@@ -21,6 +21,21 @@
 
 @implementation PYPhotoBrowseView
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        self.autoRotateImage = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.autoRotateImage = YES;
+    }
+    return self;
+}
 
 - (void)show
 {
@@ -30,7 +45,11 @@
     } else if ([self.dataSource respondsToSelector:@selector(imagesURLForBrowse)]) {
         self.imagesURL = [self.dataSource imagesURLForBrowse];
     }
-   
+    // 获取显示位置
+    if ([self.dataSource respondsToSelector:@selector(frameFormWindow)]) {
+        self.frameFormWindow = [self.dataSource frameFormWindow];
+    }
+    // 获取显示下标
     if ([self.dataSource respondsToSelector:@selector(currentIndex)]) {
         self.currentIndex = [self.dataSource currentIndex];
     }
@@ -86,6 +105,11 @@
 - (void)hidden
 {
     self.photosView = nil;
+    
+    // 获取隐藏位置
+    if ([self.dataSource respondsToSelector:@selector(frameToWindow)]) {
+        self.frameToWindow = [self.dataSource frameToWindow];
+    }
     PYPhotoView *selectedPhotoView = self.photosView.subviews[self.currentIndex];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];

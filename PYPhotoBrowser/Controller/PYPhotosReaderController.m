@@ -150,8 +150,14 @@
         // 设置坐标
         copyView.frame = [[imgView superview] convertRect:imgView.frame toView:window];
     }
-    if ([self.window.dataSource respondsToSelector:@selector(frameFormWindow)]) {
-       copyView.frame = [self.window.dataSource frameFormWindow];
+    
+    if (self.window.showFromView) {
+        // 转移坐标系
+        copyView.frame = [[self.window.showFromView superview] convertRect:self.window.showFromView.frame toView:window];
+    }
+    
+    if (!CGRectEqualToRect(self.window.frameFormWindow, CGRectZero)) {
+        copyView.frame = self.window.frameFormWindow;
     }
     [window addSubview:copyView];
     self.beginView = copyView;
@@ -240,8 +246,13 @@
         beginFrame = [[imageView superview] convertRect:imageView.frame toView:self.window];
     }
     
-    if ([self.window.dataSource respondsToSelector:@selector(frameToWindow)]) {
-        beginFrame = [self.window.dataSource frameToWindow];
+    if (self.window.hiddenToView) {
+        // 转移坐标系
+        beginFrame = [[self.window.hiddenToView superview] convertRect:self.window.hiddenToView.frame  toView:self.window];
+    }
+    
+    if (!CGRectEqualToRect(self.window.frameToWindow, CGRectZero)) {
+        beginFrame = self.window.frameToWindow;
     }
 
     // 移除self.collectionView的所有子控件
@@ -282,7 +293,7 @@
         currentDevice.orientation == UIDeviceOrientationFaceDown ||
         currentDevice.orientation == self.orientation ||
         self.isRotationg ||
-        self.selectedPhotoView.photosView.autoRotateImage == NO) return;
+        self.window.autoRotateImage == NO) return;
     
     // 获取旋转角度
     CGFloat rotateAngle = 0;

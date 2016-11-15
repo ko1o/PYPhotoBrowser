@@ -82,6 +82,24 @@
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;
 
+/** 默认显示图片相对于主窗口的位置(即从窗口的哪个位置显示)，
+ * 注意：设置此属性时，showFromView属性失效
+ */
+@property (nonatomic, assign) CGRect frameFormWindow;
+/** 传入从哪张图片(UIImageView)开始慢慢放大显示 */
+@property (nonatomic, strong) UIView *showFromView;
+
+/** 消失回到相对于住窗口的指定位置(即消失在窗口的哪个位置)
+ * 注意：设置此属性时，hiddenToView属性失效
+ */
+@property (nonatomic, assign) CGRect frameToWindow;
+/** 传入慢慢缩小到哪张图片(UIImageView)然后消失 */
+@property (nonatomic, strong) UIView *hiddenToView;
+
+/** 当屏幕旋转时，是否自动旋转图片 默认为YES */
+@property (nonatomic, assign) BOOL autoRotateImage;
+
+
 /**
  * 浏览图片
  */

@@ -78,6 +78,8 @@
     
     // 打开一个新的窗口
     PYPhotoBrowseView *lastWindow = userInfo[PYPhotoBrowseViewKey];
+    // 设置是否自动旋转
+    lastWindow.autoRotateImage = photoView.photosView.autoRotateImage;
     if (!lastWindow) {
         lastWindow = [[PYPhotoBrowseView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
     }
