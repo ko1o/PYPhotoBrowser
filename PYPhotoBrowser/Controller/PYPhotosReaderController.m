@@ -57,7 +57,7 @@
             _pageControl.py_y += 20;
         }
     }
-    _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9;
+    _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9 || _pageControl.numberOfPages < 2;
     self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
     return _pageControl;
 }
@@ -77,8 +77,9 @@
         pageLabel.textAlignment = NSTextAlignmentCenter;
         _pageLabel = pageLabel;
     }
-    // 和pageControl取反
-    _pageLabel.hidden = !_pageControl.hidden;
+    // 判断是否显示_pageLabel
+    // 取出指示类型
+    _pageLabel.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeControll && _pageControl.numberOfPages < 10;
     return _pageLabel;
 }
 
@@ -166,7 +167,7 @@
     // 获取选中的图片的大小
     CGSize imageSize = self.selectedPhotoView.image.size;
     // 设置个数
-    self.pageControl.numberOfPages = self.selectedPhotoView.photos.count > 1 ? self.selectedPhotoView.photos.count : 0;
+    self.pageControl.numberOfPages = self.selectedPhotoView.photos.count;
     self.pageControl.currentPage = self.selectedPhotoView.tag;
     
     // 添加控制器View
@@ -194,8 +195,9 @@
         }
     }];
     
-    // 显示pageControll
-    self.pageControl.hidden = NO;
+    // 是否隐藏pageControl
+    self.pageControl.hidden = self.pageControl.numberOfPages < 2;
+    
 }
 
 - (void)dealloc
