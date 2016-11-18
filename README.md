@@ -189,11 +189,13 @@
 
 @protocol PYPhotoBrowseViewDataSource <NSObject>
 
-@required
+@optional
 /** 返回将要浏览的图片（UIImage）数组 */
 - (NSArray *)imagesForBrowse;
 
-@optional
+/** 返回将要浏览的图片链接(NSString)数组, 如果实现了- (NSArray *)imagesForBrowse;方法，则忽略此方法 */
+- (NSArray *)imagesURLForBrowse;
+
 /** 返回默认显示图片的索引(默认为0) */
 - (NSInteger)currentIndex;
 
@@ -213,9 +215,11 @@
 /** 数据源代理 */
 @property (nonatomic, weak) id<PYPhotoBrowseViewDataSource> dataSource;
 
-/** 用来浏览的图片（UIImage）数组 */
+/** 用来浏览的图片（UIImage）数组
+ * 建议传入的UIImage是已下载的。如果是异步下载，请使用imagesURL
+ * 如果设置了这个属性imagesURL失效
+ */
 @property (nonatomic, copy) NSArray *images;
-
 
 /** 用来浏览的图片链接（NSString）数组*/
 @property (nonatomic, copy) NSArray *imagesURL;
@@ -225,6 +229,24 @@
 
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;
+
+/** 默认显示图片相对于主窗口的位置(即从窗口的哪个位置显示)，
+ * 注意：设置此属性时，showFromView属性失效
+ */
+@property (nonatomic, assign) CGRect frameFormWindow;
+/** 传入从哪张图片(UIImageView)开始慢慢放大显示 */
+@property (nonatomic, strong) UIView *showFromView;
+
+/** 消失回到相对于住窗口的指定位置(即消失在窗口的哪个位置)
+ * 注意：设置此属性时，hiddenToView属性失效
+ */
+@property (nonatomic, assign) CGRect frameToWindow;
+/** 传入慢慢缩小到哪张图片(UIImageView)然后消失 */
+@property (nonatomic, strong) UIView *hiddenToView;
+
+/** 当屏幕旋转时，是否自动旋转图片 默认为YES */
+@property (nonatomic, assign) BOOL autoRotateImage;
+
 
 /**
  * 浏览图片
