@@ -215,7 +215,6 @@ static NSInteger _photosViewCount;
     // 取出size
     CGSize size = [self sizeWithPhotoCount:self.photos.count photosState:self.photosState];
     self.contentSize = size;
-    self.contentOffset = CGPointZero;
     CGFloat width = size.width + self.py_x > PYScreenW ? PYScreenW - self.py_x : size.width;
     self.py_size = CGSizeMake(width, size.height);
 }

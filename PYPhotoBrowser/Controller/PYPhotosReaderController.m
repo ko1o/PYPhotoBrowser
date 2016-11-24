@@ -247,12 +247,10 @@
         UIImageView *imageView = self.window.sourceImgageViews[self.pageControl.currentPage];
         beginFrame = [[imageView superview] convertRect:imageView.frame toView:self.window];
     }
-    
     if (self.window.hiddenToView) {
         // 转移坐标系
         beginFrame = [[self.window.hiddenToView superview] convertRect:self.window.hiddenToView.frame  toView:self.window];
     }
-    
     if (!CGRectEqualToRect(self.window.frameToWindow, CGRectZero)) {
         beginFrame = self.window.frameToWindow;
     }
@@ -266,11 +264,14 @@
     // 执行动画
     [UIView animateWithDuration:0.5 animations:^{
         self.scaling = YES;
-        // 恢复矩阵变换
-        self.beginView.transform = CGAffineTransformIdentity;
         // 还原图片
         self.collectionView.alpha = 0.0;
+        // 恢复矩阵变换
+        self.beginView.transform = CGAffineTransformIdentity;
         self.beginView.frame = beginFrame;
+        if (!CGRectIntersectsRect(beginFrame, [UIScreen mainScreen].bounds)) { // 超出范围，不缩放，直接渐变消失
+            self.beginView.hidden = YES;
+        }
     } completion:^(BOOL finished) {
         self.scaling = NO;
         self.beginView.hidden = YES;
