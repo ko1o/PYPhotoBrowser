@@ -58,6 +58,7 @@ static NSInteger _photosViewCount;
         self.pageType = PYPhotosViewPageTypeControll;
         self.x = 0;
         self.pagingEnabled = NO;
+        self.autoLayoutWithWeChatSytle = YES;
     }
     return self;
 }
@@ -105,6 +106,14 @@ static NSInteger _photosViewCount;
 }
 
 #pragma mark - setter方法
+- (void)setAutoLayoutWithWeChatSytle:(BOOL)autoLayoutWithWeChatSytle
+{
+    _autoLayoutWithWeChatSytle = autoLayoutWithWeChatSytle;
+    
+    // 刷新
+    self.photos = self.photos;
+}
+
 - (void)setImagesMaxCountWhenWillCompose:(NSInteger)imagesMaxCountWhenWillCompose
 {
     _imagesMaxCountWhenWillCompose = imagesMaxCountWhenWillCompose;
@@ -157,8 +166,6 @@ static NSInteger _photosViewCount;
 
 - (void)setOriginalUrls:(NSArray *)originalUrls
 {
-    if (originalUrls.count == 0) return;
-    
     _originalUrls = originalUrls;
     
     // 设置模型链接
@@ -167,8 +174,6 @@ static NSInteger _photosViewCount;
 
 - (void)setThumbnailUrls:(NSArray *)thumbnailUrls
 {
-    if (thumbnailUrls.count == 0) return;
-    
     _thumbnailUrls = thumbnailUrls;
     
     // 设置模型链接
@@ -177,14 +182,11 @@ static NSInteger _photosViewCount;
 
 - (void)setPhotos:(NSArray *)photos
 {
-    if (photos.count == 0) return;
-    
     _photos = photos;
-    
-    // 移除添加图片按钮
-    [self.addImageButton removeFromSuperview];
     // 设置图片状态
     self.photosState = PYPhotosViewStateDidCompose;
+    // 移除添加图片按钮
+    [self.addImageButton removeFromSuperview];
     
     NSInteger photoCount = self.photos.count;
     // 添加相应的图片
@@ -357,7 +359,7 @@ static NSInteger _photosViewCount;
     // 根据图片个数设置图片(最少一个)
     maxCount = self.photosMaxCol > 0 ? self.photosMaxCol : 1;
     if (state == PYPhotosViewStateDidCompose) { // 已经发布
-        if (self.photos.count > 0 && self.layoutType == PYPhotosViewLayoutTypeFlow) {
+        if (self.photos.count > 0 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.autoLayoutWithWeChatSytle) {
            maxCount = count == 4 ? 2 : maxCount;
         }
         // 设置图片
@@ -384,7 +386,7 @@ static NSInteger _photosViewCount;
     
     NSInteger maxCol = self.photosMaxCol;
     
-    if (self.photos.count == 4 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.photosState == PYPhotosViewStateDidCompose) {
+    if (self.photos.count == 4 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.photosState == PYPhotosViewStateDidCompose && self.autoLayoutWithWeChatSytle) {
         maxCol = 2;
     }
     // 调整图片位置

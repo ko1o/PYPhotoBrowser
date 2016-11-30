@@ -74,6 +74,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 
 /** 当屏幕旋转时，是否自动旋转图片 默认为YES */
 @property (nonatomic, assign) BOOL autoRotateImage;
+/** 当图片为4张是显示为是否两行两列，默认为YES */
+@property (nonatomic, assign) BOOL autoLayoutWithWeChatSytle;
 
 /** 快速创建photosView对象 */
 + (instancetype)photosView;

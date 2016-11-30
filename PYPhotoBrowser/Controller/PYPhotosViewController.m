@@ -83,6 +83,8 @@
     if (!lastWindow) {
         lastWindow = [[PYPhotoBrowseView alloc] initWithFrame:CGRectMake(0, 0, PYScreenW, PYScreenH)];
     }
+    // 设置window的rootViewController
+    lastWindow.rootViewController = self;
     // 设置窗口级别(最高级)
     lastWindow.windowLevel = UIWindowLevelAlert;
     // 呈现在某一个window上
