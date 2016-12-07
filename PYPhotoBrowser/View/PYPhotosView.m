@@ -105,6 +105,18 @@ static NSInteger _photosViewCount;
     }
 }
 
+// 返回最佳处理事件的view
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+    // 判断这个点是否在subView上
+    for (UIView *subView in self.subviews) {
+        if (CGRectContainsPoint(subView.frame, point)) { // 触摸点在subView上
+            return subView;
+        }
+    }
+    // 触摸点不在subView，不处理点击事件
+    return nil;
+}
+
 #pragma mark - setter方法
 - (void)setAutoLayoutWithWeChatSytle:(BOOL)autoLayoutWithWeChatSytle
 {
