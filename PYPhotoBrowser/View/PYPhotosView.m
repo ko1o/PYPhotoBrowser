@@ -110,7 +110,7 @@ static NSInteger _photosViewCount;
     // 判断这个点是否在subView上
     for (UIView *subView in self.subviews) {
         if (CGRectContainsPoint(subView.frame, point)) { // 触摸点在subView上
-            return subView;
+            return [super hitTest:point withEvent:event];
         }
     }
     // 触摸点不在subView，不处理点击事件
