@@ -96,6 +96,11 @@
 /** 传入慢慢缩小到哪张图片(UIImageView)然后消失 */
 @property (nonatomic, strong) UIView *hiddenToView;
 
+/** 显示动画时长：（默认0.5s） */
+@property (nonatomic, assign) CGFloat showDuration;
+/** 隐藏动画时长：（默认0.5s） */
+@property (nonatomic, assign) CGFloat hiddenDuration;
+
 /** 当屏幕旋转时，是否自动旋转图片 默认为YES */
 @property (nonatomic, assign) BOOL autoRotateImage;
 

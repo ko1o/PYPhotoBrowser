@@ -173,7 +173,7 @@
     // 添加控制器View
     self.collectionView.alpha = 0.0;
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:self.selectedPhotoView.photosView.showDuration animations:^{
         self.scaling = YES;
         // 放大图片
         copyView.py_width = self.collectionView.py_width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
@@ -262,7 +262,7 @@
     [self.beginView.photosView setPhotos:self.selectedPhotoView.photosView.photos];
     
     // 执行动画
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:self.selectedPhotoView.photosView.hiddenDuration animations:^{
         self.scaling = YES;
         // 还原图片
         self.collectionView.alpha = 0.0;

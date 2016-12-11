@@ -24,6 +24,8 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        self.showDuration = 0.5;
+        self.hiddenDuration = 0.5;
         self.autoRotateImage = YES;
     }
     return self;
@@ -32,6 +34,8 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        self.showDuration = 0.5;
+        self.hiddenDuration = 0.5;
         self.autoRotateImage = YES;
     }
     return self;
@@ -56,6 +60,8 @@
     
     PYPhotosView *photosView = [PYPhotosView photosView];
     self.photosView = photosView;
+    photosView.showDuration = self.showDuration;
+    photosView.hiddenDuration = self.hiddenDuration;
     
     NSMutableArray *photosM = [NSMutableArray array];
     

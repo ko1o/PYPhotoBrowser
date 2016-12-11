@@ -59,6 +59,8 @@ static NSInteger _photosViewCount;
         self.x = 0;
         self.pagingEnabled = NO;
         self.autoLayoutWithWeChatSytle = YES;
+        self.showDuration = 0.5;
+        self.hiddenDuration = 0.5;
     }
     return self;
 }

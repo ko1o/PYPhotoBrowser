@@ -77,6 +77,11 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 当图片为4张时显示为是否两行两列，默认为YES */
 @property (nonatomic, assign) BOOL autoLayoutWithWeChatSytle;
 
+/** 显示动画时长：（默认0.5s） */
+@property (nonatomic, assign) CGFloat showDuration;
+/** 隐藏动画时长：（默认0.5s） */
+@property (nonatomic, assign) CGFloat hiddenDuration;
+
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */
