@@ -365,6 +365,10 @@ static NSInteger _photosViewCount;
 /** 根据图片个数和图片状态自动计算出大小 */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state
 {
+    // 如果图片为一张，则图片的大小和photosView一致
+    if (count == 1 && !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
+        return self.bounds.size;
+    }
     NSInteger maxCount = 0; // 每行最多个数
     NSInteger cols = 0; // 列数
     NSInteger rows = 0; // 行数
@@ -376,7 +380,6 @@ static NSInteger _photosViewCount;
         if (self.photos.count > 0 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.autoLayoutWithWeChatSytle) {
            maxCount = count == 4 ? 2 : maxCount;
         }
-        // 设置图片
     } else if (state == PYPhotosViewStateWillCompose){ // 未发布
         if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
@@ -402,6 +405,13 @@ static NSInteger _photosViewCount;
     
     if (self.photos.count == 4 && self.layoutType == PYPhotosViewLayoutTypeFlow && self.photosState == PYPhotosViewStateDidCompose && self.autoLayoutWithWeChatSytle) {
         maxCol = 2;
+    }
+    // 当图片为一张时，图片大小和photosView一致
+    if (self.photos.count == 1) {
+        PYPhotoView *photoView = self.subviews[0];
+        photoView.frame = self.bounds;
+        self.contentSize = self.bounds.size;
+        return;
     }
     // 调整图片位置
     for (int i = 0; i < photosCount; i++) {
