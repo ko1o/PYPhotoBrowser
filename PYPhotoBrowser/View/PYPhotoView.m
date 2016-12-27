@@ -419,7 +419,8 @@ static CGSize originalSize;
         {
             [self.delegate didLongPress:self];
             PYPhotoBrowseView *browseView = (PYPhotoBrowseView *)self.delegate;
-            if(browseView.images) return;
+            // 如果实现了代理方法，直接返回，不使用默认的操作
+            if([browseView.delegate respondsToSelector:@selector(photoBrowseView:didLongPressImage:index:)]) return;
         }
         
         // 跳出提示

@@ -153,7 +153,6 @@
 {
     if ([self.delegate respondsToSelector:@selector(photoBrowseView:didLongPressImage:index:)]) {
         [self.delegate photoBrowseView:self didLongPressImage:photoView.image index:photoView.tag];
-        if (self.images) return;
     }
 }
 

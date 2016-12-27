@@ -278,7 +278,6 @@
         self.collectionView.hidden = YES;
         // 移除窗口
         self.window.hidden = YES;
-        [self.window hidden];
         if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didHiddenWithImages:index:)]) {
             [self.window.delegate photoBrowseView:self.window didHiddenWithImages:self.window.images index:self.pageControl.currentPage];
         }

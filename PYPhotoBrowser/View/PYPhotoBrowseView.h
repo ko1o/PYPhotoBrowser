@@ -30,10 +30,12 @@
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didHiddenWithImages:(NSArray *)images index:(NSInteger)index;
 /**
  * 图片单击时调用
+ * 注意：实现该代理方法，默认点击退出浏览效果即失效！如果要实现该效果，可通过[photoBrowseView hidden];实现
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index;
 /**
- * 图片长按时调用
+ * 图片长按时调用，可通过实现该代理方法处理长按手势
+ * 注意：实现该代理方法，默认长按保存效果即失效！
  */
 - (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didLongPressImage:(UIImage *)image index:(NSInteger)index;
 
