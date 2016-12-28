@@ -64,7 +64,7 @@
 
 @interface PYPhotoBrowseView  : UIWindow <PYPhotoViewDelegate>
 
-/** 代理 */
+/** 代理<只允许初始化一次，即设置一次> */
 @property (nonatomic, weak) id<PYPhotoBrowseViewDelegate> delegate;
 /** 数据源代理 */
 @property (nonatomic, weak) id<PYPhotoBrowseViewDataSource> dataSource;

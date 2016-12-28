@@ -41,6 +41,13 @@
     return self;
 }
 
+- (void)setDelegate:(id<PYPhotoBrowseViewDelegate>)delegate
+{
+    if (!_delegate) { // 只允许被设置，避免代理被系统修改
+        _delegate = delegate;
+    }
+}
+
 - (void)show
 {
     // 加载数据源方法

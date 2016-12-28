@@ -137,6 +137,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];;
     
     // 显示窗口
+    self.view.hidden = YES;
     window.hidden = NO;
     window.backgroundColor = [UIColor blackColor];
     
@@ -184,9 +185,9 @@
         self.scaling = NO;
         copyView.hidden = YES;
         window.backgroundColor = [UIColor clearColor];
-        [window addSubview:self.collectionView];
-        [window addSubview:self.pageControl];
-        [window addSubview:self.pageLabel];
+        self.view.hidden = NO;
+        [self.view addSubview:self.pageControl];
+        [self.view addSubview:self.pageLabel];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self deviceOrientationDidChange]; // 判断当前屏幕方向
         });
@@ -197,7 +198,6 @@
     
     // 是否隐藏pageControl
     self.pageControl.hidden = self.pageControl.numberOfPages < 2;
-    
 }
 
 - (void)dealloc
@@ -276,6 +276,8 @@
         self.scaling = NO;
         self.beginView.hidden = YES;
         self.collectionView.hidden = YES;
+        // 去除根控制器
+        self.window.rootViewController = nil;
         // 移除窗口
         self.window.hidden = YES;
         if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didHiddenWithImages:index:)]) {
