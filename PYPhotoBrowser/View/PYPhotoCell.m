@@ -105,8 +105,9 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.py_size = CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.py_height);
-    
     cell.collectionView = collectionView;
+    // 设置标志
+    cell.photoView.tag = indexPath.item;
     return cell;
 }
 

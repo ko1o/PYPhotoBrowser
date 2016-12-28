@@ -31,8 +31,6 @@
 @property (nonatomic, assign) BOOL isBig;
 /** 是否正在预览*/
 @property (nonatomic, assign) BOOL isPreview;
-/** 是否是视频 */
-@property (nonatomic, assign) BOOL isMovie;
 /** 原来的frame*/
 @property (nonatomic, assign) CGRect orignalFrame;
 /** 放大的倍数 */

@@ -136,7 +136,7 @@
     contentScrollView.py_height = self.py_height < PYPhotoCellH ? self.py_height : PYPhotoCellH;
     contentScrollView.py_width = self.py_width < PYPhotoCellW ? self.py_width : PYPhotoCellW;
     contentScrollView.contentSize = self.py_size;
-    // 根基模拟锚点调整偏移量
+    // 根据模拟锚点调整偏移量
     CGFloat offsetX = contentScrollView.contentSize.width * self.scrollViewAnchorPoint.x - contentScrollView.py_width * self.photoCellAnchorPoint.x;
     CGFloat offsetY = contentScrollView.contentSize.height * self.scrollViewAnchorPoint.y - contentScrollView.py_height * self.photoCellAnchorPoint.y;
     
@@ -450,7 +450,6 @@ static CGSize originalSize;
 // 单击手势
 - (void)imageDidClicked:(UITapGestureRecognizer *)sender
 {
-    
     if ([self.delegate respondsToSelector:@selector(didSingleClick:)]) { // 自定义 自己管理点击事件
         [self.delegate didSingleClick:self];
         return;
@@ -498,7 +497,6 @@ static CGSize originalSize;
     _photo = photo;
     
     self.progressView.hidden = YES;
-    
     // 移除手势
     [self removeGestureRecognizers];
     
@@ -682,8 +680,6 @@ static CGSize originalSize;
     if (buttonIndex == 0) {
         NSLog(@"保存到相册");
         UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-    } else if(buttonIndex == 1) {
-        NSLog(@"分享给朋友");
     } else if (buttonIndex == 2) {
         NSLog(@"取消");
     }

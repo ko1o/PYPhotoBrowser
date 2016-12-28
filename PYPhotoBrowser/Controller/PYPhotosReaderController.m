@@ -366,7 +366,7 @@
         self.pageLabel.py_y = height - 54;
         // 刷新数据
         [self.collectionView reloadData];
-        NSInteger photosCount = self.selectedPhotoView.isMovie ? 1 : self.selectedPhotoView.photos.count;
+        NSInteger photosCount = self.selectedPhotoView.photos.count;
         self.collectionView.contentSize = CGSizeMake(self.collectionView.py_width * photosCount, self.collectionView.py_height);
         self.collectionView.contentOffset = CGPointMake(self.selectedPhotoView.tag * self.collectionView.py_width, 0);
     } completion:^(BOOL finished) {
@@ -384,7 +384,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.selectedPhotoView.isMovie ? 1 : self.selectedPhotoView.photos.count;
+    return self.selectedPhotoView.photos.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
