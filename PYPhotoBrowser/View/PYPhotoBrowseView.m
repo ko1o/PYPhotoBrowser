@@ -11,9 +11,6 @@
 #import "PYProgressView.h"
 @interface PYPhotoBrowseView ()
 
-/** 存储每一个photoView */
-@property (nonatomic, strong) PYPhotosView *photosView;
-
 /** 是否正在浏览 */
 @property (nonatomic, assign) BOOL showing;
 
@@ -129,11 +126,6 @@
     userInfo[PYSmallgImageDidClikedNotification] = selectedPhotoView;
     NSNotification *notification = [[NSNotification alloc] initWithName:PYSmallgImageDidClikedNotification object:self.photosView userInfo:userInfo];
     [center postNotification:notification];
-    
-    // 移除self.photosView
-    self.photosView = nil;
-    // 图片浏览关闭后隐藏window
-    self.hidden = YES;
 }
 
 #pragma mark - PYPhotoViewDelegate
@@ -156,10 +148,6 @@
     photoView.loadFailureView.hidden = YES;
     // 移除进度条
     [photoView.progressView removeFromSuperview];
-    // 移除self.photosView
-    self.photosView = nil;
-    // 图片浏览关闭后隐藏window
-    self.hidden = YES;
 }
 
 - (void)didLongPress:(PYPhotoView *)photoView

@@ -37,6 +37,23 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  */
 - (void)photosView:(PYPhotosView *)photosView didPreviewImagesWithPreviewControlelr:(PYPhotosPreviewController *)previewControlelr;
 
+/**
+ * 图片浏览将要显示时调用
+ */
+- (void)photosView:(PYPhotosView *)photosView willShowWithPhotos:(NSArray *)photos index:(NSInteger)index;
+/**
+ * 图片浏览已经显示时调用
+ */
+- (void)photosView:(PYPhotosView *)photosView didShowWithPhotos:(NSArray *)photos index:(NSInteger)index;
+/**
+ * 图片浏览将要隐藏时调用
+ */
+- (void)photosView:(PYPhotosView *)photosView willHiddenWithPhotos:(NSArray *)photos index:(NSInteger)index;
+/**
+ * 图片浏览已经隐藏时调用
+ */
+- (void)photosView:(PYPhotosView *)photosView didHiddenWithPhotos:(NSArray *)photos index:(NSInteger)index;
+
 @end
 
 @interface PYPhotosView : UIScrollView

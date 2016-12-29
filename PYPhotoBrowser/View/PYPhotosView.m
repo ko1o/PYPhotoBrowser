@@ -5,7 +5,7 @@
 //
 
 #import "PYPhotosView.h"
-#include "PYPhotoView.h"
+#import "PYPhotoView.h"
 #import "PYPhoto.h"
 #import "PYConst.h"
 #import "PYPhotosViewController.h"

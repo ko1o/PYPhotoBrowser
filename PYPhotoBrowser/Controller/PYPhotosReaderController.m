@@ -129,6 +129,11 @@
     if ([window.delegate respondsToSelector:@selector(photoBrowseView:willShowWithImages:index:)]) {
         [window.delegate photoBrowseView:window willShowWithImages:window.images index:window.currentIndex];
     }
+    // photosView
+    PYPhotosView *photosView = self.selectedPhotoView.photosView;
+    if ([photosView.delegate respondsToSelector:@selector(photosView:willShowWithPhotos:index:)]) {
+        [photosView.delegate photosView:photosView willShowWithPhotos:photosView.photos index:self.selectedPhotoView.tag];
+    }
     
     // 设置window
     self.window = window;
@@ -194,6 +199,9 @@
         if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didShowWithImages:index:)]) {
             [self.window.delegate photoBrowseView:self.window didShowWithImages:self.window.images index:self.pageControl.currentPage];
         }
+        if ([photosView.delegate respondsToSelector:@selector(photosView:didShowWithPhotos:index:)]) {
+            [photosView.delegate photosView:photosView didShowWithPhotos:photosView.photos index:self.selectedPhotoView.tag];
+        }
     }];
     
     // 是否隐藏pageControl
@@ -218,6 +226,11 @@
 {
     if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:willHiddenWithImages:index:)]) {
         [self.window.delegate photoBrowseView:self.window willHiddenWithImages:self.window.images index:self.pageControl.currentPage];
+    }
+    // photosView
+    PYPhotosView *photosView = self.selectedPhotoView.photosView;
+    if ([photosView.delegate respondsToSelector:@selector(photosView:willHiddenWithPhotos:index:)]) {
+        [photosView.delegate photosView:photosView willHiddenWithPhotos:photosView.photos index:self.pageControl.currentPage];
     }
     
     // 移除屏幕旋转通知
@@ -276,13 +289,18 @@
         self.scaling = NO;
         self.beginView.hidden = YES;
         self.collectionView.hidden = YES;
+        if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didHiddenWithImages:index:)]) {
+            [self.window.delegate photoBrowseView:self.window didHiddenWithImages:self.window.images index:self.pageControl.currentPage];
+        }
+        if ([photosView.delegate respondsToSelector:@selector(photosView:didHiddenWithPhotos:index:)]) {
+            [photosView.delegate photosView:photosView didHiddenWithPhotos:photosView.photos index:self.selectedPhotoView.tag];
+        }
         // 去除根控制器
         self.window.rootViewController = nil;
         // 移除窗口
         self.window.hidden = YES;
-        if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:didHiddenWithImages:index:)]) {
-            [self.window.delegate photoBrowseView:self.window didHiddenWithImages:self.window.images index:self.pageControl.currentPage];
-        }
+        // 移除self.window.photosView
+        self.window.photosView = nil;
     }];
 }
 

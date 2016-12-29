@@ -116,6 +116,8 @@
 /** 当屏幕旋转时，是否自动旋转图片 默认为YES */
 @property (nonatomic, assign) BOOL autoRotateImage;
 
+/** 存储每一个photoView */
+@property (nonatomic, strong) PYPhotosView *photosView;
 
 /**
  * 浏览图片
