@@ -365,10 +365,6 @@ static NSInteger _photosViewCount;
 /** 根据图片个数和图片状态自动计算出大小 */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state
 {
-    // 如果图片为一张，则图片的大小和photosView一致
-    if (count == 1 && !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
-        return self.bounds.size;
-    }
     NSInteger maxCount = 0; // 每行最多个数
     NSInteger cols = 0; // 列数
     NSInteger rows = 0; // 行数
@@ -383,7 +379,10 @@ static NSInteger _photosViewCount;
     } else if (state == PYPhotosViewStateWillCompose){ // 未发布
         if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
-    
+    // 如果图片为一张，则图片的大小和photosView一致
+    if (count == 1 && !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
+        return self.bounds.size;
+    }
     cols = (count >= maxCount) ? maxCount : count;
     rows = (count + maxCount - 1) / maxCount;
     
