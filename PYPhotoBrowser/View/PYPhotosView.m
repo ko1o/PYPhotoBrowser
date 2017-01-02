@@ -11,7 +11,7 @@
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotosPreviewController.h"
-
+NS_ASSUME_NONNULL_BEGIN
 @interface PYPhotosView()
 
 /** 图片大小*/
@@ -76,6 +76,62 @@ static NSInteger _photosViewCount;
     photosView.thumbnailUrls = thumbnailUrls;
     photosView.originalUrls = originalUrls;
     return photosView;
+#pragma mark - 初始化
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        // 只用一个控制器
+        if (!_handleController) _handleController = [[PYPhotosViewController alloc] init];
+        _photosViewCount++;
+    }
+    return self;
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setupBaseConfig];
+    }
+    return self;
+}
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        [self setupBaseConfig];
+    }
+    return self;
+}
+
+- (void)setupBaseConfig {
+    // 初始化
+    self.photoMargin = PYPhotoMargin;
+    self.photoWidth = PYPhotoWidth;
+    self.photoHeight = PYPhotoHeight;
+    self.photosMaxCol = PYPhotosMaxCol;
+    self.imagesMaxCountWhenWillCompose = PYImagesMaxCountWhenWillCompose;
+    self.showsVerticalScrollIndicator = NO;
+    self.showsHorizontalScrollIndicator = NO;
+    self.autoRotateImage = YES;
+    self.pageType = PYPhotosViewPageTypeControll;
+    self.x = 0;
+    self.pagingEnabled = NO;
+    self.autoLayoutWithWeChatSytle = YES;
+    self.showDuration = 0.5;
+    self.hiddenDuration = 0.5;
+}
+
++ (instancetype)photosView
+{
+    return [[self alloc] init];
+}
+
++ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls
+{
+    PYPhotosView *photosView = [self photosView];
+    photosView.thumbnailUrls = thumbnailUrls;
+    photosView.originalUrls = originalUrls;
+    return photosView;
 }
 
 + (instancetype)photosViewWithImages:(NSMutableArray *)images
@@ -108,7 +164,7 @@ static NSInteger _photosViewCount;
 }
 
 // 返回最佳处理事件的view
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+- (nullable UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event{
     // 判断这个点是否在subView上
     for (UIView *subView in self.subviews) {
         if (CGRectContainsPoint(subView.frame, point)) { // 触摸点在subView上
@@ -195,6 +251,7 @@ static NSInteger _photosViewCount;
 }
 
 - (void)setPhotos:(NSArray *)photos
+- (void)setPhotos:(NSArray *)photos
 {
     _photos = photos;
     // 设置图片状态
@@ -215,6 +272,10 @@ static NSInteger _photosViewCount;
     for(int i = 0; i < self.subviews.count; i++)
     {
         PYPhotoView *photoView = self.subviews[i];
+        
+#if DEBUG
+        NSCAssert(![photos isKindOfClass:[PYPhotoView class]], @"The photoView must be PYPhotoView Class");
+#endif
         // 设置标记
         photoView.tag = i;
         photoView.photos = self.photos;
@@ -242,6 +303,13 @@ static NSInteger _photosViewCount;
         NSRange range = NSMakeRange(0, self.imagesMaxCountWhenWillCompose);
         NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
         images = [NSMutableArray arrayWithArray:[images objectsAtIndexes:set]];
+- (void)setImages:(NSMutableArray *)images
+{
+    // 图片大于规定数字（取前九张）
+    if (images.count > self.imagesMaxCountWhenWillCompose) {
+        NSRange range = NSMakeRange(0, self.imagesMaxCountWhenWillCompose);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        images = [NSMutableArray arrayWithArray:[images objectsAtIndexes:set]];
     };
     
     _images = images;
@@ -254,6 +322,7 @@ static NSInteger _photosViewCount;
     NSInteger imageCount = images.count;
     
     // 添加相应的图片
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     while (self.subviews.count < imageCount) { // UIImageView不够，需要创建
         PYPhotoView *photoView = [[PYPhotoView alloc] init];
         photoView.photosView = self;
@@ -265,6 +334,9 @@ static NSInteger _photosViewCount;
     {
         PYPhotoView *photoView = self.subviews[i];
         // 设置标记
+#if DEBUG
+        NSCAssert([photoView isKindOfClass:[PYPhotoView class]], @"The photoView must be PYPhotoView Class");
+#endif
         photoView.tag = i;
         photoView.images = images;
         if (i < imageCount) {
@@ -436,3 +508,4 @@ static NSInteger _photosViewCount;
 }
 
 @end
+NS_ASSUME_NONNULL_END
