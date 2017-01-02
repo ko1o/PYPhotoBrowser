@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PYConst.h"
-@class PYPhotoView, PYPhotosView, PYPhotosPreviewController;
+@class PYPhotoView, PYPhotosView, PYPhotosPreviewController, PYPhoto;
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
 /** 网络图片模型数组 */
-@property (nonatomic, copy) NSArray<PYPhotoView *> *photos;
+@property (nonatomic, copy) NSArray<PYPhoto *> *photos;
 /** 网络图片地址数组（缩略图） */
 @property (nonatomic, copy) NSArray<NSString *> *thumbnailUrls;
 /** 网络图片地址数组（原图） */

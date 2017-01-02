@@ -43,53 +43,11 @@ static NSInteger _photosViewCount;
     return self;
 }
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        // 初始化
-        self.photoMargin = PYPhotoMargin;
-        self.photoWidth = PYPhotoWidth;
-        self.photoHeight = PYPhotoHeight;
-        self.photosMaxCol = PYPhotosMaxCol;
-        self.imagesMaxCountWhenWillCompose = PYImagesMaxCountWhenWillCompose;
-        self.showsVerticalScrollIndicator = NO;
-        self.showsHorizontalScrollIndicator = NO;
-        self.autoRotateImage = YES;
-        self.pageType = PYPhotosViewPageTypeControll;
-        self.x = 0;
-        self.pagingEnabled = NO;
-        self.autoLayoutWithWeChatSytle = YES;
-        self.showDuration = 0.5;
-        self.hiddenDuration = 0.5;
-    }
-    return self;
-}
-
-+ (instancetype)photosView
-{
-    return [[self alloc] init];
-}
-
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls
-{
-    PYPhotosView *photosView = [self photosView];
-    photosView.thumbnailUrls = thumbnailUrls;
-    photosView.originalUrls = originalUrls;
-    return photosView;
-#pragma mark - 初始化
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        // 只用一个控制器
-        if (!_handleController) _handleController = [[PYPhotosViewController alloc] init];
-        _photosViewCount++;
-    }
-    return self;
-}
-
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        if (!_handleController) _handleController = [[PYPhotosViewController alloc] init];
+        _photosViewCount++;
         [self setupBaseConfig];
     }
     return self;
@@ -114,7 +72,7 @@ static NSInteger _photosViewCount;
     self.showsHorizontalScrollIndicator = NO;
     self.autoRotateImage = YES;
     self.pageType = PYPhotosViewPageTypeControll;
-    self.x = 0;
+    self.originalX = 0;
     self.pagingEnabled = NO;
     self.autoLayoutWithWeChatSytle = YES;
     self.showDuration = 0.5;
@@ -251,7 +209,6 @@ static NSInteger _photosViewCount;
 }
 
 - (void)setPhotos:(NSArray *)photos
-- (void)setPhotos:(NSArray *)photos
 {
     _photos = photos;
     // 设置图片状态
@@ -296,13 +253,6 @@ static NSInteger _photosViewCount;
     self.py_size = CGSizeMake(width, size.height);
 }
 
-- (void)setImages:(NSMutableArray *)images
-{
-    // 图片大于规定数字（取前九张）
-    if (images.count > self.imagesMaxCountWhenWillCompose) {
-        NSRange range = NSMakeRange(0, self.imagesMaxCountWhenWillCompose);
-        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
-        images = [NSMutableArray arrayWithArray:[images objectsAtIndexes:set]];
 - (void)setImages:(NSMutableArray *)images
 {
     // 图片大于规定数字（取前九张）
