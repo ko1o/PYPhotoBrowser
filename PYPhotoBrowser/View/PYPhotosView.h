@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PYConst.h"
-@class PYPhotoView, PYPhotosView, PYPhotosPreviewController;
+@class PYPhotoView, PYPhotosView, PYPhotosPreviewController, PYPhoto;
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -62,13 +62,13 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
 /** 网络图片模型数组 */
-@property (nonatomic, copy) NSArray *photos;
+@property (nonatomic, copy) NSArray<PYPhoto *> *photos;
 /** 网络图片地址数组（缩略图） */
-@property (nonatomic, copy) NSArray *thumbnailUrls;
+@property (nonatomic, copy) NSArray<NSString *> *thumbnailUrls;
 /** 网络图片地址数组（原图） */
-@property (nonatomic, copy) NSArray *originalUrls;
+@property (nonatomic, copy) NSArray<NSString *> *originalUrls;
 /** 本地相册图片(注意：存的是UIImage)数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) */
-@property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, strong) NSMutableArray<UIImage *> *images;
 
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;
