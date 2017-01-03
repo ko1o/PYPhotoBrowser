@@ -4,13 +4,15 @@
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //
 
-#import "MBProgressHUD+PY.h"
+#import "MBProgressHUD+PYExtension.h"
 
 @implementation MBProgressHUD (PY)
 #pragma mark 显示信息
 + (void)py_show:(NSString *)text icon:(NSString *)icon view:(UIView *)view
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) {
+        view = [[UIApplication sharedApplication].windows lastObject];
+    }
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = text;
@@ -40,7 +42,9 @@
 #pragma mark 显示加载信息
 + (void)py_showLoading:(NSString *)loading toView:(UIView *)view
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) {
+        view = [[UIApplication sharedApplication].windows lastObject];
+    }
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:NO];
     // 隐藏时候从父控件中移除

@@ -4,13 +4,10 @@
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //
 
-#import "PYNavigationController.h"
-#import "PYConst.h"
-@interface PYNavigationController ()
+#import "PYPhotosNavigationController.h"
+#import "PYPhotoBrowserConst.h"
 
-@end
-
-@implementation PYNavigationController
+@implementation PYPhotosNavigationController
 
 // 初始化
 - (void)setup

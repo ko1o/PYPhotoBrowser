@@ -5,7 +5,7 @@
 //
 
 #import "PYPhoto.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 
 @implementation PYPhoto
 
@@ -17,6 +17,7 @@
     }
     return self;
 }
+
 /** 根据缩略图快速创建模型 */
 + (instancetype)photoWithThumbnailUrl:(NSString *)thumbnailUrl
 {

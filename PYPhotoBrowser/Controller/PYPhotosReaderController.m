@@ -9,7 +9,7 @@
 #import "PYPhotoView.h"
 #import "PYPhoto.h"
 #import "PYPhotoCell.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 #import "PYProgressView.h"
 #import "UIImageView+WebCache.h"
 #import "PYPhotoBrowseView.h"
@@ -29,7 +29,6 @@
 
 /** 存储indexPaths的数组 */
 @property (nonatomic, strong) NSMutableArray *indexPaths;
-
 /** 记录当前屏幕状态 */
 @property (nonatomic, assign) UIDeviceOrientation orientation;
 
@@ -37,7 +36,6 @@
 @property (nonatomic, assign, getter=isRotationg) BOOL rotating;
 /** 是否正在缩放(图片点击) */
 @property (nonatomic, assign, getter=isScaling) BOOL scaling;
-
 /** 是否正在拖拽 */
 @property (nonatomic, assign) BOOL dragging;
 
@@ -95,7 +93,7 @@
     [super viewDidLoad];
     
     // 注册cell
-    [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerClass:[PYPhotoCell class] forCellWithReuseIdentifier:PYPhotoCellReuseIdentifier];
     // 支持分页
     self.collectionView.pagingEnabled = YES;
     self.collectionView.py_size = CGSizeMake(self.view.py_width, self.view.py_height);
@@ -396,9 +394,9 @@
     }];
 }
 
-static NSString * const reuseIdentifier = @"Cell";
 
-#pragma mark <UICollectionViewDataSource>
+
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -422,7 +420,7 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
+#pragma mark - UICollectionViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -454,7 +452,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.selectedPhotoView.windowView = currentCell.photoView;
 }
 
-#pragma mark <UICollectionViewDelegateFlowLayout>
+#pragma mark - UICollectionViewDelegateFlowLayout
 // 设置每个item的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {

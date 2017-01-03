@@ -45,10 +45,10 @@
 
 @optional
 /** 返回将要浏览的图片（UIImage）数组 */
-- (NSArray *)imagesForBrowse;
+- (NSArray<UIImage *> *)imagesForBrowse;
 
 /** 返回将要浏览的图片链接(NSString)数组, 如果实现了- (NSArray *)imagesForBrowse;方法，则忽略此方法 */
-- (NSArray *)imagesURLForBrowse;
+- (NSArray<NSString *> *)imagesURLForBrowse;
 
 /** 返回默认显示图片的索引(默认为0) */
 - (NSInteger)currentIndex;
@@ -75,19 +75,19 @@
  * 如果设置了这个属性imagesURL失效
  * 使用此属性需要手动设置frameFormWindow和frameToWindow属性
  */
-@property (nonatomic, copy) NSArray *images;
+@property (nonatomic, copy) NSArray<UIImage *> *images;
 
 /** 
  * 用来浏览的图片链接（NSString）数组
  * 使用此属性需要手动设置frameFormWindow和frameToWindow属性
  */
-@property (nonatomic, copy) NSArray *imagesURL;
+@property (nonatomic, copy) NSArray<NSString *> *imagesURL;
 
 /** 
  * 用来浏览的图片的控件（UIImageView）数组
  * 使用此属性即可自动计算frameFormWindow和frameToWindow
  */
-@property (nonatomic, copy) NSArray *sourceImgageViews;
+@property (nonatomic, copy) NSArray<UIImageView *> *sourceImgageViews;
 
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;

@@ -25,7 +25,7 @@
 /** 网络图片*/
 @property (nonatomic, copy) NSArray<PYPhoto *> *photos;
 /** 本地相册图片 */
-@property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, strong) NSMutableArray<UIImage *> *images;
 
 /** 是否放大状态 */
 @property (nonatomic, assign) BOOL isBig;

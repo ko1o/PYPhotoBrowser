@@ -8,11 +8,11 @@
 #import "UIImageView+WebCache.h"
 #import "PYPhoto.h"
 #import "PYPhotosView.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotoCell.h"
 #import "PYProgressView.h"
-#import "MBProgressHUD+PY.h"
+#import "MBProgressHUD+PYExtension.h"
 #import "PYPhotoBrowseView.h"
 
 // cell的宽
@@ -262,7 +262,6 @@
     // 刷新
     [self setNeedsLayout];
 }
-
 
 // 记录预览时的最原始大小（未伸缩\旋转）
 static CGSize originalSize;
@@ -567,7 +566,7 @@ static CGSize originalSize;
 }
 
 // 设置本地图片（未发布）
-- (void)setImages:(NSMutableArray *)images
+- (void)setImages:(NSMutableArray<UIImage *> *)images
 {
     _images = images;
     

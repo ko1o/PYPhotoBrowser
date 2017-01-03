@@ -5,8 +5,10 @@
 //  用于呈现一组图片、一个视频的视图（子控件为PYPhotoView的实例对象）
 
 #import <UIKit/UIKit.h>
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
+
 @class PYPhotoView, PYPhotosView, PYPhotosPreviewController, PYPhoto;
+
 typedef NS_ENUM(NSInteger, PYPhotosViewLayoutType) { // 布局类型
     PYPhotosViewLayoutTypeFlow = 0, // 流水布局
     PYPhotosViewLayoutTypeLine = 1  // 线性布局
@@ -40,19 +42,19 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /**
  * 图片浏览将要显示时调用
  */
-- (void)photosView:(PYPhotosView *)photosView willShowWithPhotos:(NSArray *)photos index:(NSInteger)index;
+- (void)photosView:(PYPhotosView *)photosView willShowWithPhotos:(NSArray<PYPhoto *> *)photos index:(NSInteger)index;
 /**
  * 图片浏览已经显示时调用
  */
-- (void)photosView:(PYPhotosView *)photosView didShowWithPhotos:(NSArray *)photos index:(NSInteger)index;
+- (void)photosView:(PYPhotosView *)photosView didShowWithPhotos:(NSArray<PYPhoto *> *)photos index:(NSInteger)index;
 /**
  * 图片浏览将要隐藏时调用
  */
-- (void)photosView:(PYPhotosView *)photosView willHiddenWithPhotos:(NSArray *)photos index:(NSInteger)index;
+- (void)photosView:(PYPhotosView *)photosView willHiddenWithPhotos:(NSArray<PYPhoto *> *)photos index:(NSInteger)index;
 /**
  * 图片浏览已经隐藏时调用
  */
-- (void)photosView:(PYPhotosView *)photosView didHiddenWithPhotos:(NSArray *)photos index:(NSInteger)index;
+- (void)photosView:(PYPhotosView *)photosView didHiddenWithPhotos:(NSArray<PYPhoto *> *)photos index:(NSInteger)index;
 
 @end
 
@@ -102,23 +104,23 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 快速创建photosView对象 */
 + (instancetype)photosView;
 /** photos : 保存图片链接的数组 */
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls;
 /** images : 存储本地图片的数组 */
-+ (instancetype)photosViewWithImages:(NSMutableArray *)images;
++ (instancetype)photosViewWithImages:(NSMutableArray<UIImage *> *)images;
 
 /**
  * thumbnailUrls : 保存图片(缩略图)链接的数组
  * originalUrls : 保存图片(原图)链接的数组
  * type : 布局类型（默认为流水布局）
  */
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls layoutType:(PYPhotosViewLayoutType)type;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls layoutType:(PYPhotosViewLayoutType)type;
 
 /** 
  * thumbnailUrls : 保存图片(缩略图)链接的数组
  * originalUrls : 保存图片(原图)链接的数组
  * maxCol : 每行最多显示图片的个数
  */
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls photosMaxCol:(NSInteger)maxCol;
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls photosMaxCol:(NSInteger)maxCol;
 
 /** 根据图片个数和图片状态自动计算出PYPhontosView的size */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;
@@ -127,6 +129,6 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  * 刷新图片(未发布)
  * images : 新的图片数组
  */
-- (void)reloadDataWithImages:(NSMutableArray *)images;
+- (void)reloadDataWithImages:(NSMutableArray<UIImage *> *)images;
 
 @end

@@ -6,6 +6,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PYNavigationController : UINavigationController
+@interface PYPhotosNavigationController : UINavigationController
 
 @end

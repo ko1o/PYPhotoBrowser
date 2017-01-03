@@ -9,7 +9,12 @@
 
 @protocol PYPhotosPreviewControllerDelegate <NSObject>
 @optional
-- (void)photosPreviewController:(PYPhotosPreviewController *)previewController didImagesChanged:(NSMutableArray *)images;
+/** 
+ * 图片改变时调用
+ * previewController : 图片预览控制器
+ * images : 改变后的图片数组
+ */
+- (void)photosPreviewController:(PYPhotosPreviewController *)previewController didImagesChanged:(NSMutableArray<UIImage *> *)images;
 
 @end
 
@@ -18,11 +23,10 @@
 /** 预览的图片*/
 @property (nonatomic, weak) id<PYPhotosPreviewControllerDelegate> delegate;
 
+/** 快速创建预览控制器 */
 + (instancetype)previewController;
-
 /** 删除一张图片 */
 - (void)deleteImage;
-
 /** 关闭控制器 */
 - (void)close;
 

@@ -7,7 +7,7 @@
 #import "PYPhotosView.h"
 #import "PYPhotoView.h"
 #import "PYPhoto.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotosPreviewController.h"
@@ -84,7 +84,7 @@ static NSInteger _photosViewCount;
     return [[self alloc] init];
 }
 
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls
 {
     PYPhotosView *photosView = [self photosView];
     photosView.thumbnailUrls = thumbnailUrls;
@@ -92,21 +92,21 @@ static NSInteger _photosViewCount;
     return photosView;
 }
 
-+ (instancetype)photosViewWithImages:(NSMutableArray *)images
++ (instancetype)photosViewWithImages:(NSMutableArray<UIImage *> *)images
 {
     PYPhotosView *photosView = [self photosView];
     photosView.images = images;
     return photosView;
 }
 
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls layoutType:(PYPhotosViewLayoutType)type
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls layoutType:(PYPhotosViewLayoutType)type
 {
     PYPhotosView *photosView = [self photosViewWithThumbnailUrls:thumbnailUrls originalUrls:originalUrls];
     photosView.layoutType = type;
     return photosView;
 }
 
-+ (instancetype)photosViewWithThumbnailUrls:(NSArray *)thumbnailUrls originalUrls:(NSArray *)originalUrls photosMaxCol:(NSInteger)maxCol
++ (instancetype)photosViewWithThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls originalUrls:(NSArray<NSString *> *)originalUrls photosMaxCol:(NSInteger)maxCol
 {
     PYPhotosView *photosView = [self photosViewWithThumbnailUrls:thumbnailUrls originalUrls:originalUrls];
     photosView.photosMaxCol = maxCol;
@@ -121,7 +121,7 @@ static NSInteger _photosViewCount;
     }
 }
 
-// 返回最佳处理事件的view
+/* 返回最佳处理事件的view */
 - (nullable UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event{
     // 判断这个点是否在subView上
     for (UIView *subView in self.subviews) {
@@ -133,7 +133,7 @@ static NSInteger _photosViewCount;
     return nil;
 }
 
-#pragma mark - setter方法
+#pragma mark - setter
 - (void)setAutoLayoutWithWeChatSytle:(BOOL)autoLayoutWithWeChatSytle
 {
     _autoLayoutWithWeChatSytle = autoLayoutWithWeChatSytle;
@@ -192,7 +192,7 @@ static NSInteger _photosViewCount;
     self.photos = photosM;
 }
 
-- (void)setOriginalUrls:(NSArray *)originalUrls
+- (void)setOriginalUrls:(NSArray<NSString *> *)originalUrls
 {
     _originalUrls = originalUrls;
     
@@ -200,7 +200,7 @@ static NSInteger _photosViewCount;
     [self setPhotosUrl];
 }
 
-- (void)setThumbnailUrls:(NSArray *)thumbnailUrls
+- (void)setThumbnailUrls:(NSArray<NSString *> *)thumbnailUrls
 {
     _thumbnailUrls = thumbnailUrls;
     
@@ -208,7 +208,7 @@ static NSInteger _photosViewCount;
     [self setPhotosUrl];
 }
 
-- (void)setPhotos:(NSArray *)photos
+- (void)setPhotos:(NSArray<PYPhoto *> *)photos
 {
     _photos = photos;
     // 设置图片状态
@@ -253,7 +253,7 @@ static NSInteger _photosViewCount;
     self.py_size = CGSizeMake(width, size.height);
 }
 
-- (void)setImages:(NSMutableArray *)images
+- (void)setImages:(NSMutableArray<UIImage *> *)images
 {
     // 图片大于规定数字（取前九张）
     if (images.count > self.imagesMaxCountWhenWillCompose) {
@@ -379,7 +379,7 @@ static NSInteger _photosViewCount;
 }
 
 /** 根据新的图片（未发布）刷新界面 */
-- (void)reloadDataWithImages:(NSMutableArray *)images
+- (void)reloadDataWithImages:(NSMutableArray<UIImage *> *)images
 {
     [self setImages:images];
 }

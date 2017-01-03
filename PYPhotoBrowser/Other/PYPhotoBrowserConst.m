@@ -3,7 +3,7 @@
 //  Created by CoderKo1o.
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 const CGFloat PYPhotoMargin = 5;   // 图片之间的默认间距
 const CGFloat PYPhotoWidth = 70;    // 图片的默认宽度
 const CGFloat PYPhotoHeight = 70;   // 图片的默认高度

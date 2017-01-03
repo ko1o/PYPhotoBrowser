@@ -103,7 +103,7 @@
     [center postNotification:notification];
 }
 
-- (void)setSourceImgageViews:(NSArray *)sourceImgageViews
+- (void)setSourceImgageViews:(NSArray<UIImageView *> *)sourceImgageViews
 {
     _sourceImgageViews = [sourceImgageViews copy];
     // 获取图片

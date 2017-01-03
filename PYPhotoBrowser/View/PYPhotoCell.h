@@ -7,6 +7,8 @@
 #import <UIKit/UIKit.h>
 @class PYPhoto,PYPhotoView,PYPhotosView;
 
+UIKIT_EXTERN NSString *const PYPhotoCellReuseIdentifier;
+
 @interface PYPhotoCell : UICollectionViewCell
 
 /** 图片模型 */

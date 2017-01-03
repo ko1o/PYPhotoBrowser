@@ -7,10 +7,10 @@
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotosPreviewController.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 #import "PYPhotoView.h"
 #import "PYPhotoCell.h"
-#import "PYNavigationController.h"
+#import "PYPhotosNavigationController.h"
 #import "PYPhotoBrowseView.h"
 #import "PYPhotosView.h"
 
@@ -102,9 +102,9 @@
     PYPhotoCell *selectedCell = (PYPhotoCell *)[self.photosReader.collectionView cellForItemAtIndexPath:indexPath];
     // 设置选中的photoView
     self.photosReader.selectedPhotoView.windowView = selectedCell.photoView;
-    
+    // 隐藏图片
     [self.photosReader hiddenPhoto];
-    
+    // 取消photosReader引用
     self.photosReader = nil;
 }
 
@@ -118,7 +118,7 @@
     PYPhotosPreviewController *photosPreviewVc = [PYPhotosPreviewController previewController];
     self.photosPreviewController = photosPreviewVc;
     photosPreviewVc.selectedPhotoView = photoView;
-    PYNavigationController *nav = [[PYNavigationController alloc] initWithRootViewController:photosPreviewVc];
+    PYPhotosNavigationController *nav = [[PYPhotosNavigationController alloc] initWithRootViewController:photosPreviewVc];
     [self.navigationController pushViewController:photosPreviewVc animated:YES];
     // 修复未发布点击不能预览BUG
     UIViewController *presentFromVc = [UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController;

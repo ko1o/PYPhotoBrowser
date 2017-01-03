@@ -8,15 +8,15 @@
 #import "PYPhotoView.h"
 #import "PYPhotosView.h"
 #import "PYPhotoCell.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 
 @interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
 
+/** 是否是第一张 */
 @property (nonatomic, assign) BOOL isFirst;
 
 /** 记录statusBar是否隐藏 */
 @property (nonatomic, assign, getter=isStatusBarHidden) BOOL statusBarHidden;
-
 /** 是否正在执行动画 */
 @property (nonatomic, assign, getter=isNavBarAnimating) BOOL navBarAnimating;
 
@@ -74,25 +74,25 @@
     [center addObserver:self selector:@selector(changeNavBarState) name:PYChangeNavgationBarStateNotification object:nil];
 }
 
-// 状态栏颜色
+/** 返回状态栏style */
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
 
-// 状态栏隐藏动画
+/* 返回状态栏隐藏动画模式 */
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
 {
     return UIStatusBarAnimationSlide;
 }
 
-// 状态栏是否隐藏
+/* 返回状态栏是否隐藏 */
 - (BOOL)prefersStatusBarHidden
 {
     return self.isStatusBarHidden;
 }
 
-// 改变状态栏状态
+/* 改变状态栏状态 */
 - (void)changeNavBarState
 {
     // 如果正在执行动画，直接返回
@@ -109,11 +109,13 @@
     });
 }
 
+/** 关闭 */
 - (void)close
 {
     [self backAction];
 }
 
+/** 返回按钮点击 */
 - (void)backAction
 {
     // 刷新发布上的photosView
@@ -125,6 +127,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+/** 点击删除照片 */
 - (void)trashDidClicked
 {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"要删除这张照片么" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
@@ -155,12 +158,12 @@
     self.title = [NSString stringWithFormat:@"%zd/%zd", currentPage,self.selectedPhotoView.photosView.images.count];
     
     if (self.selectedPhotoView.photosView.images.count == 0) {
-        // 来到这里，证明
+        // 来到这里说明没有图片，退出预览
         [self backAction];
     };
 }
 
-#pragma mark - <UIActionSheetDelegate>
+#pragma mark -UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) { // 删除
@@ -171,7 +174,7 @@
     }
 }
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -200,7 +203,7 @@
     // 隐藏状态栏
     if (!self.isStatusBarHidden) [self changeNavBarState];
     // 设置标题
-    self.title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1,self.selectedPhotoView.photosView.images.count];
+    self.title = [NSString stringWithFormat:@"%zd/%zd", self.selectedPhotoView.tag + 1, self.selectedPhotoView.photosView.images.count];
 }
 
 #pragma mark <UICollectionViewDelegateFlowLayout>

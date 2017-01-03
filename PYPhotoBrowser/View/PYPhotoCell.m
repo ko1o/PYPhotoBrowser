@@ -8,9 +8,12 @@
 #import "PYPhoto.h"
 #import "PYPhotoView.h"
 #import "PYPhotosView.h"
-#import "PYConst.h"
+#import "PYPhotoBrowserConst.h"
 #import "UIImageView+WebCache.h"
 #import "PYProgressView.h"
+
+/** photoCell标识符 */
+NSString *const PYPhotoCellReuseIdentifier = @"PYPhotoViewCell";
 
 @implementation PYPhotoCell
 
@@ -34,6 +37,8 @@
     return self;
 }
 
+#pragma mark - setter
+/* 设置photoView */
 - (void)setPhotoView:(PYPhotoView *)photoView
 {
     _photoView = photoView;
@@ -42,7 +47,7 @@
     photoView.photoCell = self;
 }
 
-// 设置图片（图片来源自网络）
+/* 设置图片（图片来源自网络）*/
 - (void)setPhoto:(PYPhoto *)photo
 {
     _photo = photo;
@@ -77,7 +82,7 @@
     self.photoView.center = CGPointMake(self.contentScrollView.py_width * 0.5, self.contentScrollView.py_height * 0.5);
 }
 
-// 设置图片（图片来源自本地相册）
+/* 设置图片（图片来源自本地相册）*/
 - (void)setImage:(UIImage *)image
 {
     _image = image;
@@ -98,12 +103,10 @@
     self.contentScrollView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
 }
 
-static NSString * const reuseIdentifier = @"Cell";
-
-// 快速创建collectionCell
+/* 快速创建collectionCell */
 + (instancetype)cellWithCollectionView:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath
 {
-    PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    PYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PYPhotoCellReuseIdentifier forIndexPath:indexPath];
     cell.py_size = CGSizeMake(collectionView.py_width - ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).minimumLineSpacing, collectionView.py_height);
     cell.collectionView = collectionView;
     // 设置标志
