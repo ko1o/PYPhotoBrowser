@@ -444,7 +444,8 @@
     self.pageControl.currentPage = page;
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
-    self.selectedPhotoView = photosView.subviews[page];
+    if (page <= (photosView.subviews.count - 1))
+        self.selectedPhotoView = photosView.subviews[page];
     
     // 判断即将显示哪一张
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:page inSection:0];
