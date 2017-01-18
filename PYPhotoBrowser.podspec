@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'PYPhotoBrowser'
-    s.version      = '1.2.3'
+    s.version      = '1.2.4'
     s.summary      = 'An easy way to browse photo(image) for iOS.'
     s.homepage     = 'https://github.com/iphone5solo/PYPhotoBrowser'
     s.license      = 'MIT'
