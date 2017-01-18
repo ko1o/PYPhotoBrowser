@@ -51,9 +51,6 @@
         _pageControl = pageControl;
         _pageControl.py_width = self.view.py_width;
         _pageControl.py_y = self.view.py_height - 30;
-        if (PYIOS8) { // 如果是iOS8,补上状态栏20的高度
-            _pageControl.py_y += 20;
-        }
     }
     _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9 || _pageControl.numberOfPages < 2;
     self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
@@ -67,9 +64,6 @@
         pageLabel.py_height = 44;
         pageLabel.py_width = self.view.py_width;
         pageLabel.py_y = self.view.py_height - 54;
-        if (PYIOS8) { // 如果是iOS8,补上状态栏20的高度
-            pageLabel.py_y += 20;
-        }
         pageLabel.font = [UIFont boldSystemFontOfSize:16];
         pageLabel.textColor = [UIColor whiteColor];
         pageLabel.textAlignment = NSTextAlignmentCenter;
@@ -234,7 +228,7 @@
     // 移除屏幕旋转通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    // 隐藏pageControll
+    // 隐藏pageControl
     self.pageControl.hidden = YES;
     self.beginView.hidden = NO;
     self.pageLabel.hidden = YES;
@@ -377,7 +371,7 @@
         self.window.py_width = PYScreenW;
         self.window.py_height = PYScreenH;
         self.window.center = CGPointMake(PYScreenW * 0.5 , PYScreenH * 0.5);
-        self.view.py_size = self.window.py_size;
+        self.view.frame = self.window.bounds;
         self.pageControl.py_centerX = width * 0.5;
         self.pageControl.py_y = height - 30;
         self.pageLabel.py_centerX = width * 0.5;
@@ -441,7 +435,8 @@
     if (scrollView.contentOffset.x >= scrollView.contentSize.width || scrollView.contentOffset.x <= 0 || self.rotating) return;
     // 计算页数
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
-    self.pageControl.currentPage = page;
+    // 避免数组越界
+    self.pageControl.currentPage = page >= self.pageControl.numberOfPages ? self.pageControl.numberOfPages - 1 : page;
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
     self.selectedPhotoView = photosView.subviews[page];
