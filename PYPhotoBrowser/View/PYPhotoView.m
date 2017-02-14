@@ -421,11 +421,30 @@ static CGSize originalSize;
             // 如果实现了代理方法，直接返回，不使用默认的操作
             if([browseView.delegate respondsToSelector:@selector(photoBrowseView:didLongPressImage:index:)]) return;
         }
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *savePhotoAction = [UIAlertAction actionWithTitle:@"保存到相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // 保存到相册
+            UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:savePhotoAction];
+        [alertController addAction:cancelAction];
         
-        // 跳出提示
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"保存到相册", nil];
-        sheet.delegate = self;
-        [sheet showInView:self.window];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        { // iPad
+            UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+            if (popover){
+                popover.sourceView = self.window;
+                popover.sourceRect = CGRectMake((PYRealyScreenW - 100) * 0.5, PYRealyScreenH, 100, 100);
+                popover.permittedArrowDirections = UIPopoverArrowDirectionDown;
+            }
+            // 跳出提示
+            [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+        } else { // iPhone
+           
+            // 跳出提示
+            [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+        }
     }
 }
 
@@ -674,15 +693,6 @@ static CGSize originalSize;
 
 
 #pragma mark - PYAcitonSheetDeleagate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        NSLog(@"保存到相册");
-        UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-    } else if (buttonIndex == 2) {
-        NSLog(@"取消");
-    }
-}
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {

@@ -296,6 +296,20 @@
     }];
 }
 
+/** 该控制器不受项目的Device Orientation配置影响 */
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 // 监听屏幕旋转
 - (void)deviceOrientationDidChange
 {
@@ -336,8 +350,8 @@
     }
     
     // 判断即将显示哪一张
-    // 执行旋转动画
-    __block UIWindow *tempWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    // 执行旋转动画（保证黑色背景足够大）
+    __block UIWindow *tempWindow = [[UIWindow alloc] initWithFrame:CGRectMake(-6000, -6000, 12000, 12000)];
     tempWindow.windowLevel = UIWindowLevelStatusBar;
     // 自动调节宽高
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -387,8 +401,6 @@
         tempWindow.hidden = YES;
     }];
 }
-
-
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
