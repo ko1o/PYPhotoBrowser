@@ -321,7 +321,8 @@
         currentDevice.orientation == UIDeviceOrientationFaceDown ||
         currentDevice.orientation == self.orientation ||
         self.isRotationg ||
-        self.window.autoRotateImage == NO) return;
+        self.window.autoRotateImage == NO ||
+        self.selectedPhotoView.photosView.autoRotateImage == NO) return;
     
     // 获取旋转角度
     CGFloat rotateAngle = 0;
