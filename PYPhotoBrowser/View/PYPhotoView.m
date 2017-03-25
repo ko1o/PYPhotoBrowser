@@ -217,23 +217,11 @@
 {
     if (!image) return;
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
-    self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
+    self.contentMode = UIViewContentModeScaleAspectFill;
     if (height > PYPhotoCellH) { // 长图
         if (self.isBig) { // 预览状态
             self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellW * image.size.height / image.size.width);
-        } else {
-            self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellH);
-            // 显示最上面的
-            UIGraphicsBeginImageContextWithOptions(self.py_size,YES, 0.0);
-            // 绘图
-            CGFloat width = self.py_width;
-            CGFloat height = width * image.size.height / image.size.width;
-            [image drawInRect:CGRectMake(0, 0, width, height)];
-            // 保存图片
-            image = UIGraphicsGetImageFromCurrentImageContext();
-            // 关闭上下文
-            UIGraphicsEndImageContext();
         }
     }
     [super setImage:image];
