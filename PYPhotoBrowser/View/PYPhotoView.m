@@ -5,7 +5,7 @@
 //
 
 #import "PYPhotoView.h"
-#import "UIImageView+WebCache.h"
+#import "FLAnimatedImageView+WebCache.h"
 #import "PYPhoto.h"
 #import "PYPhotosView.h"
 #import "PYPhotoBrowserConst.h"
@@ -26,7 +26,7 @@
 // 旋转角为90°或者270°
 #define PYVertical (ABS(_rotation - M_PI_2) < 0.01 || ABS(_rotation - M_PI_2 * 3) < 0.01)
 
-@interface PYPhotoView ()<UIActionSheetDelegate, UIGestureRecognizerDelegate>
+@interface PYPhotoView () <UIActionSheetDelegate, UIGestureRecognizerDelegate>
 /** 单击手势 */
 @property (nonatomic, weak) UIGestureRecognizer *singleTap;
 
@@ -55,7 +55,7 @@
 
 - (instancetype)init
 {
-    if (self = [super init]) {
+    if (self = [super initWithFrame:CGRectZero]) {
         // 运行与用户交互
         self.userInteractionEnabled = YES;
         
@@ -213,6 +213,44 @@
     self.photoCellSingleTap = singleTap;
 }
 
+- (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
+{
+    if (!animatedImage) return;
+    CGFloat height = PYPhotoCellW * animatedImage.size.height / animatedImage.size.width;
+    self.clipsToBounds = YES;
+    self.contentMode = UIViewContentModeScaleAspectFill;
+    if (height > PYPhotoCellH) { // 长图
+        if (self.isBig) { // 预览状态
+            self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellW * animatedImage.size.height / animatedImage.size.width);
+        }
+    }
+    [super setAnimatedImage:animatedImage];
+    
+    CGFloat width = PYPhotoCellW;
+    originalSize = self.image.size;
+    if (PYPhotoCellW > PYPhotoCellH) { //  横屏
+        if (originalSize.width > originalSize.height * 2) { // 原始图宽大于高的两倍
+            width = PYPhotoCellW;
+            height = width * originalSize.height / originalSize.width;
+        } else {
+            height = PYPhotoCellH;
+            width = height * originalSize.width / originalSize.height;
+        }
+    }
+    self.py_size = self.isBig ? CGSizeMake(width, height) : self.image.size;
+    // 设置scrollView的大小
+    self.photoCell.contentScrollView.py_height = self.py_height < PYPhotoCellH ? self.py_height : PYPhotoCellH;
+    self.photoCell.contentScrollView.py_width = self.py_width < PYPhotoCellW ? self.py_width : PYPhotoCellW;
+    self.photoCell.contentScrollView.center = CGPointMake(PYPhotoCellW * 0.5, PYPhotoCellH * 0.5);
+    self.photoCell.contentScrollView.contentSize = self.py_size;
+    
+    // 进度条居中
+    self.progressView.center = CGPointMake(self.py_width * 0.5, self.py_height * 0.5);
+    
+    // 刷新
+    [self setNeedsLayout];
+}
+
 - (void)setImage:(UIImage *)image
 {
     if (!image) return;
@@ -343,7 +381,6 @@ static CGSize originalSize;
         [pinch setValue:@(UIGestureRecognizerStateEnded) forKeyPath:@"state"];
 
     }
-    
     if (pinch.state == UIGestureRecognizerStateChanged) {
         // 获取锚点
         self.scrollViewAnchorPoint = [self setAnchorPointBaseOnGestureRecognizer:pinch];
@@ -524,19 +561,21 @@ static CGSize originalSize;
         placeholdeerImage = self.photo.thumbnailImage ? self.photo.thumbnailImage : PYPlaceholderImage;
         urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
     } else {
-        if (self.photo.originalImage) { // 原图下载了
+        if (self.photo.originalImage || self.photo.animatedImage) { // 原图下载了
             urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
         }
     }
     
     NSURL *url = [NSURL URLWithString:urlStr];
-    [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    
+    [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         if (self.isBig) {
+           // NSLog(@"%zd  %zd", receivedSize, expectedSize);
             // 获取图片链接
-            NSString *imageUrl = [[self sd_imageURL] absoluteString];
+            NSString *imageUrl = [targetURL absoluteString];
             for (PYPhoto *photo in self.photosView.photos) {
                 if ([imageUrl isEqualToString:photo.original_pic] || (!photo.original_pic &&
-                    [imageUrl isEqualToString:photo.thumbnail_pic])) { // 找到模型,设置下载进度
+                                                                      [imageUrl isEqualToString:photo.thumbnail_pic])) { // 找到模型,设置下载进度
                     CGFloat progress = 1.0 * receivedSize / expectedSize;
                     if (progress >= photo.progress) { // 大于模型进度
                         photo.progress = progress;
@@ -544,13 +583,14 @@ static CGSize originalSize;
                 }
             }
             if ([imageUrl isEqualToString:self.photo.original_pic] || (!self.photo.original_pic &&
-                [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
+                                                                       [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
                 self.progressView.hidden = NO;
                 [self.progressView py_setProgress:self.photo.progress animated:YES];
             }
         }
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         self.progressView.hidden = YES;
+        
         if (image && ([[imageURL absoluteString] isEqualToString:self.photo.thumbnail_pic] ||
                       [[imageURL absoluteString] isEqualToString:self.photo.original_pic])) { // 图片为当前PYPhotoView的图片并且不是占位图（占位图 image会为null）
             // 允许手势
@@ -559,12 +599,18 @@ static CGSize originalSize;
             self.photo.originalSize = CGSizeMake(self.py_width, self.py_width * image.size.height / image.size.width);
             // 记录未旋转的宽度或者旋转完成时的宽度
             self.photo.verticalWidth = self.photo.originalSize.width;
-
-            if (!self.isBig) {
-                self.photo.thumbnailImage = image;
-            } else {
-                self.photo.originalImage = image;
+            
+            if (self.animatedImage) { // Gif
+                self.photo.animatedImage = self.animatedImage;
+                [self startAnimating];
                 self.photo.progress = 1.0;
+            } else {
+                if (!self.isBig) {
+                    self.photo.thumbnailImage = image;
+                } else {
+                    self.photo.originalImage = image;
+                    self.photo.progress = 1.0;
+                }
             }
         }
         // 图片加载失败(是否隐藏)
@@ -640,7 +686,6 @@ static CGSize originalSize;
     }
 }
 
-
 /** 根据手势触摸点修改相应的锚点，就是沿着触摸点做相应的手势操作 */
 - (CGPoint)setAnchorPointBaseOnGestureRecognizer:(UIGestureRecognizer *)gr
 {
@@ -674,7 +719,7 @@ static CGSize originalSize;
         CGPoint photoCellPoint = [gr locationOfTouch:0 inView:gr.view];
         cellAnchorPoint.x = photoCellPoint.x / gr.view.py_width;
         cellAnchorPoint.y = photoCellPoint.y / gr.view.py_height;
-    };
+    }
     self.photoCellAnchorPoint = cellAnchorPoint;
     return anchorPoint;
 }

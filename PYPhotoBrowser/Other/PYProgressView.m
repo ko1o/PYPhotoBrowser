@@ -18,10 +18,11 @@
 
 - (void)py_setProgress:(CGFloat)progress animated:(BOOL)animated
 {
-    [super setProgress:progress animated:animated];
-    
-    // 设置文本
-    self.progressLabel.text = [[NSString stringWithFormat:@"%.0f%%", progress * 100] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [super setProgress:progress animated:animated];
+        // 设置文本
+        self.progressLabel.text = [[NSString stringWithFormat:@"%.0f%%", progress * 100] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    });
 }
 
 

@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLAnimatedImage.h"
 
 @class PYPhotoView;
 
@@ -24,6 +25,8 @@
 @property (nonatomic, strong) UIImage *thumbnailImage;
 /** 原图 */
 @property (nonatomic, strong) UIImage *originalImage;
+/** GIF图 */
+@property (nonatomic, strong) FLAnimatedImage *animatedImage;
 /** 图片加载进度 */
 @property (nonatomic, assign) CGFloat progress;
 
