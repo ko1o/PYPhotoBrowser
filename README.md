@@ -75,6 +75,7 @@
 	- `MBProgressHUD`
 	- `SDWebImage`
 	- `DACircularProgress`
+	- `FLAnimatedImage` 
 	
 
 ## <a id="PYPhotosView框架的主要类"></a>PYPhotoBrowser框架的主要类
@@ -152,7 +153,7 @@
 
 ```
 
-###PYPhotoBrowseView（自定义）
+### PYPhotoBrowseView（自定义）
 
 ```objc
 
@@ -412,8 +413,8 @@ photosView.autoRotateImage = NO;
 
 ## <a id="期待什么"></a>期待
 
-- 如果您在使用过程中有任何问题，欢迎issue me! 很乐意为您解答任何相关问题!
+- 如果您在使用过程中有任何问题，欢迎[issue me](https://github.com/iphone5solo/PYPhotoBrowser/issues/new)! 很乐意为您解答任何相关问题!
 - 与其给我点star，不如向我狠狠地抛来一个BUG！
 - 如果想要参与这个项目的维护，可以直接pull request！
 - 如果您想要更多的接口来自定义或者建议/意见，欢迎issue me！我会根据大家的需求提供更多的接口！
-- 如果您在上线的app中使用到该第三方，欢迎issue me，让我可以及时统计、更新！
+- 如果您在上线的app中使用到该第三方，欢迎[issue me](https://github.com/iphone5solo/PYPhotoBrowser/issues/new)，让我可以及时统计、更新！
