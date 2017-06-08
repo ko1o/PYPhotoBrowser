@@ -123,7 +123,11 @@
 
 @end
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+@interface DACircularProgressView () <CAAnimationDelegate>
+#else
 @interface DACircularProgressView ()
+#endif
 
 @end
 
