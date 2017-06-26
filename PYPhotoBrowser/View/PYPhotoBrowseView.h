@@ -89,6 +89,13 @@
  */
 @property (nonatomic, copy) NSArray<UIImageView *> *sourceImgageViews;
 
+/** 
+ * 占位图
+ */
+@property (nonatomic, strong) UIImage *placeholderImage;
+/** 是否隐藏指示器，默认为：NO */
+@property (nonatomic, assign) BOOL hiddenPageControl;
+
 /** 用来记录当前下标 */
 @property (nonatomic, assign) NSInteger currentIndex;
 

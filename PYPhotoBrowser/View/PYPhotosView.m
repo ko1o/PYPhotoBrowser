@@ -134,6 +134,14 @@ static NSInteger _photosViewCount;
 }
 
 #pragma mark - setter
+- (void)setPlaceholderImage:(UIImage *)placeholderImage
+{
+    _placeholderImage = placeholderImage;
+    
+    // 刷新
+    self.photos = self.photos;
+}
+
 - (void)setAutoLayoutWithWeChatSytle:(BOOL)autoLayoutWithWeChatSytle
 {
     _autoLayoutWithWeChatSytle = autoLayoutWithWeChatSytle;

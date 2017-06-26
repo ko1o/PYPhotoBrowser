@@ -52,7 +52,7 @@
         _pageControl.py_width = self.view.py_width;
         _pageControl.py_y = self.view.py_height - 30;
     }
-    _pageControl.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9 || _pageControl.numberOfPages < 2;
+    _pageControl.hidden = self.selectedPhotoView.photosView.hiddenPageControl || self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeLabel || _pageControl.numberOfPages > 9 || _pageControl.numberOfPages < 2;
     self.pageLabel.text = [NSString stringWithFormat:@"%zd / %zd", _pageControl.currentPage + 1, _pageControl.numberOfPages];
     return _pageControl;
 }
@@ -71,7 +71,7 @@
     }
     // 判断是否显示_pageLabel
     // 取出指示类型
-    _pageLabel.hidden = self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeControll && _pageControl.numberOfPages < 10;
+    _pageLabel.hidden = self.selectedPhotoView.photosView.hiddenPageControl || (self.selectedPhotoView.photosView.pageType == PYPhotosViewPageTypeControll && _pageControl.numberOfPages < 10);
     return _pageLabel;
 }
 
@@ -197,7 +197,7 @@
     }];
     
     // 是否隐藏pageControl
-    self.pageControl.hidden = self.pageControl.numberOfPages < 2;
+    self.pageControl.hidden = self.selectedPhotoView.photosView.hiddenPageControl || self.pageControl.numberOfPages < 2;
 }
 
 - (void)dealloc

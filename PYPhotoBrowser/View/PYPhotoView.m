@@ -103,7 +103,7 @@
         // 取消自动布局
         self.autoresizingMask = UIViewAutoresizingNone;
         // 设置图片为默认图片
-        self.image = PYPlaceholderImage;
+        self.image = self.photosView.placeholderImage ?: PYPlaceholderImage;
     }
     return self;
 }
@@ -555,10 +555,10 @@ static CGSize originalSize;
     
     // 设置链接(默认设置为缩略图)
     NSString *urlStr = photo.thumbnail_pic ? photo.thumbnail_pic : photo.original_pic;
-    UIImage *placeholdeerImage = PYPlaceholderImage;
+    UIImage *placeholdeerImage = self.photosView.placeholderImage ?: PYPlaceholderImage;
     if (self.isBig) { // 图片浏览（放大）, 原图具有优先级
         // 获取缩略图
-        placeholdeerImage = self.photo.thumbnailImage ? self.photo.thumbnailImage : PYPlaceholderImage;
+        placeholdeerImage = self.photo.thumbnailImage ? self.photo.thumbnailImage : self.photosView.placeholderImage ?: PYPlaceholderImage;
         urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
     } else {
         if (self.photo.originalImage || self.photo.animatedImage) { // 原图下载了

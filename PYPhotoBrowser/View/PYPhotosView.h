@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 /** 代理 */
 @property (nonatomic, weak) id<PYPhotosViewDelegate> delegate;
 
+/** 占位图 */
+@property (nonatomic, strong) UIImage *placeholderImage;
 /** 网络图片模型数组 */
 @property (nonatomic, copy) NSArray<PYPhoto *> *photos;
 /** 网络图片地址数组（缩略图） */
@@ -78,6 +80,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 @property (nonatomic, assign) PYPhotosViewLayoutType layoutType;
 /** 图片分页指示类型(默认为pageControll。当图片超过九张，改为label显示) */
 @property (nonatomic, assign) PYPhotosViewPageType pageType;
+/** 是否隐藏指示器，默认为：NO */
+@property (nonatomic, assign) BOOL hiddenPageControl;
 
 /** 图片间距（默认为5） */
 @property (nonatomic, assign) CGFloat photoMargin;
