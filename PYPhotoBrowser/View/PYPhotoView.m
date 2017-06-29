@@ -15,6 +15,9 @@
 #import "MBProgressHUD+PYExtension.h"
 #import "PYPhotoBrowseView.h"
 
+// 是否正常显示动画，内部使用不建议修改此参数
+static BOOL _showOrHiddenAnimating;
+
 // cell的宽
 #define PYPhotoCellW (_photoCell.py_width > 0 ? _photoCell.py_width : PYScreenW)
 // cell的高
@@ -493,6 +496,13 @@ static CGSize originalSize;
 // 单击手势
 - (void)imageDidClicked:(UITapGestureRecognizer *)sender
 {
+    // 避免同时点击两张图片时，创建两个浏览窗口，详情见：https://github.com/iphone5solo/PYPhotoBrowser/issues/90
+    if (_showOrHiddenAnimating) return;
+     _showOrHiddenAnimating = YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.photosView.showDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _showOrHiddenAnimating = NO;
+    });
+    
     if ([self.delegate respondsToSelector:@selector(didSingleClick:)]) { // 自定义 自己管理点击事件
         [self.delegate didSingleClick:self];
         return;

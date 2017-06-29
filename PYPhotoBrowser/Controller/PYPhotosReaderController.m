@@ -13,11 +13,10 @@
 #import "PYProgressView.h"
 #import "UIImageView+WebCache.h"
 #import "PYPhotoBrowseView.h"
-
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)
 
-@interface PYPhotosReaderController ()<UICollectionViewDelegateFlowLayout>
+@interface PYPhotosReaderController () <UICollectionViewDelegateFlowLayout>
 
 /** 所放大的window */
 @property (nonatomic, strong) PYPhotoBrowseView *window;
@@ -216,6 +215,7 @@
 // 隐藏图片
 - (void)hiddenPhoto
 {
+    
     if ([self.window.delegate respondsToSelector:@selector(photoBrowseView:willHiddenWithImages:index:)]) {
         [self.window.delegate photoBrowseView:self.window willHiddenWithImages:self.window.images index:self.pageControl.currentPage];
     }

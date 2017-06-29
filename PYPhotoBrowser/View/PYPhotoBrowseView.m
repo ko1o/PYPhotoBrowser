@@ -11,10 +11,8 @@
 #import "PYProgressView.h"
 #import "FLAnimatedImage.h"
 
-@interface PYPhotoBrowseView ()
 
-/** 是否正在浏览 */
-@property (nonatomic, assign) BOOL showing;
+@interface PYPhotoBrowseView ()
 
 @end
 
@@ -137,7 +135,7 @@
 {
     if ([self.delegate respondsToSelector:@selector(photoBrowseView:didSingleClickedImage:index:)]) {
         [self.delegate photoBrowseView:self didSingleClickedImage:photoView.image index:photoView.tag];
-        if (self.images) return;
+        return;
     }
     
     // 发出图片缩小通知
