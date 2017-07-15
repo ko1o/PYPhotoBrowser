@@ -8,6 +8,7 @@
 #import "PYPhotoView.h"
 #import "PYPhotosView.h"
 #import "PYPhotoCell.h"
+#import "PYPhoto.h"
 #import "PYPhotoBrowserConst.h"
 
 @interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
@@ -161,6 +162,11 @@
         // 来到这里说明没有图片，退出预览
         [self backAction];
     };
+    
+    // 代理
+    if ([self.selectedPhotoView.photosView.delegate respondsToSelector:@selector(photosView:didDeleteImageIndex:)]) { // 自定义 自己管理删除事件
+        [self.selectedPhotoView.photosView.delegate photosView:self.selectedPhotoView.photosView didDeleteImageIndex:page];
+    }
 }
 
 #pragma mark -UIActionSheetDelegate
@@ -186,7 +192,12 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PYPhotoCell *cell  = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
-    cell.image = self.selectedPhotoView.images[indexPath.item];
+    UIImage *image = self.selectedPhotoView.images[indexPath.item];
+    if ([image isKindOfClass:[UIImage class]]) {
+        cell.image = image;
+    } else if ([image isKindOfClass:[PYPhoto class]]) {
+        cell.photo = (PYPhoto*)image;
+    }
     cell.photoView.isPreview = YES;
     return cell;
 }
@@ -194,12 +205,14 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [super scrollViewDidScroll:scrollView];
+    /* 不知道什么作用，有 bug (contentScrollView.py_height 和 contentScrollView.contentOffset 这两句赋值语句会导致放大图片后滑动出问题)
     // 设置contentScrollView
     UIScrollView *contentScrollView = self.selectedPhotoView.windowView.photoCell.contentScrollView;
     contentScrollView.py_height = contentScrollView.py_height > PYScreenH ? PYScreenH : contentScrollView.py_height;
     contentScrollView.contentOffset = CGPointZero;
     contentScrollView.scrollEnabled = YES;
     contentScrollView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
+    */
     // 隐藏状态栏
     if (!self.isStatusBarHidden) [self changeNavBarState];
     // 设置标题

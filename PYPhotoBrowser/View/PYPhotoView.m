@@ -576,7 +576,14 @@ static CGSize originalSize;
         }
     }
     
+    
     NSURL *url = [NSURL URLWithString:urlStr];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir;
+    if ([fileManager fileExistsAtPath:urlStr isDirectory:&isDir]) { // isDir判断是否为文件夹
+        url = [NSURL fileURLWithPath:urlStr];
+    }
     
     [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         if (self.isBig) {
@@ -633,7 +640,9 @@ static CGSize originalSize;
 {
     _images = images;
     
-    self.deleteImageView.hidden = images.count == 0;
+    if (!self.photosView.hideDeleteView) {
+        self.deleteImageView.hidden = images.count == 0;
+    }
 }
 
 // 删除图片
@@ -641,6 +650,9 @@ static CGSize originalSize;
 {
     [self.images removeObjectAtIndex:self.tag];
     self.photosView.images = self.images;
+    if ([self.photosView.delegate respondsToSelector:@selector(photosView:didDeleteImageIndex:)]) { // 自定义 自己管理删除事件
+        [self.photosView.delegate photosView:self.photosView didDeleteImageIndex:self.tag];
+    }
 }
 
 - (void)layoutSubviews

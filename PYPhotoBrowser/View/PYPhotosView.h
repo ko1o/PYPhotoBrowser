@@ -33,6 +33,12 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  */
 - (void)photosView:(PYPhotosView *)photosView didAddImageClickedWithImages:(NSMutableArray *)images;
 
+/**
+ * 删除图片按钮触发时调用此方法
+ * imageIndex : 删除的图片在之前图片数组的位置
+ */
+- (void)photosView:(PYPhotosView *)photosView didDeleteImageIndex:(NSInteger)imageIndex;
+
 /** 
  * 图片未发布时进入浏览图片时调用此方法
  * previewControlelr : 预览图片时的控制器
@@ -76,6 +82,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 
 /** 所有图片的状态（默认为已发布状态） */
 @property (nonatomic, assign) PYPhotosViewState photosState;
+/** 是否隐藏删除按钮(未发布状态) */
+@property (nonatomic, assign) BOOL hideDeleteView;
 /** 图片布局（默认为流水布局） */
 @property (nonatomic, assign) PYPhotosViewLayoutType layoutType;
 /** 图片分页指示类型(默认为pageControll。当图片超过九张，改为label显示) */
@@ -99,6 +107,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 @property (nonatomic, assign) BOOL autoRotateImage;
 /** 当图片为4张时显示为是否两行两列，默认为YES */
 @property (nonatomic, assign) BOOL autoLayoutWithWeChatSytle;
+/** 是否自动设置图片可编辑状态 */
+@property (nonatomic, assign) BOOL autoSetPhotoState;
 
 /** 显示动画时长：（默认0.5s） */
 @property (nonatomic, assign) CGFloat showDuration;
