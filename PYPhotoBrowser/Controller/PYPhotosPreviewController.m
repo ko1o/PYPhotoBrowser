@@ -146,6 +146,7 @@
     
     // 移除数组中的某个元素
     [self.selectedPhotoView.photosView.images removeObjectAtIndex:page];
+    [self.selectedPhotoView.photosView refreshContentSizeWithPhotoCount:self.selectedPhotoView.photosView.images.count];
     // 移除cell
     [currentCell removeFromSuperview];
     // 刷新cell

@@ -144,5 +144,7 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  * images : 新的图片数组
  */
 - (void)reloadDataWithImages:(NSMutableArray<UIImage *> *)images;
+/** 根据图片个数刷新界面尺寸 */
+- (void)refreshContentSizeWithPhotoCount:(NSInteger)photoCount;
 
 @end

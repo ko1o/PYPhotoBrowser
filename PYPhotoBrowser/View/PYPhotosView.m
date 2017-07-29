@@ -417,6 +417,19 @@ static NSInteger _photosViewCount;
     [self setImages:images];
 }
 
+/** 根据图片个数刷新界面尺寸 */
+- (void)refreshContentSizeWithPhotoCount:(NSInteger)photoCount {
+    // 设置contentSize和 self.size
+    // 取出size
+    CGSize size = [self sizeWithPhotoCount:photoCount photosState:self.photosState];
+    self.contentSize = size;
+    CGFloat width = size.width + self.py_x > PYScreenW ? PYScreenW - self.py_x : size.width;
+    self.py_size = CGSizeMake(width, size.height);
+    
+    // 刷新
+    [self layoutSubviews];
+}
+
 /** 根据图片个数和图片状态自动计算出大小 */
 - (CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state
 {
