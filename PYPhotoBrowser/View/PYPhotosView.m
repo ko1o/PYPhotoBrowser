@@ -11,6 +11,7 @@
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotosPreviewController.h"
+#import "UIImageView+WebCache.h"
 NS_ASSUME_NONNULL_BEGIN
 @interface PYPhotosView()
 
@@ -279,7 +280,7 @@ static NSInteger _photosViewCount;
     self.py_size = CGSizeMake(width, size.height);
 }
 
-- (void)setImages:(NSMutableArray<UIImage *> *)images
+- (void)setImages:(NSMutableArray *)images
 {
     // 图片大于规定数字（取前九张）
     if (images.count > self.imagesMaxCountWhenWillCompose) {
@@ -320,11 +321,13 @@ static NSInteger _photosViewCount;
         if (i < imageCount) {
             photoView.hidden = NO;
             // 设置图片
-            UIImage *image = images[i];
+            id image = images[i];
             if ([image isKindOfClass:[UIImage class]]) {
                 photoView.image = image;
             } else if ([image isKindOfClass:[PYPhoto class]]) {
                 photoView.photo = (PYPhoto *)image;
+            } else if ([image isKindOfClass:[NSString class]]) {
+                [photoView sd_setImageWithURL:[NSURL URLWithString:image] placeholderImage:PYPlaceholderImage];
             }
         }else{
             photoView.hidden = YES;
@@ -412,7 +415,7 @@ static NSInteger _photosViewCount;
 }
 
 /** 根据新的图片（未发布）刷新界面 */
-- (void)reloadDataWithImages:(NSMutableArray<UIImage *> *)images
+- (void)reloadDataWithImages:(NSMutableArray *)images
 {
     [self setImages:images];
 }

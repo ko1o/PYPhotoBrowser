@@ -10,6 +10,7 @@
 #import "PYPhotoCell.h"
 #import "PYPhoto.h"
 #import "PYPhotoBrowserConst.h"
+#import "UIImageView+WebCache.h"
 
 @interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -193,12 +194,15 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PYPhotoCell *cell  = [PYPhotoCell cellWithCollectionView:collectionView indexPath:indexPath];
-    UIImage *image = self.selectedPhotoView.images[indexPath.item];
+    id image = self.selectedPhotoView.images[indexPath.item];
     if ([image isKindOfClass:[UIImage class]]) {
         cell.image = image;
     } else if ([image isKindOfClass:[PYPhoto class]]) {
         cell.photo = (PYPhoto*)image;
+    } else if ([image isKindOfClass:[NSString class]]) {
+        [cell.photoView sd_setImageWithURL:[NSURL URLWithString:image] placeholderImage:PYPlaceholderImage];
     }
+    
     cell.photoView.isPreview = YES;
     return cell;
 }

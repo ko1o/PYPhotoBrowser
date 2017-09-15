@@ -14,7 +14,7 @@
  * previewController : 图片预览控制器
  * images : 改变后的图片数组
  */
-- (void)photosPreviewController:(PYPhotosPreviewController *)previewController didImagesChanged:(NSMutableArray<UIImage *> *)images;
+- (void)photosPreviewController:(PYPhotosPreviewController *)previewController didImagesChanged:(NSMutableArray *)images;
 
 @end
 

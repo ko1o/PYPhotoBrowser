@@ -27,7 +27,10 @@
     // 2. 添加本地图片
     NSMutableArray *imagesM = [NSMutableArray array];
     for (int i = 0; i < arc4random_uniform(4) + 1; i++) {
-        [imagesM addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", i + 1]]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%02d", i + 1]];
+        if (image) {
+            [imagesM addObject:image];
+        }
     }
     publishPhotosView.py_x = PYMargin * 5;
     publishPhotosView.py_y = PYMargin * 2 + 64;
@@ -69,8 +72,13 @@
     // 在这里做当点击添加图片按钮时，你想做的事。
     // 这里我利用导入的图片，模拟从相册选图片或者拍照。(这里默认最多导入9张，超过时取前九张)
     for (int i = 0; i < arc4random_uniform(6) + 1; i++) {
-        [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(9) + 1]]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%02d", arc4random_uniform(9) + 1]];
+        if (image) {
+            [images addObject:image];
+        }
     }
+    // 新增图片链接支持
+    [images addObject:[NSString stringWithFormat:@"https://ws1.sinaimg.cn/large/610dc034ly1fjgfyxgwgnj20u00gvgmt.jpg"]];
     // 刷新
     [photosView reloadDataWithImages:images];
     NSLog(@"添加图片 --- 添加后有%zd张图片", photosView.images.count);
