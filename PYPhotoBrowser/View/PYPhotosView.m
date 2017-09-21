@@ -79,6 +79,7 @@ static NSInteger _photosViewCount;
     self.autoLayoutWithWeChatSytle = YES;
     self.showDuration = 0.5;
     self.hiddenDuration = 0.5;
+    self.oneImageFullFrame = YES;
 }
 
 + (instancetype)photosView
@@ -451,7 +452,7 @@ static NSInteger _photosViewCount;
         if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
     // 如果图片为一张，则图片的大小和photosView一致
-    if (count == 1 && !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
+    if (count == 1 && && self.oneImageFullFrame !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
         return self.bounds.size;
     }
     cols = (count >= maxCount) ? maxCount : count;
@@ -477,7 +478,7 @@ static NSInteger _photosViewCount;
         maxCol = 2;
     }
     // 当图片为一张时，图片大小和photosView一致
-    if (self.photos.count == 1) {
+    if (self.photos.count == 1 && self.oneImageFullFrame) {
         PYPhotoView *photoView = self.subviews[0];
         photoView.frame = self.bounds;
         self.contentSize = self.bounds.size;
