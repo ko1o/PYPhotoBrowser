@@ -452,7 +452,7 @@ static NSInteger _photosViewCount;
         if (count < self.imagesMaxCountWhenWillCompose) count ++;
     }
     // 如果图片为一张，则图片的大小和photosView一致
-    if (count == 1 && && self.oneImageFullFrame !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
+    if (count == 1 && self.oneImageFullFrame && !CGSizeEqualToSize(self.bounds.size, CGSizeMake(self.photoMargin, self.photoMargin))) {
         return self.bounds.size;
     }
     cols = (count >= maxCount) ? maxCount : count;

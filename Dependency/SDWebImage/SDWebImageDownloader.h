@@ -23,14 +23,14 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageDownloaderOptions) {
     /**
      * Call completion block with nil image/imageData if the image was read from NSURLCache
      * (to be combined with `SDWebImageDownloaderUseNSURLCache`).
+     * I think this option should be renamed to 'SDWebImageDownloaderUsingCachedResponseDontLoad'
      */
-
     SDWebImageDownloaderIgnoreCachedResponse = 1 << 3,
+    
     /**
      * In iOS 4+, continue the download of the image if the app goes to background. This is achieved by asking the system for
      * extra time in background to let the request finish. If the background task expires the operation will be cancelled.
      */
-
     SDWebImageDownloaderContinueInBackground = 1 << 4,
 
     /**
@@ -117,6 +117,15 @@ typedef SDHTTPHeadersDictionary * _Nullable (^SDWebImageDownloaderHeadersFilterB
  *  The timeout value (in seconds) for the download operation. Default: 15.0.
  */
 @property (assign, nonatomic) NSTimeInterval downloadTimeout;
+
+
+/**
+ * The configuration in use by the internal NSURLSession.
+ * Mutating this object directly has no effect.
+ *
+ * @see createNewSessionWithConfiguration:
+ */
+@property (readonly, nonatomic, nonnull) NSURLSessionConfiguration *sessionConfiguration;
 
 
 /**
@@ -229,5 +238,15 @@ typedef SDHTTPHeadersDictionary * _Nullable (^SDWebImageDownloaderHeadersFilterB
  * Cancels all download operations in the queue
  */
 - (void)cancelAllDownloads;
+
+/**
+ * Forces SDWebImageDownloader to create and use a new NSURLSession that is
+ * initialized with the given configuration.
+ * *Note*: All existing download operations in the queue will be cancelled.
+ * *Note*: `timeoutIntervalForRequest` is going to be overwritten.
+ *
+ * @param sessionConfiguration The configuration to use for the new NSURLSession
+ */
+- (void)createNewSessionWithConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration;
 
 @end

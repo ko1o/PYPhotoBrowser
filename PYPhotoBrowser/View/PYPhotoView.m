@@ -601,8 +601,10 @@ static CGSize originalSize;
             }
             if ([imageUrl isEqualToString:self.photo.original_pic] || (!self.photo.original_pic &&
                                                                        [imageUrl isEqualToString:self.photo.thumbnail_pic])) { // 图片为当前PYPhotoView的图片
-                self.progressView.hidden = NO;
-                [self.progressView py_setProgress:self.photo.progress animated:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.progressView.hidden = NO;
+                    [self.progressView py_setProgress:self.photo.progress animated:YES];
+                });
             }
         }
     } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
@@ -719,7 +721,7 @@ static CGSize originalSize;
     CGPoint cellAnchorPoint; // photoCell的虚拟锚点
     UIScrollView *scrollView = (UIScrollView *)[self superview];
     if ([gr isKindOfClass:[UIPinchGestureRecognizer class]]) { // 捏合手势
-        if (gr.numberOfTouches == 2) {
+        {
             // 当触摸开始时，获取两个触摸点
             // 获取滚动视图上的触摸点
             CGPoint point1 = [gr locationOfTouch:0 inView:scrollView];
@@ -732,7 +734,7 @@ static CGSize originalSize;
             cellAnchorPoint.x = (screenPoint1.x + screenPoint2.x) / 2.0 / gr.view.py_width;
             cellAnchorPoint.y = (screenPoint1.y + screenPoint2.y) / 2.0 / gr.view.py_height;
         }
-    } else if ([gr isKindOfClass:[UITapGestureRecognizer class]]) { // 点击手势
+    } else { // 点击手势
         // 获取scrollView触摸点
         CGPoint scrollViewPoint = [gr locationOfTouch:0 inView:scrollView];
         anchorPoint.x = scrollViewPoint.x / scrollView.contentSize.width;
