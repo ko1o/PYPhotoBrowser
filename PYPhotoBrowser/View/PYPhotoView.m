@@ -218,7 +218,10 @@ static BOOL _showOrHiddenAnimating;
 
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
 {
+    [super setAnimatedImage:animatedImage];
+    
     if (!animatedImage) return;
+    
     CGFloat height = PYPhotoCellW * animatedImage.size.height / animatedImage.size.width;
     self.clipsToBounds = YES;
     self.contentMode = UIViewContentModeScaleAspectFill;
@@ -227,7 +230,6 @@ static BOOL _showOrHiddenAnimating;
             self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellW * animatedImage.size.height / animatedImage.size.width);
         }
     }
-    [super setAnimatedImage:animatedImage];
     
     CGFloat width = PYPhotoCellW;
     originalSize = self.image.size;
@@ -256,6 +258,8 @@ static BOOL _showOrHiddenAnimating;
 
 - (void)setImage:(UIImage *)image
 {
+    [super setImage:image];
+    
     if (!image) return;
     CGFloat height = PYPhotoCellW * image.size.height / image.size.width;
     self.clipsToBounds = YES;
@@ -265,8 +269,7 @@ static BOOL _showOrHiddenAnimating;
             self.py_size = CGSizeMake(PYPhotoCellW, PYPhotoCellW * image.size.height / image.size.width);
         }
     }
-    [super setImage:image];
-
+    
     CGFloat width = PYPhotoCellW;
     originalSize = self.image.size;
     if (PYPhotoCellW > PYPhotoCellH) { //  横屏
@@ -382,7 +385,7 @@ static CGSize originalSize;
     if (pinch.numberOfTouches < 2) { // 只有一只手指，取消手势
         [pinch setCancelsTouchesInView:YES];
         [pinch setValue:@(UIGestureRecognizerStateEnded) forKeyPath:@"state"];
-
+        
     }
     if (pinch.state == UIGestureRecognizerStateChanged) {
         // 获取锚点
@@ -469,7 +472,7 @@ static CGSize originalSize;
             // 跳出提示
             [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
         } else { // iPhone
-           
+            
             // 跳出提示
             [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
         }
@@ -498,7 +501,7 @@ static CGSize originalSize;
 {
     // 避免同时点击两张图片时，创建两个浏览窗口，详情见：https://github.com/iphone5solo/PYPhotoBrowser/issues/90
     if (_showOrHiddenAnimating) return;
-     _showOrHiddenAnimating = YES;
+    _showOrHiddenAnimating = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.photosView.showDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _showOrHiddenAnimating = NO;
     });
@@ -533,8 +536,8 @@ static CGSize originalSize;
         }
     } else if (self.photosView.photosState == PYPhotosViewStateWillCompose) { // 未发布
         if (self.isPreview) { // 正在预览
-                NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:self.photosView userInfo:userInfo];
-                [center postNotification:notifaction];
+            NSNotification *notifaction = [[NSNotification alloc] initWithName:PYChangeNavgationBarStateNotification object:self.photosView userInfo:userInfo];
+            [center postNotification:notifaction];
         } else { // 将要预览
             // 进入预览界面
             userInfo[PYPreviewImagesDidChangedNotification] = self;
@@ -556,7 +559,8 @@ static CGSize originalSize;
     // 设置已经加载的进度
     [self.progressView py_setProgress:photo.progress animated:NO];
     
-    if (photo.originalImage) {
+    if (photo.originalImage || photo.animatedImage) {
+        self.animatedImage = photo.animatedImage;
         self.image = photo.originalImage;
         // 允许手势
         [self addGestureRecognizers];
@@ -587,7 +591,7 @@ static CGSize originalSize;
     
     [self sd_setImageWithURL:url placeholderImage:placeholdeerImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         if (self.isBig) {
-           // NSLog(@"%zd  %zd", receivedSize, expectedSize);
+            // NSLog(@"%zd  %zd", receivedSize, expectedSize);
             // 获取图片链接
             NSString *imageUrl = [targetURL absoluteString];
             for (PYPhoto *photo in self.photosView.photos) {
@@ -621,6 +625,7 @@ static CGSize originalSize;
             
             if (self.animatedImage) { // Gif
                 self.photo.animatedImage = self.animatedImage;
+                self.image = self.photo.originalImage = nil;
                 [self startAnimating];
                 self.photo.progress = 1.0;
             } else {
@@ -628,6 +633,7 @@ static CGSize originalSize;
                     self.photo.thumbnailImage = image;
                 } else {
                     self.photo.originalImage = image;
+                    self.animatedImage = self.photo.animatedImage = nil;
                     self.photo.progress = 1.0;
                 }
             }
@@ -757,3 +763,4 @@ static CGSize originalSize;
 }
 
 @end
+
