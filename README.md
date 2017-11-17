@@ -7,6 +7,9 @@
 - An easy way to browse photo(image) for iOS.
 - iOS 中使用简单的图片浏览器。
 
+## QQ chat room
+ <img src="https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/QQChatRoomForPYPhotoBrowser.jpg" width="200">
+
 ## Contents
 * Getting Started
   * [Renderings【效果图】](#效果图)
@@ -28,7 +31,7 @@
 ## <a id="效果图"></a>效果图
 - **图片已发布（网络图片浏览、流水布局)**
 
-  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/PYPhotosView.gif)
+  ![(img)](https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/images/.gif)
 
 
 - **图片未发布（本地图片上传\发布\预览）**
