@@ -82,6 +82,11 @@
  * 使用此属性需要手动设置frameFormWindow和frameToWindow属性
  */
 @property (nonatomic, copy) NSArray<NSString *> *imagesURL;
+/**
+ * 用来浏览的缩略图图片链接（NSString）数组
+ * 使用此属性需要手动设置frameFormWindow和frameToWindow属性
+ */
+@property (nonatomic, copy) NSArray<NSString *> *thumbnailImagesURL;
 
 /** 
  * 用来浏览的图片的控件（UIImageView）数组

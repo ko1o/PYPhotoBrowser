@@ -83,6 +83,7 @@
             // 记录图片原始大小（指的是宽为屏幕宽度的大小）
             photo.originalSize = CGSizeMake(PYScreenW, PYScreenW * photo.originalImage.size.height / photo.originalImage.size.width);
         } else { // 传入的是NSString数组
+            photo.thumbnail_pic = self.thumbnailImagesURL[i];
             photo.original_pic = self.imagesURL[i];
         }
         // 添加模型

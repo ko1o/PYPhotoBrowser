@@ -57,6 +57,7 @@
     flowPhotosView.thumbnailUrls = thumbnailImageUrls;
     // 设置原图地址
     flowPhotosView.originalUrls = originalImageUrls;
+    flowPhotosView.replaceThumbnailWhenOriginalDownloaded = NO;
     // 设置分页指示类型
     flowPhotosView.pageType = PYPhotosViewPageTypeLabel;
     flowPhotosView.py_centerX = self.view.py_centerX;

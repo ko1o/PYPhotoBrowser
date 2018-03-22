@@ -79,7 +79,8 @@ static NSInteger _photosViewCount;
     self.autoLayoutWithWeChatSytle = YES;
     self.showDuration = 0.5;
     self.hiddenDuration = 0.5;
-    self.oneImageFullFrame = YES;
+    self.oneImageFullFrame = NO;
+    self.replaceThumbnailWhenOriginalDownloaded = YES;
 }
 
 + (instancetype)photosView

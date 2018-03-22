@@ -575,12 +575,10 @@ static CGSize originalSize;
         placeholdeerImage = self.photo.thumbnailImage ? self.photo.thumbnailImage : self.photosView.placeholderImage ?: PYPlaceholderImage;
         urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
     } else {
-        if (self.photo.originalImage || self.photo.animatedImage) { // 原图下载了
+        if (self.photosView.replaceThumbnailWhenOriginalDownloaded && (self.photo.originalImage || self.photo.animatedImage)) { // 原图下载了
             urlStr = photo.original_pic ? photo.original_pic : photo.thumbnail_pic;
         }
     }
-    
-    
     NSURL *url = [NSURL URLWithString:urlStr];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];

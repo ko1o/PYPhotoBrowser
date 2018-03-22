@@ -153,7 +153,6 @@
         // 转移坐标系
         copyView.frame = [[self.window.showFromView superview] convertRect:self.window.showFromView.frame toView:window];
     }
-    
     if (!CGRectEqualToRect(self.window.frameFormWindow, CGRectZero)) {
         copyView.frame = self.window.frameFormWindow;
     }
@@ -450,6 +449,7 @@
     NSInteger page = self.collectionView.contentOffset.x / self.collectionView.py_width + 0.5;
     // 避免数组越界
     self.pageControl.currentPage = page >= self.pageControl.numberOfPages ? self.pageControl.numberOfPages - 1 : page;
+    self.window.currentIndex = self.pageControl.currentPage;
     // 取出photosView
     PYPhotosView *photosView = self.selectedPhotoView.photosView;
     if (page <= (photosView.subviews.count - 1))
