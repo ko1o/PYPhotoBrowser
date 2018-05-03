@@ -173,7 +173,7 @@
         self.scaling = YES;
         // 放大图片
         copyView.py_width = self.collectionView.py_width - ((UICollectionViewFlowLayout *)self.collectionViewLayout).minimumLineSpacing;
-        copyView.py_height = PYScreenW * imageSize.height / imageSize.width;
+        copyView.py_height = imageSize.width == 0 ? copyView.py_width : (PYScreenW * imageSize.height / imageSize.width);
         copyView.center = CGPointMake(PYScreenW * 0.5, PYScreenH * 0.5);
         self.collectionView.alpha = 1.0;
     } completion:^(BOOL finished) {

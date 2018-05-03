@@ -6,7 +6,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+PYExtension.h"
+
+#if __has_include(<FLAnimatedImage/FLAnimatedImageView.h>)
+#import <FLAnimatedImage/FLAnimatedImageView.h>
+#else
 #import "FLAnimatedImageView.h"
+#endif
 
 @class PYPhoto, PYPhotoCell, PYPhotosView, PYProgressView, PYPhotoView;
 

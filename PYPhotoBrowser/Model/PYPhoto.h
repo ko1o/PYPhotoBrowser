@@ -5,17 +5,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#if __has_include(<FLAnimatedImage/FLAnimatedImage.h>)
+#import <FLAnimatedImage/FLAnimatedImage.h>
+#else
 #import "FLAnimatedImage.h"
+#endif
 
 @class PYPhotoView;
 
 @interface PYPhoto : NSObject
-
+    
 /** 根据缩略图快速创建模型 */
 + (instancetype)photoWithThumbnailUrl:(NSString *)thumbnailUrl;
 /** 根据原图快速创建模型 */
 + (instancetype)photoWithOriginalUrl:(NSString *)originalUrl;
-
+    
 /** thumbnail_pic 图片缩略图地址 */
 @property (nonatomic, copy) NSString *thumbnail_pic;
 /** original_pic 图片原图地址 */
