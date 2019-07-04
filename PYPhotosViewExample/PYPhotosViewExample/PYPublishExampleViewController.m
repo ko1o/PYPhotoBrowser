@@ -5,8 +5,7 @@
 //
 
 #import "PYPublishExampleViewController.h"
-#import "PYPhotosView.h"
-#import "PYPhotosPreviewController.h"
+#import <PYPhotoBrowser/PYPhotoBrowser.h>
 
 @interface PYPublishExampleViewController () <PYPhotosViewDelegate>
 
@@ -88,6 +87,11 @@
 - (void)photosView:(PYPhotosView *)photosView didPreviewImagesWithPreviewControlelr:(PYPhotosPreviewController *)previewControlelr
 {
     NSLog(@"进入预览图片");
+}
+
+- (void)photosView:(PYPhotosView *)photosView didDeleteImageIndex:(NSInteger)imageIndex
+{
+    NSLog(@"%@", @(imageIndex));
 }
 
 @end

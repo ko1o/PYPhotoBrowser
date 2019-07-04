@@ -9,10 +9,17 @@
 #import "MBProgressHUD+PYExtension.h"
 
 /** --------------可修改(在PYConst.m修改)------------- */
-#define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
-#define PYLoadFailureImage [UIImage imageNamed:@"PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
-#define PYAddImage [UIImage imageNamed:@"PYPhotosView.bundle/addimage"] // 添加图片图
-#define PYDeleteImage [UIImage imageNamed:@"PYPhotosView.bundle/deleteimage"] // 删除图片图
+#if __has_include(<PYPhotoBrowser/PYPhotoBrowser.h>)
+    #define PYPlaceholderImage [UIImage imageNamed:@"Frameworks/PYPhotoBrowser.framework/PYPhotosView.bundle/placeholderimage"] // 占位图
+    #define PYLoadFailureImage [UIImage imageNamed:@"Frameworks/PYPhotoBrowser.framework/PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
+    #define PYAddImage [UIImage imageNamed:@"Frameworks/PYPhotoBrowser.framework/PYPhotosView.bundle/addimage"] // 添加图片图
+    #define PYDeleteImage [UIImage imageNamed:@"Frameworks/PYPhotoBrowser.framework/PYPhotosView.bundle/deleteimage"] // 删除图片图
+#else
+    #define PYPlaceholderImage [UIImage imageNamed:@"PYPhotosView.bundle/placeholderimage"] // 占位图
+    #define PYLoadFailureImage [UIImage imageNamed:@"PYPhotosView.bundle/imageerror"] // 加载失败图(添加在占位图上大小默认为100 * 100)
+    #define PYAddImage [UIImage imageNamed:@"PYPhotosView.bundle/addimage"] // 添加图片图
+    #define PYDeleteImage [UIImage imageNamed:@"PYPhotosView.bundle/deleteimage"] // 删除图片图
+#endif
 
 UIKIT_EXTERN const CGFloat PYPhotoMargin;   // 图片之间的默认间距(默认为5)
 UIKIT_EXTERN const CGFloat PYPhotoWidth;    // 图片的默认宽度（默认为70）

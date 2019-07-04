@@ -5,10 +5,9 @@
 //
 
 #import "PYExampleViewController.h"
-#import "AppDelegate.h"
-#import "PYPhotosView.h"
 #import "PYPublishExampleViewController.h"
-#import "PYPhotoBrowseView.h"
+#import "AppDelegate.h"
+#import <PYPhotoBrowser/PYPhotoBrowser.h>
 
 @implementation PYExampleViewController
 

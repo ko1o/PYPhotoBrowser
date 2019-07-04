@@ -71,6 +71,8 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
 
 /** 占位图 */
 @property (nonatomic, strong) UIImage *placeholderImage;
+/** 添加按钮图片 */
+@property (nonatomic, strong) UIImage *addImageButtonImage;
 /** 网络图片模型数组 */
 @property (nonatomic, copy) NSArray<PYPhoto *> *photos;
 /** 网络图片地址数组（缩略图） */
@@ -147,7 +149,7 @@ typedef NS_ENUM(NSInteger, PYPhotosViewPageType) { // 分页类型
  * 刷新图片(未发布)
  * images : 新的图片数组
  */
-- (void)reloadDataWithImages:(NSMutableArray<UIImage *> *)images;
+- (void)reloadDataWithImages:(NSMutableArray *)images;
 /** 根据图片个数刷新界面尺寸 */
 - (void)refreshContentSizeWithPhotoCount:(NSInteger)photoCount;
 

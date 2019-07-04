@@ -61,5 +61,6 @@
 
 - (void)imageDidPinch:(UIPinchGestureRecognizer *)pinch;
 - (void)photoDidRotation:(UIRotationGestureRecognizer *)rotation;
+- (void)imageDidClicked:(UITapGestureRecognizer *)sender;
 
 @end

@@ -11,7 +11,7 @@
 #import "PYPhotoCell.h"
 #import "PYPhotoBrowserConst.h"
 #import "PYProgressView.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/SDWebImage.h>
 #import "PYPhotoBrowseView.h"
 // 旋转角为90°或者270°
 #define PYVertical (ABS(acosf(self.window.transform.a) - M_PI_2) < 0.01 || ABS(acosf(self.window.transform.a) - M_PI_2 * 3) < 0.01)

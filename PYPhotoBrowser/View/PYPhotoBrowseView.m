@@ -9,7 +9,7 @@
 #import "PYPhoto.h"
 #import "PYPhotoView.h"
 #import "PYProgressView.h"
-#import "FLAnimatedImage.h"
+#import <FLAnimatedImage/FLAnimatedImage.h>
 
 
 @interface PYPhotoBrowseView ()

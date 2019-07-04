@@ -10,7 +10,7 @@
 #import "PYPhotoCell.h"
 #import "PYPhoto.h"
 #import "PYPhotoBrowserConst.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/SDWebImage.h>
 
 @interface PYPhotosPreviewController ()<UIActionSheetDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -19,8 +19,6 @@
 
 /** 记录statusBar是否隐藏 */
 @property (nonatomic, assign, getter=isStatusBarHidden) BOOL statusBarHidden;
-/** 是否正在执行动画 */
-@property (nonatomic, assign, getter=isNavBarAnimating) BOOL navBarAnimating;
 
 @end
 
@@ -97,18 +95,8 @@
 /* 改变状态栏状态 */
 - (void)changeNavBarState
 {
-    // 如果正在执行动画，直接返回
-    if (self.isNavBarAnimating) return;
-    CGFloat duration = 0.5;
-    [UIView animateWithDuration:duration animations:^{
-        self.navBarAnimating = YES;
-        self.statusBarHidden = self.navigationController.navigationBar.py_y > 0;
-        [self setNeedsStatusBarAppearanceUpdate];
-        self.navigationController.navigationBar.py_y = self.statusBarHidden ? -self.navigationController.navigationBar.py_height : [UIApplication sharedApplication].statusBarFrame.size.height;
-    } completion:nil];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.navBarAnimating = NO;
-    });
+    self.statusBarHidden = !self.navigationController.isNavigationBarHidden;
+    [self.navigationController setNavigationBarHidden:self.statusBarHidden animated:true];
 }
 
 /** 关闭 */

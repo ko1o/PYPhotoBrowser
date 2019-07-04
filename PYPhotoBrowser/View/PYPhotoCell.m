@@ -9,7 +9,7 @@
 #import "PYPhotoView.h"
 #import "PYPhotosView.h"
 #import "PYPhotoBrowserConst.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/SDWebImage.h>
 #import "PYProgressView.h"
 
 /** photoCell标识符 */

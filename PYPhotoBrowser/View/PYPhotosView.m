@@ -11,7 +11,7 @@
 #import "PYPhotosViewController.h"
 #import "PYPhotosReaderController.h"
 #import "PYPhotosPreviewController.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/SDWebImage.h>
 NS_ASSUME_NONNULL_BEGIN
 @interface PYPhotosView()
 
@@ -409,10 +409,11 @@ static NSInteger _photosViewCount;
 {
     if (!_addImageButton) {
         UIButton *addImage = [[UIButton alloc] init];
-        [addImage setBackgroundImage:PYAddImage forState:UIControlStateNormal];
         [addImage addTarget:self action:@selector(addImageDidClicked) forControlEvents:UIControlEventTouchUpInside];
         _addImageButton = addImage;
     }
+    [_addImageButton setBackgroundImage:self.addImageButtonImage ? self.addImageButtonImage : PYAddImage forState:UIControlStateNormal];
+    
     return _addImageButton;
 }
 

@@ -1,0 +1,529 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7CB64E0122B4E443002AC8C6 /* PYPhotoBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64DFF22B4E443002AC8C6 /* PYPhotoBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E2C22B4E50B002AC8C6 /* PYPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E0822B4E50A002AC8C6 /* PYPhotosView.m */; };
+		7CB64E2D22B4E50B002AC8C6 /* PYPhotoBrowseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E0922B4E50A002AC8C6 /* PYPhotoBrowseView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E2E22B4E50B002AC8C6 /* PYPhotoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E0A22B4E50A002AC8C6 /* PYPhotoCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E2F22B4E50B002AC8C6 /* PYPhotoView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E0B22B4E50A002AC8C6 /* PYPhotoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3022B4E50B002AC8C6 /* PYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E0C22B4E50A002AC8C6 /* PYPhotoBrowseView.m */; };
+		7CB64E3122B4E50B002AC8C6 /* PYPhotosView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E0D22B4E50A002AC8C6 /* PYPhotosView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3222B4E50B002AC8C6 /* PYPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E0E22B4E50A002AC8C6 /* PYPhotoCell.m */; };
+		7CB64E3322B4E50B002AC8C6 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E0F22B4E50A002AC8C6 /* PYPhotoView.m */; };
+		7CB64E3422B4E50B002AC8C6 /* PYPhoto.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1122B4E50A002AC8C6 /* PYPhoto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3522B4E50B002AC8C6 /* PYPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1222B4E50A002AC8C6 /* PYPhoto.m */; };
+		7CB64E3622B4E50B002AC8C6 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1422B4E50A002AC8C6 /* DALabeledCircularProgressView.m */; };
+		7CB64E3722B4E50B002AC8C6 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1522B4E50A002AC8C6 /* DACircularProgressView.m */; };
+		7CB64E3822B4E50B002AC8C6 /* DALabeledCircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1622B4E50A002AC8C6 /* DALabeledCircularProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3922B4E50B002AC8C6 /* DACircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1722B4E50A002AC8C6 /* DACircularProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3A22B4E50B002AC8C6 /* PYPhotosReaderController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1922B4E50A002AC8C6 /* PYPhotosReaderController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3B22B4E50B002AC8C6 /* PYPhotosNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1A22B4E50A002AC8C6 /* PYPhotosNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3C22B4E50B002AC8C6 /* PYPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1B22B4E50A002AC8C6 /* PYPhotosViewController.m */; };
+		7CB64E3D22B4E50B002AC8C6 /* PYPhotosPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E1C22B4E50A002AC8C6 /* PYPhotosPreviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E3E22B4E50B002AC8C6 /* PYPhotosReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1D22B4E50A002AC8C6 /* PYPhotosReaderController.m */; };
+		7CB64E3F22B4E50B002AC8C6 /* PYPhotosNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1E22B4E50A002AC8C6 /* PYPhotosNavigationController.m */; };
+		7CB64E4022B4E50B002AC8C6 /* PYPhotosPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E1F22B4E50A002AC8C6 /* PYPhotosPreviewController.m */; };
+		7CB64E4122B4E50B002AC8C6 /* PYPhotosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E2022B4E50A002AC8C6 /* PYPhotosViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E4222B4E50B002AC8C6 /* PYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E2222B4E50B002AC8C6 /* PYProgressView.m */; };
+		7CB64E4322B4E50B002AC8C6 /* PYPhotoBrowserConst.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E2322B4E50B002AC8C6 /* PYPhotoBrowserConst.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E4422B4E50B002AC8C6 /* PYProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E2422B4E50B002AC8C6 /* PYProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E4522B4E50B002AC8C6 /* PYPhotoBrowserConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E2522B4E50B002AC8C6 /* PYPhotoBrowserConst.m */; };
+		7CB64E4622B4E50B002AC8C6 /* PYPhotosView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7CB64E2622B4E50B002AC8C6 /* PYPhotosView.bundle */; };
+		7CB64E4722B4E50B002AC8C6 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E2822B4E50B002AC8C6 /* UIView+PYExtension.m */; };
+		7CB64E4822B4E50B002AC8C6 /* MBProgressHUD+PYExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E2922B4E50B002AC8C6 /* MBProgressHUD+PYExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E4922B4E50B002AC8C6 /* UIView+PYExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB64E2A22B4E50B002AC8C6 /* UIView+PYExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CB64E4A22B4E50B002AC8C6 /* MBProgressHUD+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB64E2B22B4E50B002AC8C6 /* MBProgressHUD+PYExtension.m */; };
+		7CB64E4F22B4E652002AC8C6 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB64E4C22B4E651002AC8C6 /* MBProgressHUD.framework */; };
+		7CB64E5022B4E652002AC8C6 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB64E4D22B4E651002AC8C6 /* FLAnimatedImage.framework */; };
+		7CB64E5122B4E652002AC8C6 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB64E4E22B4E651002AC8C6 /* SDWebImage.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7CB64DFC22B4E443002AC8C6 /* PYPhotoBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PYPhotoBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CB64DFF22B4E443002AC8C6 /* PYPhotoBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowser.h; sourceTree = "<group>"; };
+		7CB64E0022B4E443002AC8C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CB64E0822B4E50A002AC8C6 /* PYPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosView.m; sourceTree = "<group>"; };
+		7CB64E0922B4E50A002AC8C6 /* PYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowseView.h; sourceTree = "<group>"; };
+		7CB64E0A22B4E50A002AC8C6 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoCell.h; sourceTree = "<group>"; };
+		7CB64E0B22B4E50A002AC8C6 /* PYPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoView.h; sourceTree = "<group>"; };
+		7CB64E0C22B4E50A002AC8C6 /* PYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoBrowseView.m; sourceTree = "<group>"; };
+		7CB64E0D22B4E50A002AC8C6 /* PYPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosView.h; sourceTree = "<group>"; };
+		7CB64E0E22B4E50A002AC8C6 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoCell.m; sourceTree = "<group>"; };
+		7CB64E0F22B4E50A002AC8C6 /* PYPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoView.m; sourceTree = "<group>"; };
+		7CB64E1122B4E50A002AC8C6 /* PYPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhoto.h; sourceTree = "<group>"; };
+		7CB64E1222B4E50A002AC8C6 /* PYPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhoto.m; sourceTree = "<group>"; };
+		7CB64E1422B4E50A002AC8C6 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		7CB64E1522B4E50A002AC8C6 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		7CB64E1622B4E50A002AC8C6 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		7CB64E1722B4E50A002AC8C6 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		7CB64E1922B4E50A002AC8C6 /* PYPhotosReaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosReaderController.h; sourceTree = "<group>"; };
+		7CB64E1A22B4E50A002AC8C6 /* PYPhotosNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosNavigationController.h; sourceTree = "<group>"; };
+		7CB64E1B22B4E50A002AC8C6 /* PYPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosViewController.m; sourceTree = "<group>"; };
+		7CB64E1C22B4E50A002AC8C6 /* PYPhotosPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosPreviewController.h; sourceTree = "<group>"; };
+		7CB64E1D22B4E50A002AC8C6 /* PYPhotosReaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosReaderController.m; sourceTree = "<group>"; };
+		7CB64E1E22B4E50A002AC8C6 /* PYPhotosNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosNavigationController.m; sourceTree = "<group>"; };
+		7CB64E1F22B4E50A002AC8C6 /* PYPhotosPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosPreviewController.m; sourceTree = "<group>"; };
+		7CB64E2022B4E50A002AC8C6 /* PYPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosViewController.h; sourceTree = "<group>"; };
+		7CB64E2222B4E50B002AC8C6 /* PYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYProgressView.m; sourceTree = "<group>"; };
+		7CB64E2322B4E50B002AC8C6 /* PYPhotoBrowserConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowserConst.h; sourceTree = "<group>"; };
+		7CB64E2422B4E50B002AC8C6 /* PYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYProgressView.h; sourceTree = "<group>"; };
+		7CB64E2522B4E50B002AC8C6 /* PYPhotoBrowserConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoBrowserConst.m; sourceTree = "<group>"; };
+		7CB64E2622B4E50B002AC8C6 /* PYPhotosView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PYPhotosView.bundle; sourceTree = "<group>"; };
+		7CB64E2822B4E50B002AC8C6 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
+		7CB64E2922B4E50B002AC8C6 /* MBProgressHUD+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PYExtension.h"; sourceTree = "<group>"; };
+		7CB64E2A22B4E50B002AC8C6 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
+		7CB64E2B22B4E50B002AC8C6 /* MBProgressHUD+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PYExtension.m"; sourceTree = "<group>"; };
+		7CB64E4C22B4E651002AC8C6 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
+		7CB64E4D22B4E651002AC8C6 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = "<group>"; };
+		7CB64E4E22B4E651002AC8C6 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7CB64DF922B4E443002AC8C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB64E4F22B4E652002AC8C6 /* MBProgressHUD.framework in Frameworks */,
+				7CB64E5022B4E652002AC8C6 /* FLAnimatedImage.framework in Frameworks */,
+				7CB64E5122B4E652002AC8C6 /* SDWebImage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7CB64DF222B4E443002AC8C6 = {
+			isa = PBXGroup;
+			children = (
+				7CB64DFE22B4E443002AC8C6 /* PYPhotoBrowser */,
+				7CB64DFD22B4E443002AC8C6 /* Products */,
+				7CB64E4B22B4E651002AC8C6 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7CB64DFD22B4E443002AC8C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64DFC22B4E443002AC8C6 /* PYPhotoBrowser.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CB64DFE22B4E443002AC8C6 /* PYPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E2722B4E50B002AC8C6 /* Category */,
+				7CB64E1822B4E50A002AC8C6 /* Controller */,
+				7CB64E1322B4E50A002AC8C6 /* DACircularProgress */,
+				7CB64E1022B4E50A002AC8C6 /* Model */,
+				7CB64E2122B4E50B002AC8C6 /* Other */,
+				7CB64E2622B4E50B002AC8C6 /* PYPhotosView.bundle */,
+				7CB64E0722B4E50A002AC8C6 /* View */,
+				7CB64DFF22B4E443002AC8C6 /* PYPhotoBrowser.h */,
+				7CB64E0022B4E443002AC8C6 /* Info.plist */,
+			);
+			path = PYPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		7CB64E0722B4E50A002AC8C6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E0922B4E50A002AC8C6 /* PYPhotoBrowseView.h */,
+				7CB64E0C22B4E50A002AC8C6 /* PYPhotoBrowseView.m */,
+				7CB64E0A22B4E50A002AC8C6 /* PYPhotoCell.h */,
+				7CB64E0E22B4E50A002AC8C6 /* PYPhotoCell.m */,
+				7CB64E0D22B4E50A002AC8C6 /* PYPhotosView.h */,
+				7CB64E0822B4E50A002AC8C6 /* PYPhotosView.m */,
+				7CB64E0B22B4E50A002AC8C6 /* PYPhotoView.h */,
+				7CB64E0F22B4E50A002AC8C6 /* PYPhotoView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7CB64E1022B4E50A002AC8C6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E1122B4E50A002AC8C6 /* PYPhoto.h */,
+				7CB64E1222B4E50A002AC8C6 /* PYPhoto.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7CB64E1322B4E50A002AC8C6 /* DACircularProgress */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E1722B4E50A002AC8C6 /* DACircularProgressView.h */,
+				7CB64E1522B4E50A002AC8C6 /* DACircularProgressView.m */,
+				7CB64E1622B4E50A002AC8C6 /* DALabeledCircularProgressView.h */,
+				7CB64E1422B4E50A002AC8C6 /* DALabeledCircularProgressView.m */,
+			);
+			path = DACircularProgress;
+			sourceTree = "<group>";
+		};
+		7CB64E1822B4E50A002AC8C6 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E1A22B4E50A002AC8C6 /* PYPhotosNavigationController.h */,
+				7CB64E1E22B4E50A002AC8C6 /* PYPhotosNavigationController.m */,
+				7CB64E1C22B4E50A002AC8C6 /* PYPhotosPreviewController.h */,
+				7CB64E1F22B4E50A002AC8C6 /* PYPhotosPreviewController.m */,
+				7CB64E1922B4E50A002AC8C6 /* PYPhotosReaderController.h */,
+				7CB64E1D22B4E50A002AC8C6 /* PYPhotosReaderController.m */,
+				7CB64E2022B4E50A002AC8C6 /* PYPhotosViewController.h */,
+				7CB64E1B22B4E50A002AC8C6 /* PYPhotosViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7CB64E2122B4E50B002AC8C6 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E2322B4E50B002AC8C6 /* PYPhotoBrowserConst.h */,
+				7CB64E2522B4E50B002AC8C6 /* PYPhotoBrowserConst.m */,
+				7CB64E2422B4E50B002AC8C6 /* PYProgressView.h */,
+				7CB64E2222B4E50B002AC8C6 /* PYProgressView.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		7CB64E2722B4E50B002AC8C6 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E2922B4E50B002AC8C6 /* MBProgressHUD+PYExtension.h */,
+				7CB64E2B22B4E50B002AC8C6 /* MBProgressHUD+PYExtension.m */,
+				7CB64E2A22B4E50B002AC8C6 /* UIView+PYExtension.h */,
+				7CB64E2822B4E50B002AC8C6 /* UIView+PYExtension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		7CB64E4B22B4E651002AC8C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7CB64E4D22B4E651002AC8C6 /* FLAnimatedImage.framework */,
+				7CB64E4C22B4E651002AC8C6 /* MBProgressHUD.framework */,
+				7CB64E4E22B4E651002AC8C6 /* SDWebImage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7CB64DF722B4E443002AC8C6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB64E0122B4E443002AC8C6 /* PYPhotoBrowser.h in Headers */,
+				7CB64E2D22B4E50B002AC8C6 /* PYPhotoBrowseView.h in Headers */,
+				7CB64E2F22B4E50B002AC8C6 /* PYPhotoView.h in Headers */,
+				7CB64E3822B4E50B002AC8C6 /* DALabeledCircularProgressView.h in Headers */,
+				7CB64E4422B4E50B002AC8C6 /* PYProgressView.h in Headers */,
+				7CB64E3422B4E50B002AC8C6 /* PYPhoto.h in Headers */,
+				7CB64E4822B4E50B002AC8C6 /* MBProgressHUD+PYExtension.h in Headers */,
+				7CB64E4922B4E50B002AC8C6 /* UIView+PYExtension.h in Headers */,
+				7CB64E3D22B4E50B002AC8C6 /* PYPhotosPreviewController.h in Headers */,
+				7CB64E3B22B4E50B002AC8C6 /* PYPhotosNavigationController.h in Headers */,
+				7CB64E3122B4E50B002AC8C6 /* PYPhotosView.h in Headers */,
+				7CB64E4122B4E50B002AC8C6 /* PYPhotosViewController.h in Headers */,
+				7CB64E4322B4E50B002AC8C6 /* PYPhotoBrowserConst.h in Headers */,
+				7CB64E3A22B4E50B002AC8C6 /* PYPhotosReaderController.h in Headers */,
+				7CB64E2E22B4E50B002AC8C6 /* PYPhotoCell.h in Headers */,
+				7CB64E3922B4E50B002AC8C6 /* DACircularProgressView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7CB64DFB22B4E443002AC8C6 /* PYPhotoBrowser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CB64E0422B4E443002AC8C6 /* Build configuration list for PBXNativeTarget "PYPhotoBrowser" */;
+			buildPhases = (
+				7CB64DF722B4E443002AC8C6 /* Headers */,
+				7CB64DF822B4E443002AC8C6 /* Sources */,
+				7CB64DF922B4E443002AC8C6 /* Frameworks */,
+				7CB64DFA22B4E443002AC8C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PYPhotoBrowser;
+			productName = PYPhotoBrowser;
+			productReference = 7CB64DFC22B4E443002AC8C6 /* PYPhotoBrowser.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7CB64DF322B4E443002AC8C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = MakeHui;
+				TargetAttributes = {
+					7CB64DFB22B4E443002AC8C6 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 7CB64DF622B4E443002AC8C6 /* Build configuration list for PBXProject "PYPhotoBrowser" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7CB64DF222B4E443002AC8C6;
+			productRefGroup = 7CB64DFD22B4E443002AC8C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CB64DFB22B4E443002AC8C6 /* PYPhotoBrowser */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7CB64DFA22B4E443002AC8C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB64E4622B4E50B002AC8C6 /* PYPhotosView.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7CB64DF822B4E443002AC8C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB64E4522B4E50B002AC8C6 /* PYPhotoBrowserConst.m in Sources */,
+				7CB64E4222B4E50B002AC8C6 /* PYProgressView.m in Sources */,
+				7CB64E3C22B4E50B002AC8C6 /* PYPhotosViewController.m in Sources */,
+				7CB64E4A22B4E50B002AC8C6 /* MBProgressHUD+PYExtension.m in Sources */,
+				7CB64E3022B4E50B002AC8C6 /* PYPhotoBrowseView.m in Sources */,
+				7CB64E3622B4E50B002AC8C6 /* DALabeledCircularProgressView.m in Sources */,
+				7CB64E3522B4E50B002AC8C6 /* PYPhoto.m in Sources */,
+				7CB64E3E22B4E50B002AC8C6 /* PYPhotosReaderController.m in Sources */,
+				7CB64E3222B4E50B002AC8C6 /* PYPhotoCell.m in Sources */,
+				7CB64E3322B4E50B002AC8C6 /* PYPhotoView.m in Sources */,
+				7CB64E4722B4E50B002AC8C6 /* UIView+PYExtension.m in Sources */,
+				7CB64E3F22B4E50B002AC8C6 /* PYPhotosNavigationController.m in Sources */,
+				7CB64E3722B4E50B002AC8C6 /* DACircularProgressView.m in Sources */,
+				7CB64E4022B4E50B002AC8C6 /* PYPhotosPreviewController.m in Sources */,
+				7CB64E2C22B4E50B002AC8C6 /* PYPhotosView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7CB64E0222B4E443002AC8C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7CB64E0322B4E443002AC8C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7CB64E0522B4E443002AC8C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = PYPhotoBrowser/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphone5solo.PYPhotoBrowser;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7CB64E0622B4E443002AC8C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = PYPhotoBrowser/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphone5solo.PYPhotoBrowser;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7CB64DF622B4E443002AC8C6 /* Build configuration list for PBXProject "PYPhotoBrowser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB64E0222B4E443002AC8C6 /* Debug */,
+				7CB64E0322B4E443002AC8C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CB64E0422B4E443002AC8C6 /* Build configuration list for PBXNativeTarget "PYPhotoBrowser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB64E0522B4E443002AC8C6 /* Debug */,
+				7CB64E0622B4E443002AC8C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7CB64DF322B4E443002AC8C6 /* Project object */;
+}
